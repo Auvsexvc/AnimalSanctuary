@@ -40,15 +40,15 @@ namespace AnimalSanctuaryAPI.Services
 
         public async Task<AnimalSpecieViewModel?> GetViewModel(Guid id)
         {
-            var data = await _appDbContext.Species.Include(x => x.Type).ToListAsync();
-
-            if (data == null)
-            {
-                return null;
-            }
-
             try
             {
+                var data = await _appDbContext.Species.Include(x => x.Type).ToListAsync();
+
+                if (data == null)
+                {
+                    return null;
+                }
+
                 return data.Find(f => f.Id == id)?.ToViewModel();
             }
             catch (Exception ex)

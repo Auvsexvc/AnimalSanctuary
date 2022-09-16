@@ -40,15 +40,15 @@ namespace AnimalSanctuaryAPI.Services
 
         public async Task<AnimalTypeViewModel?> GetViewModel(Guid id)
         {
-            var data = await _appDbContext.Types.ToListAsync();
-
-            if (data == null)
-            {
-                return null;
-            }
-
             try
             {
+                var data = await _appDbContext.Types.ToListAsync();
+
+                if (data == null)
+                {
+                    return null;
+                }
+
                 return data.Find(d => d.Id == id)?.ToViewModel();
             }
             catch (Exception ex)
@@ -60,10 +60,10 @@ namespace AnimalSanctuaryAPI.Services
 
         public async Task<AnimalTypeViewModel?> Add(AnimalTypeDto dto)
         {
-            var data = dto.NewFromDto();
-
             try
             {
+                var data = dto.NewFromDto();
+
                 await _appDbContext.Types.AddAsync(data);
                 await _appDbContext.SaveChangesAsync();
 

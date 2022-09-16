@@ -1,0 +1,34 @@
+﻿@model IEnumerable<Animal>
+<th class="headerSort @(!ViewBag.Field.ToString().Contains("Id") ? string.Empty :ViewBag.Order.ToString().Contains("desc") ? "headerSortDown" : "headerSortUp")">
+    @Html.ActionLink(@Html.DisplayNameFor(model => model.Id), ViewContext.RouteData.Values["Action"]!.ToString(), new {sortingOrder = ViewData["IdOrder"], sortingField = ViewData["IdField"]})
+</th>
+<th class="headerSort @(!ViewBag.Field.ToString().Contains("Name") ? string.Empty : ViewBag.Order.ToString().Contains("desc") ? "headerSortDown" : "headerSortUp")">
+    @Html.ActionLink(@Html.DisplayNameFor(model => model.Name), ViewContext.RouteData.Values["Action"]!.ToString(), new {sortingOrder = ViewData["NameOrder"], sortingField = ViewData["NameField"]})
+</th>
+<th class="headerSort @(!ViewBag.Field.ToString().Contains("Description") ? string.Empty : ViewBag.Order.ToString().Contains("desc") ? "headerSortDown" : "headerSortUp")">
+    @Html.ActionLink(@Html.DisplayNameFor(model => model.Description), ViewContext.RouteData.Values["Action"]!.ToString(), new {sortingOrder = ViewData["DescriptionOrder"], sortingField = ViewData["DescriptionField"]})
+</th>
+<th class="headerSort @(!ViewBag.Field.ToString().Contains("DateOfBirth") ? string.Empty : ViewBag.Order.ToString().Contains("desc") ? "headerSortDown" : "headerSortUp")">
+    @Html.ActionLink(@Html.DisplayNameFor(model => model.DateOfBirth), ViewContext.RouteData.Values["Action"]!.ToString(), new {sortingOrder = ViewData["DateOfBirthOrder"], sortingField = ViewData["DateOfBirthField"]})
+</th>
+<th class="headerSort @(!ViewBag.Field.ToString().Contains("Sex") ? string.Empty : ViewBag.Order.ToString().Contains("desc") ? "headerSortDown" : "headerSortUp")">
+    @Html.ActionLink(@Html.DisplayNameFor(model => model.Sex), ViewContext.RouteData.Values["Action"]!.ToString(), new {sortingOrder = ViewData["SexOrder"], sortingField = ViewData["SexField"] })
+</th>
+<th class="headerSort @(!ViewBag.Field.ToString().Contains("HealthState") ? string.Empty : ViewBag.Order.ToString().Contains("desc") ? "headerSortDown" : "headerSortUp")">
+    @Html.ActionLink(@Html.DisplayNameFor(model => model.HealthState), ViewContext.RouteData.Values["Action"]!.ToString(), new {sortingOrder = ViewData["HealthStateOrder"], sortingField = ViewData["HealthStateField"]})
+</th>
+<th class="headerSort @(!ViewBag.Field.ToString().Contains("Attitude") ? string.Empty : ViewBag.Order.ToString().Contains("desc") ? "headerSortDown" : "headerSortUp")">
+    @Html.ActionLink(@Html.DisplayNameFor(model => model.Attitude), ViewContext.RouteData.Values["Action"]!.ToString(), new {sortingOrder = ViewData["AttitudeOrder"], sortingField = ViewData["AttitudeField"]})
+</th>
+<th class="headerSort @(!ViewBag.Field.ToString().Contains("DateCreated") ? string.Empty : ViewBag.Order.ToString().Contains("desc") ? "headerSortDown" : "headerSortUp")">
+    @Html.ActionLink(@Html.DisplayNameFor(model => model.DateCreated), ViewContext.RouteData.Values["Action"]!.ToString(), new {sortingOrder = ViewData["DateCreatedOrder"], sortingField = ViewData["DateCreatedField"]})
+</th>
+<th class="headerSort @(!ViewBag.Field.ToString().Contains("Specie") ? string.Empty : ViewBag.Order.ToString().Contains("desc") ? "headerSortDown" : "headerSortUp")">
+    @Html.ActionLink(@Html.DisplayNameFor(model => model.Specie), ViewContext.RouteData.Values["Action"]!.ToString(), new {sortingOrder = ViewData["SpecieOrder"], sortingField = ViewData["SpecieField"]})
+</th>
+<th class="headerSort @(!ViewBag.Field.ToString().Contains("Type") ? string.Empty : ViewBag.Order.ToString().Contains("desc") ? "headerSortDown" : "headerSortUp")">
+    @Html.ActionLink(@Html.DisplayNameFor(model => model.Type), ViewContext.RouteData.Values["Action"]!.ToString(), new {sortingOrder = ViewData["TypeOrder"], sortingField = ViewData["TypeField"]})
+</th>
+<th class="headerSort @(!ViewBag.Field.ToString().Contains("Facility") ? string.Empty : ViewBag.Order.ToString().Contains("desc") ? "headerSortDown" : "headerSortUp")">
+    @Html.ActionLink(@Html.DisplayNameFor(model => model.Facility), ViewContext.RouteData.Values["Action"]!.ToString(), new {sortingOrder = ViewData["FacilityOrder"], sortingField = ViewData["FacilityField"]})
+</th>

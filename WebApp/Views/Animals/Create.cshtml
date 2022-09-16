@@ -1,0 +1,78 @@
+﻿@using WebApp.Dtos
+@using WebApp.Enums
+@model AnimalDto
+
+@{
+    ViewData["Title"] = "Add new employee";
+}
+
+<div class="row text">
+    <div class="col-md-8 offset-2">
+        <h2>Add a new employee</h2>
+
+        <hr />
+        <div class="row">
+            <div class="col-md-8 offset-2">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description" class="control-label"></label>
+                        <input asp-for="Description" class="form-control" />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DateOfBirth" class="control-label"></label>
+                        <input asp-for="DateOfBirth" type="date" class="form-control" />
+                        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Sex" class="control-label"></label>
+                        <select asp-for="Sex" class="form-control" asp-items="Html.GetEnumSelectList<Sex>()"></select>
+                        <span asp-validation-for="Sex" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="HealthState" class="control-label"></label>
+                        <input asp-for="HealthState" class="form-control" />
+                        <span asp-validation-for="HealthState" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Attitude" class="control-label"></label>
+                        <select asp-for="Attitude" class="form-control" asp-items="Html.GetEnumSelectList<Attitude>()"></select>
+                        <span asp-validation-for="Attitude" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SpecieId" class="control-label"></label>
+                        <select asp-for="SpecieId" class="form-control" asp-items="ViewBag.Species"></select>
+                        <span asp-validation-for="SpecieId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FacilityId" class="control-label"></label>
+                        <select asp-for="FacilityId" class="form-control" asp-items="ViewBag.Facilities"></select>
+                        <span asp-validation-for="FacilityId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mt-2">
+                        <button type="submit" class="btn btn-primary">Create</button>
+                        <a id="Cancel" asp-action="Index" class="btn btn-outline-secondary float-end">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(':input').change(
+            function () {
+                $("#Cancel").prop("class", "btn btn-outline-danger float-end");
+            }
+        );
+    </script>
+}

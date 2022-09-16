@@ -10,7 +10,7 @@
             }
             if (!string.IsNullOrEmpty(filter) && filter != "null")
             {
-                data = data.Where(e => e!.GetType().GetProperties().Where(p=>p.GetValue(e) != null).Select(p => p.GetValue(e)!.ToString()!.ToLower()).Any(p => p.Contains(filter.ToLower())));
+                data = data.Where(e => e!.GetType().GetProperties().Where(p => p.GetValue(e) != null).Select(p => p.GetValue(e)!.ToString()!.ToLower()).Any(p => p.Contains(filter.ToLower())));
             }
 
             return data;

@@ -13,7 +13,5 @@ namespace AnimalSanctuaryAPI.Data
         public AppDbContext(DbContextOptions options) : base(options)
         {
         }
-
-
     }
 }

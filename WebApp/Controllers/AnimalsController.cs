@@ -24,8 +24,8 @@ namespace WebApp.Controllers
 
             foreach (var prop in new Animal().GetType().GetProperties().Select(p => p.Name))
             {
-                ViewData[prop+"Order"] = sortingField == prop && sortingOrder != "desc" ? "desc" : "asc";
-                ViewData[prop+"Field"] = prop;
+                ViewData[prop + "Order"] = sortingField == prop && sortingOrder != "desc" ? "desc" : "asc";
+                ViewData[prop + "Field"] = prop;
             }
 
             ViewBag.Field = sortingField;
@@ -40,7 +40,6 @@ namespace WebApp.Controllers
         public async Task<IActionResult> Create()
         {
             var dropdowns = await _service.GetNewAnimalDropdownsVM();
-
 
             ViewBag.Species = new SelectList(dropdowns.Species, "Id", "Name");
             ViewBag.Facilities = new SelectList(dropdowns.Facilities, "Id", "Name");

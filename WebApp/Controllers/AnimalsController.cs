@@ -29,6 +29,8 @@ namespace WebApp.Controllers
             }
 
             ViewBag.Field = sortingField;
+            ViewBag.Fields = new SelectList(new Animal().GetType().GetProperties().Select(p => p.Name), sortingField);
+            ViewBag.OrderList = new SelectList(new string[] {"asc", "desc"}, sortingOrder);
             ViewBag.Order = sortingOrder;
             ViewBag.Filter = filteringString;
 
@@ -78,7 +80,15 @@ namespace WebApp.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> Edit(Guid id) => await GetByIdAsync(id);
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            var dropdowns = await _service.GetNewAnimalDropdownsVM();
+
+            ViewBag.Species = new SelectList(dropdowns.Species, "Id", "Name");
+            ViewBag.Facilities = new SelectList(dropdowns.Facilities, "Id", "Name");
+
+            return await GetByIdAsync(id);
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]

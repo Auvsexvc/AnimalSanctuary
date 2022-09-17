@@ -12,35 +12,48 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-          <div class="container-fluid">
-            <a class="navbar-brand" href="#">Navbar</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between small">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Navbar</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-            <div class="collapse navbar-collapse" id="navbarColor02">
-              <ul class="navbar-nav me-auto">
-                <li class="nav-item">
-                      <a class="nav-link" asp-area="" asp-controller="Animals" asp-action="Index">Animal Sanctuary</a>
-                </li>
-              </ul>
+                <div class="collapse navbar-collapse" id="navbarColor02">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Animals" asp-action="Index">Animal Sanctuary</a>
+                        </li>
+                    </ul>
+                    @if (ViewBag.Fields != null)
+                    {
                     <form class="form-inline my-2 my-lg-0 d-flex" asp-controller="Animals" style="padding-right: 25px;">
+                        <select id="sortingField" name="sortingField" class="form-select-sm" asp-items="ViewBag.Fields"></select>
+                    </form>
+                    }
+                    @if (ViewBag.OrderList != null){
+                    <form class="form-inline my-2 my-lg-0 d-flex" asp-controller="Animals" style="padding-right: 25px;">
+                        <select id="sortingOrder" name="sortingOrder" class="form-select-sm" asp-items="ViewBag.OrderList"></select>
+                    </form>
+                    }
+                    <form class="form-inline my-2 my-lg-0 d-flex" asp-controller="Animals" style="padding-right: 25px;">
+                        <div class="input-group">
                         @Html.AntiForgeryToken()
                         @if (!string.IsNullOrEmpty(ViewBag.Filter))
                         {
-                            <input name="filteringString" value="@ViewBag.Filter" type="text" class="form-control" style="background-color:#fde7e7;" placeholder="Search for a..." aria-label="" aria-describedby="button-addon2">
-                            <button class="btn btn-danger my-2 my-sm-0" type="submit">Filter</button>
+                            <input name="filteringString" value="@ViewBag.Filter" type="text" class="form-control form-control-sm" style="background-color:#fde7e7;" placeholder="Search for a..." aria-label="" aria-describedby="button-addon2">
+                            <button class="btn btn-sm btn-danger my-2 my-sm-0" type="submit">Filter</button>
                         }
                         else
                         {
-                            <input name="filteringString" value="@ViewBag.Filter" type="text" class="form-control" placeholder="Search for a..." aria-label="" aria-describedby="button-addon2">
-                            <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Filter</button>
+                            <input name="filteringString" value="@ViewBag.Filter" type="text" class="form-control form-control-sm" placeholder="Search for a..." aria-label="" aria-describedby="button-addon2">
+                            <button class="btn btn-sm btn-info my-2 my-sm-0" type="submit">Filter</button>
 
                         }
+                        </div>
                     </form>
+                </div>
             </div>
-          </div>
         </nav>
     </header>
     <div class="container">
@@ -54,6 +67,20 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        $(function () {
+            $('#sortingField').change(function () {
+                window.location.href = "/Animals/Index?sortingField=" + $(this).val();
+            })
+        });
+    </script>
+    <script>
+        $(function () {
+            $('#sortingOrder').change(function () {
+                window.location.href = "/Animals/Index?sortingOrder=" + $(this).val();
+            })
+        });
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

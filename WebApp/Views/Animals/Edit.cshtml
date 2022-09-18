@@ -4,77 +4,83 @@
 @{
     ViewData["Title"] = "View";
 }
-<div class="card border-dark mb-3 mt-3 col-md-4 offset-4 w-30">
+<div class="card border-dark mb-3 mt-3 col-md-8 offset-2 w-30">
     <div class="card-header bg-warning text-light">
         <h3 class="card-title">Edit animal</h3>
     </div>
     <div class="card-body">
         <form asp-action="View">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" readonly/>
-                <span asp-validation-for="Id" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DateOfBirth" class="control-label"></label>
-                <input asp-for="DateOfBirth" type="date" class="form-control" />
-                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Sex" class="control-label"></label>
-                <select asp-for="Sex" class="form-select" asp-items="Html.GetEnumSelectList<Sex>()"></select>
-                <span asp-validation-for="Sex" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="HealthState" class="control-label"></label>
-                <input asp-for="HealthState" class="form-control" />
-                <span asp-validation-for="HealthState" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Attitude" class="control-label"></label>
-                <select asp-for="Attitude" class="form-select" asp-items="Html.GetEnumSelectList<Attitude>()"></select>
-                <span asp-validation-for="Attitude" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DateCreated" class="control-label"></label>
-                <input asp-for="DateCreated" type="date" class="form-control" readonly/>
-                <span asp-validation-for="DateCreated" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Specie" class="control-label"></label>
-                <select asp-for="Specie" class="form-select" asp-items="ViewBag.Species"></select>
-                <span asp-validation-for="Specie" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Type" class="control-label"></label>
-                <input asp-for="Type" class="form-control" readonly/>
-                <span asp-validation-for="Type" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Facility" class="control-label"></label>
-                <select asp-for="Facility" class="form-select" asp-items="ViewBag.Facilities"></select>
-                <span asp-validation-for="Facility" class="text-danger"></span>
+            <div class="col-md-11 d-flex">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="col-md-5 offset-1">
+                    <div class="form-group">
+                        <label asp-for="Id" class="control-label"></label>
+                        <input asp-for="Id" class="form-control" readonly/>
+                        <span asp-validation-for="Id" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description" class="control-label"></label>
+                        <input asp-for="Description" class="form-control" />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DateOfBirth" class="control-label"></label>
+                        <input asp-for="DateOfBirth" type="date" class="form-control" />
+                        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Sex" class="control-label"></label>
+                        <select asp-for="Sex" class="form-select" asp-items="Html.GetEnumSelectList<Sex>()"></select>
+                        <span asp-validation-for="Sex" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="HealthState" class="control-label"></label>
+                        <input asp-for="HealthState" class="form-control" />
+                        <span asp-validation-for="HealthState" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-5 offset-1">
+                    <div class="form-group">
+                        <label asp-for="Attitude" class="control-label"></label>
+                        <select asp-for="Attitude" class="form-select" asp-items="Html.GetEnumSelectList<Attitude>()"></select>
+                        <span asp-validation-for="Attitude" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DateCreated" class="control-label"></label>
+                        <input asp-for="DateCreated" type="date" class="form-control" readonly/>
+                        <span asp-validation-for="DateCreated" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Specie" class="control-label"></label>
+                        <select asp-for="Specie" class="form-select" asp-items="ViewBag.Species"></select>
+                        <span asp-validation-for="Specie" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Type" class="control-label"></label>
+                        <input asp-for="Type" class="form-control" readonly/>
+                        <span asp-validation-for="Type" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Facility" class="control-label"></label>
+                        <select asp-for="Facility" class="form-select" asp-items="ViewBag.Facilities"></select>
+                        <span asp-validation-for="Facility" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
             <div class="card-footer form-group mt-4">
-                <button type="submit" class="btn btn-sm btn-warning">Save</button>
+                <button type="submit" class="btn btn-sm btn-warning"><i class="bi bi-save"></i> Save</button>
                 @if (ViewData["Reffer"] != null)
                 {
-                    <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-sm btn-secondary float-end">Cancel</a>
+                    <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-sm btn-secondary float-end"><i class="bi bi-x"></i> Cancel</a>
                 }
                 else
                 {
-                    <a asp-action="Index" class="btn btn-sm btn-secondary float-end">Cancel</a>
+                    <a asp-action="Index" class="btn btn-sm btn-secondary float-end"><i class="bi bi-list"></i> Cancel</a>
                 }
             </div>
         </form>

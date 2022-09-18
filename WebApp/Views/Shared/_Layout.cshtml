@@ -36,6 +36,8 @@
                         <select id="sortingOrder" name="sortingOrder" class="form-select-sm" asp-items="ViewBag.OrderList"></select>
                     </form>
                     }
+                    @if (ViewBag.Filter != null){
+
                     <form class="form-inline my-2 my-lg-0 d-flex" asp-controller="Animals" style="padding-right: 25px;">
                         <div class="input-group">
                         @Html.AntiForgeryToken()
@@ -52,6 +54,7 @@
                         }
                         </div>
                     </form>
+                    }
                 </div>
             </div>
         </nav>

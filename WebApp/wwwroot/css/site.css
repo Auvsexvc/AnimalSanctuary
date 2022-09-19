@@ -26,3 +26,22 @@ body {
     position: relative;
     align-self: center;
 }
+
+table thead tr .headerSortUp {
+    background-image: url(../gfx/asc.gif) !important;
+}
+
+table thead tr .headerSortDown {
+    background-image: url(../gfx/desc.gif) !important;
+}
+table thead tr th.headerSort {
+    background-image: url(../gfx/bg.gif);
+    background-repeat: no-repeat;
+    background-position: bottom right;
+    cursor: pointer;
+}
+
+table thead tr th a {
+    display: block;
+    text-decoration: none;
+}

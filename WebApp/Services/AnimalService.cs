@@ -153,5 +153,72 @@ namespace WebApp.Services
                 TypeId = obj.TypeId
             };
         }
+
+        private async Task<FacilityViewModel?> ToViewModel(Facility obj)
+        {
+            var animals = await _baseService.GetAllAsync<Animal>(null, null, obj.Id.ToString());
+
+            if (animals == null)
+            {
+                return null;
+            }
+
+            return new FacilityViewModel()
+            {
+                Id = obj.Id,
+                Name = obj.Name,
+                Description = obj.Description,
+                BuildingNumber = obj.BuildingNumber,
+                ApartmentNumber = obj.ApartmentNumber,
+                StreetName = obj.StreetName,
+                City = obj.City!,
+                PhoneNumber = obj.PhoneNumber,
+                MaxCapacity = obj.MaxCapacity,
+                FreeSpace = obj.FreeSpace,
+                AnimalsIds = obj.Animals,
+                Animals = animals
+            };
+        }
+
+        private async Task<AnimalSpecieViewModel?> ToViewModel(AnimalSpecie obj)
+        {
+            var type = await _baseService.GetByIdAsync<AnimalType>(obj.TypeId);
+
+            if (type == null)
+            {
+                return null;
+            }
+
+            var typeVM = ToViewModel(type);
+
+            if(typeVM == null)
+            {
+                return null;
+            }
+
+            return new AnimalSpecieViewModel()
+            {
+                Id = obj.Id,
+                Name = obj.Name,
+                Description= obj.Description,
+                TypeId = obj.TypeId,
+                Type = type
+            };
+        }
+
+        private static AnimalTypeViewModel? ToViewModel(AnimalType obj)
+        {
+            if (obj == null)
+            {
+                return null;
+            }
+
+            return new AnimalTypeViewModel()
+            {
+                Id = obj.Id,
+                Name = obj.Name,
+                Description = obj.Description,
+            };
+        }
     }
 }

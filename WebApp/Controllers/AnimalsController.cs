@@ -33,9 +33,10 @@ namespace WebApp.Controllers
         {
             var dropdowns = await _service.GetNewAnimalDropdownsVM();
 
-            ViewBag.Session = HttpContext.Session.GetString("browser") ?? "true";
             ViewBag.Species = new SelectList(dropdowns.Species, "Id", "Name");
             ViewBag.Facilities = new SelectList(dropdowns.Facilities, "Id", "Name");
+
+            ViewBag.Session = HttpContext.Session.GetString("browser") ?? "true";
 
             return View();
         }
@@ -60,10 +61,7 @@ namespace WebApp.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> Delete(Guid id)
-        {
-            return await GetByIdAsync(id);
-        }
+        public async Task<IActionResult> Delete(Guid id) => await GetByIdAsync(id);
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -80,6 +78,7 @@ namespace WebApp.Controllers
             TempData["success"] = "Animal deleted";
 
             HttpContext.Session.SetString("return", String.Empty);
+
             if (HttpContext.Session.GetString("browser") == "false")
             {
                 return RedirectToAction("List");
@@ -88,10 +87,7 @@ namespace WebApp.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> Edit(Guid id)
-        {
-            return await GetByIdAsync(id);
-        }
+        public async Task<IActionResult> Edit(Guid id) => await GetByIdAsync(id);
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -110,7 +106,6 @@ namespace WebApp.Controllers
                 return RedirectToAction("List");
             }
 
-            HttpContext.Session.SetString("return", String.Empty);
             return RedirectToAction("Details", new { id });
         }
 
@@ -147,9 +142,6 @@ namespace WebApp.Controllers
 
         private async Task<IActionResult> GetByIdAsync(Guid id)
         {
-            ViewBag.Session = HttpContext.Session.GetString("browser") ?? "true";
-            ViewBag.SessionReturn = HttpContext.Session.GetString("return") ?? String.Empty;
-
             var dropdowns = await _service.GetNewAnimalDropdownsVM();
 
             var data = await _service.GetByIdAsync(id);
@@ -164,6 +156,9 @@ namespace WebApp.Controllers
             ViewBag.Species = new SelectList(dropdowns.Species, "Id", "Name");
             ViewBag.Facilities = new SelectList(dropdowns.Facilities, "Id", "Name");
             ViewBag.Types = new SelectList(dropdowns.Types, "Id", "Name");
+
+            ViewBag.Session = HttpContext.Session.GetString("browser") ?? "true";
+            ViewBag.SessionReturn = HttpContext.Session.GetString("return") ?? String.Empty;
 
             return View(data);
         }
@@ -203,7 +198,7 @@ namespace WebApp.Controllers
             }
             else
             {
-                sortingOrder = HttpContext.Session.GetString("sortingOrder") ?? "asc";
+                sortingOrder = HttpContext.Session.GetString("sortingOrder") ?? "desc";
             }
 
             if (sortingField != null)
@@ -212,7 +207,7 @@ namespace WebApp.Controllers
             }
             else
             {
-                sortingField = HttpContext.Session.GetString("sortingField") ?? "Name";
+                sortingField = HttpContext.Session.GetString("sortingField") ?? "DateCreated";
             }
 
             return (sortingField, sortingOrder);

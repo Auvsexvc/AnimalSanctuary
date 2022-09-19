@@ -40,12 +40,12 @@
                     </ul>
                 </div>
                 <div class="text-dark">
-                    <ul class="navbar-nav text-dark flex-grow-1">
+                    <ul class="text-dark flex-grow-1 collapse d-sm-inline-flex justify-content-between text-dark list-unstyled">
                         @if (ViewBag.Fields != null)
                         {
-                            <li class="nav-item dropdown text-dark ">
-                                <a a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-controls="dropdown-target" data-bs-target="#dropdown-target" aria-haspopup="true" aria-expanded="false">
-                                    <i class="bi bi-gear"></i> Sorting
+                            <li class="dropdown text-dark">
+                                <a class="dropdown-toggle text-dark text-decoration-none" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-controls="dropdown-target" data-bs-target="#dropdown-target" aria-haspopup="true" aria-expanded="false">
+                                    <i class="bi bi-columns-gap"></i> @ViewBag.Field.ToString()
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown" id="dropdown-target">
                                     @foreach (var item in ViewBag.Fields)
@@ -55,21 +55,21 @@
                                 </div>
                             </li>
                         }
-                        @if (ViewBag.OrderList != null)
-                        {
-                            <li class="nav-item dropdown text-dark ">
-                                <a a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-controls="dropdown-target" data-bs-target="#dropdown-target" aria-haspopup="true" aria-expanded="false">
-                                    <i class="bi bi-gear"></i> Order
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown" id="dropdown-target">
-                                    @foreach (var item in ViewBag.OrderList)
-                                    {
-                                        @Html.ActionLink((string)item.ToString(), ViewContext.RouteData.Values["Action"]!.ToString(), new {sortingOrder = ViewData[$"{ViewBag.Field.ToString()}Order"]}, new {@class="dropdown-item text-dark"})
-                                    }
-                                </div>
-                            </li>
-                        }
                     </ul>
+                    <div class="text-dark flex-grow-1 collapse d-sm-inline-flex justify-content-between text-dark">
+
+                            @if (ViewBag.Order != null)
+                            {
+                                <a class="text-dark dropdown-item fw-bold m-2" href="@Url.Action(ViewContext.RouteData.Values["Action"]!.ToString(), ViewContext.RouteData.Values["Controller"]!.ToString(), new{sortingOrder = ViewData[$"{ViewBag.Field.ToString()}Order"]})">
+                                @if(!string.IsNullOrEmpty(ViewBag.Order) && ViewBag.Order == "desc"){
+                                    <i class="bi bi-sort-alpha-down"></i> @ViewBag.Order
+                                }else{
+                                    <i class="bi bi-sort-alpha-up"></i> @ViewBag.Order
+                                }
+                                </a>
+                            }
+                    </div>
+
                 </div>
                 <div class="text-dark">
                     @if (ViewBag.Filter != null)
@@ -86,7 +86,6 @@
                             {
                                 <input name="filteringString" value="@ViewBag.Filter" type="text" class="form-control form-control-sm" placeholder="Search for a..." aria-label="" aria-describedby="button-addon2">
                                 <button class="btn btn-sm btn-info my-2 my-sm-0" type="submit">Filter</button>
-
                             }
                             </div>
                         </form>

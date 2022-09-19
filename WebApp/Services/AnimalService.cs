@@ -115,6 +115,15 @@ namespace WebApp.Services
             };
         }
 
+        public AnimalSortingDropdowns GetAnimalSortingDropdownsVM()
+        {
+            return new AnimalSortingDropdowns()
+            {
+                Fields = new FilterAnimalViewModel().GetType().GetProperties().Select(p => p.Name).ToList(),
+                Order = new List<string>() { "asc", "desc" }
+            };
+        }
+
         private async Task<AnimalViewModel?> ToViewModel(Animal obj)
         {
             var specie = await _baseService.GetByIdAsync<AnimalSpecie>(obj.SpecieId);

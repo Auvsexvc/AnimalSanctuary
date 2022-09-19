@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Reflection;
-using WebApp.Data;
 using WebApp.Dtos;
 using WebApp.Interfaces;
 using WebApp.Models;
@@ -19,34 +17,23 @@ namespace WebApp.Controllers
 
         public async Task<IActionResult> Index(string? sortingField, string? sortingOrder, string? filteringString = "")
         {
-            (sortingField, sortingOrder) = SessionHandlerForSorting(sortingField, sortingOrder);
-            filteringString = SessionHandlerForSearching(filteringString);
+            HttpContext.Session.SetString("browser", "true");
 
-            var data = await _service.GetAllAsync(sortingField, sortingOrder, filteringString);
-
-            foreach (var prop in new FilterAnimalViewModel().GetType().GetProperties().Select(p => p.Name))
-            {
-                ViewData[prop + "Order"] = sortingField == prop && sortingOrder != "desc" ? "desc" : "asc";
-                ViewData[prop + "Field"] = prop;
-            }
-
-            ViewBag.Field = sortingField;
-            ViewBag.Fields = new FilterAnimalViewModel().GetType().GetProperties().Select(p => p.Name);
-            ViewBag.OrderList = new string[] { "asc", "desc" };
-            //ViewBag.Fields = new SelectList(new FilterAnimalViewModel().GetType().GetProperties().Select(p => p.Name), sortingField);
-            //ViewBag.OrderList = new SelectList(new string[] { "asc", "desc" }, sortingOrder);
-            ViewBag.Order = sortingOrder;
-            ViewBag.Filter = filteringString;
-
-            return View(data);
+            return await GetAllSortedAndFiltered(sortingField, sortingOrder, filteringString);
         }
 
-        public async Task<IActionResult> Details(Guid id) => await GetByIdAsync(id);
+        public async Task<IActionResult> Details(Guid id)
+        {
+            HttpContext.Session.SetString("return", "Details");
+
+            return await GetByIdAsync(id);
+        }
 
         public async Task<IActionResult> Create()
         {
             var dropdowns = await _service.GetNewAnimalDropdownsVM();
 
+            ViewBag.Session = HttpContext.Session.GetString("browser") ?? "true";
             ViewBag.Species = new SelectList(dropdowns.Species, "Id", "Name");
             ViewBag.Facilities = new SelectList(dropdowns.Facilities, "Id", "Name");
 
@@ -59,32 +46,52 @@ namespace WebApp.Controllers
         {
             if (!ModelState.IsValid)
             {
+                TempData["error"] = "Animal not added";
                 return View();
             }
 
             await _service.CreateAsync(dto);
+            TempData["success"] = "Animal added";
 
+            if (HttpContext.Session.GetString("browser") == "false")
+            {
+                return RedirectToAction("List");
+            }
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> Delete(Guid id) => await GetByIdAsync(id);
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            return await GetByIdAsync(id);
+        }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeletePOST(Guid id)
         {
-            var animalDb = await _service.GetByIdAsync(id);
-            if (animalDb == null)
+            var data = await _service.GetByIdAsync(id);
+            if (data == null)
             {
                 return NotFound();
             }
 
             await _service.DeleteAsync(id);
-            TempData["success"] = "Animal removed";
+
+            TempData["success"] = "Animal deleted";
+
+            HttpContext.Session.SetString("return", String.Empty);
+            if (HttpContext.Session.GetString("browser") == "false")
+            {
+                return RedirectToAction("List");
+            }
+
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> Edit(Guid id) => await GetByIdAsync(id);
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            return await GetByIdAsync(id);
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -92,26 +99,56 @@ namespace WebApp.Controllers
         {
             if (!ModelState.IsValid)
             {
+                TempData["error"] = "Animal not updated";
                 return View(data);
             }
             await _service.EditAsync(id, data);
+            TempData["success"] = "Animal updated";
 
-            return RedirectToAction("Index");
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("return")))
+            {
+                return RedirectToAction("List");
+            }
+
+            HttpContext.Session.SetString("return", String.Empty);
+            return RedirectToAction("Details", new { id });
         }
 
         public async Task<IActionResult> List(string? sortingField, string? sortingOrder, string? filteringString = "")
         {
-            ViewData["Reffer"] = Request.Headers["Referer"].ToString();
+            HttpContext.Session.SetString("browser", "false");
 
-            return await Index(sortingField, sortingOrder, filteringString);
+            return await GetAllSortedAndFiltered(sortingField, sortingOrder, filteringString);
+        }
+
+        private async Task<IActionResult> GetAllSortedAndFiltered(string? sortingField, string? sortingOrder, string? filteringString = "")
+        {
+            HttpContext.Session.SetString("return", String.Empty);
+            (sortingField, sortingOrder) = SessionHandlerForSorting(sortingField, sortingOrder);
+            filteringString = SessionHandlerForFiltering(filteringString);
+
+            var data = await _service.GetAllAsync(sortingField, sortingOrder, filteringString);
+            var sortingDropdown = _service.GetAnimalSortingDropdownsVM();
+
+            foreach (var prop in sortingDropdown.Fields)
+            {
+                ViewData[prop + "Order"] = sortingField == prop && sortingOrder != "desc" ? "desc" : "asc";
+                ViewData[prop + "Field"] = prop;
+            }
+
+            ViewBag.Field = sortingField;
+            ViewBag.Fields = sortingDropdown.Fields;
+            ViewBag.OrderList = sortingDropdown.Order;
+            ViewBag.Order = sortingOrder;
+            ViewBag.Filter = filteringString;
+
+            return View(data);
         }
 
         private async Task<IActionResult> GetByIdAsync(Guid id)
         {
-            if (Request.Headers["Referer"] != string.Empty && !Request.Headers["Referer"].ToString().Contains("Index"))
-            {
-                ViewData["Reffer"] = Request.Headers["Referer"].ToString();
-            }
+            ViewBag.Session = HttpContext.Session.GetString("browser") ?? "true";
+            ViewBag.SessionReturn = HttpContext.Session.GetString("return") ?? String.Empty;
 
             var dropdowns = await _service.GetNewAnimalDropdownsVM();
 
@@ -131,7 +168,7 @@ namespace WebApp.Controllers
             return View(data);
         }
 
-        private string? SessionHandlerForSearching(string? filterString)
+        private string? SessionHandlerForFiltering(string? filterString)
         {
             if (filterString == null)
             {

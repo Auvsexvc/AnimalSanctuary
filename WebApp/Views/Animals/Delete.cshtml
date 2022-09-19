@@ -62,13 +62,13 @@
     <div class="btn-group-sm card-footer mt-4">
         <form asp-action="Delete">
             <button type="submit" class="btn btn-sm btn-danger"><i class="bi bi-trash-fill"></i> Yes, Delete!</button>
-            @if (ViewData["Reffer"] != null)
+            @if (ViewBag.SessionReturn == "Details")
             {
-                <a href="@ViewData["Reffer"]" class="btn btn-sm btn-secondary float-end"><i class="bi bi-x"></i> Cancel</a>
+                <a asp-controller="Animals" asp-action="@ViewBag.SessionReturn" asp-route-id="@Model.Id" class="btn btn-sm btn-secondary float-end"><i class="bi bi-x"></i> Cancel</a>
             }
             else
             {
-                <a asp-controller="Animals" asp-action="Index" class="btn btn-sm btn-secondary float-end"><i class="bi bi-list"></i> Back to browser</a>
+                <a asp-controller="Animals" asp-action="List" class="btn btn-sm btn-secondary float-end"><i class="bi bi-list"></i> Back to list</a>
             }
         </form>
     </div>

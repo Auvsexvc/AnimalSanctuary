@@ -1,17 +1,14 @@
-﻿using WebApp.Data;
-using WebApp.Dtos;
-using WebApp.Helpers;
+﻿using WebApp.Helpers;
 using WebApp.Interfaces;
-using WebApp.ViewModels;
 
 namespace WebApp.Services
 {
-    public class AnimalsService : IAnimalsService
+    public class BaseService : IBaseService
     {
         private readonly IConfiguration _configuration;
-        private readonly ILogger<AnimalsService> _logger;
+        private readonly ILogger<BaseService> _logger;
 
-        public AnimalsService(IConfiguration configuration, ILogger<AnimalsService> logger)
+        public BaseService(IConfiguration configuration, ILogger<BaseService> logger)
         {
             _configuration = configuration;
             _logger = logger;
@@ -49,20 +46,20 @@ namespace WebApp.Services
             }
         }
 
-        public async Task<Animal?> GetByIdAsync(Guid? id)
+        public async Task<T?> GetByIdAsync<T>(Guid id)
         {
             try
             {
-                Animal? data = null;
+                T? data = default;
 
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new Uri(_configuration.GetConnectionString("DefaultConnection"));
-                    var result = await client.GetAsync($"Animal/{id}");
+                    var result = await client.GetAsync($"{typeof(T).Name}/{id}");
 
                     if (result.IsSuccessStatusCode)
                     {
-                        data = await result.Content.ReadFromJsonAsync<Animal>();
+                        data = await result.Content.ReadFromJsonAsync<T>();
                     }
                 }
 
@@ -72,18 +69,19 @@ namespace WebApp.Services
             {
                 _logger.LogError(Message.ERROR, ex.Message);
 
-                return null;
+                return default;
             }
         }
 
-        public async Task<HttpResponseMessage?> CreateAsync(AnimalDto dto)
+        public async Task<HttpResponseMessage?> CreateAsync<T>(T dto)
         {
             try
             {
+                var name = string.Concat(typeof(T).Name.TakeLast(3)) == "Dto" ? string.Concat(typeof(T).Name.SkipLast(3)) : typeof(T).Name;
                 using var client = new HttpClient();
                 client.BaseAddress = new Uri(_configuration.GetConnectionString("DefaultConnection"));
 
-                var result = await client.PostAsJsonAsync<AnimalDto>("Animal", dto);
+                var result = await client.PostAsJsonAsync<T>($"{name}", dto);
 
                 return result;
             }
@@ -95,14 +93,15 @@ namespace WebApp.Services
             }
         }
 
-        public async Task<HttpResponseMessage?> EditAsync(Guid id, AnimalDto dto)
+        public async Task<HttpResponseMessage?> EditAsync<T>(Guid id, T dto)
         {
             try
             {
+                var name = string.Concat(typeof(T).Name.TakeLast(3)) == "Dto" ? string.Concat(typeof(T).Name.SkipLast(3)) : typeof(T).Name;
                 using var client = new HttpClient();
                 client.BaseAddress = new Uri(_configuration.GetConnectionString("DefaultConnection"));
 
-                var result = await client.PutAsJsonAsync<AnimalDto>($"Animal/{id}", dto);
+                var result = await client.PutAsJsonAsync<T>($"{name}/{id}", dto);
 
                 return result;
             }
@@ -114,14 +113,15 @@ namespace WebApp.Services
             }
         }
 
-        public async Task<HttpResponseMessage?> DeleteAsync(Guid? id)
+        public async Task<HttpResponseMessage?> DeleteAsync<T>(Guid id)
         {
             try
             {
+                var name = string.Concat(typeof(T).Name.TakeLast(3)) == "Dto" ? string.Concat(typeof(T).Name.SkipLast(3)) : typeof(T).Name;
                 using var client = new HttpClient();
                 client.BaseAddress = new Uri(_configuration.GetConnectionString("DefaultConnection"));
 
-                var result = await client.DeleteAsync($"Animal/{id}");
+                var result = await client.DeleteAsync($"{name}/{id}");
 
                 return result;
             }
@@ -131,15 +131,6 @@ namespace WebApp.Services
 
                 return null;
             }
-        }
-
-        public async Task<NewAnimalDropdownsVM> GetNewAnimalDropdownsVM()
-        {
-            return new NewAnimalDropdownsVM()
-            {
-                Species = (await GetAllAsync<AnimalSpecie>(null, null, null))?.OrderBy(a => a.Name).ToList(),
-                Facilities = (await GetAllAsync<Facility>(null, null, null))?.OrderBy(a => a.Name).ToList(),
-            };
         }
     }
 }

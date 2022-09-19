@@ -1,7 +1,7 @@
-﻿@model IEnumerable<Animal>
+﻿@model IEnumerable<AnimalViewModel>
 
 @{
-    ViewData["Title"] = "List of Animals";
+    ViewData["Title"] = "Animals";
 }
 
 <div class="row mt-4 flex-fill d-inline-flex">
@@ -31,11 +31,11 @@
                         </div>
                         <div class="col-md-8 float-end">
                             <p class="card-text mb-1"><b>Name: </b>@item.Name</p>
-                            <p class="card-text mb-1"><b>Specie: </b>@item.Specie</p>
+                            <p class="card-text mb-1"><b>Specie: </b>@item.Specie!.Name</p>
                             <p class="card-text mb-1"><b>Sex: </b>@item.Sex</p>
                             <p class="card-text mb-1"><b>DateOfBirth: </b>@(item.DateOfBirth != null ? ((DateTime)item.DateOfBirth).ToShortDateString() : "N/A")</p>
                             <p class="card-text mb-1"><b>Attitude: </b>@item.Attitude</p>
-                            <p class="card-text mb-1"><b>Facility: </b>@item.Facility</p>
+                            <p class="card-text mb-1"><b>Facility: </b>@item.Facility!.Name</p>
                         </div>
                     </div>
                     <div class="row">

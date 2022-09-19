@@ -1,8 +1,9 @@
-﻿using WebApp.Enums;
+﻿using WebApp.Data;
+using WebApp.Enums;
 
-namespace WebApp.Data
+namespace WebApp.Models
 {
-    public class Animal
+    public class AnimalViewModel
     {
         public Guid Id { get; set; }
 
@@ -20,13 +21,13 @@ namespace WebApp.Data
 
         public DateTime DateCreated { get; set; }
 
-        public Guid SpecieId { get; set; }
-        public string Specie { get; set; } = String.Empty;
+        public AnimalSpecie Specie { get; set; } = new AnimalSpecie();
+        public AnimalType Type { get; set; } = new AnimalType();
 
+        public Facility Facility { get; set; } = new Facility();
+        public Guid SpecieId { get; set; }
         public Guid TypeId { get; set; }
-        public string Type { get; set; } = String.Empty;
 
         public Guid FacilityId { get; set; }
-        public string Facility { get; set; } = String.Empty;
     }
 }

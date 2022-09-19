@@ -1,15 +1,15 @@
 ﻿@using WebApp.Enums
-@model WebApp.Data.Animal
+@model WebApp.Models.AnimalViewModel
 
 @{
-    ViewData["Title"] = "View";
+    ViewData["Title"] = "Edit";
 }
 <div class="card border-dark mb-3 mt-3 col-md-8 offset-2 w-30">
     <div class="card-header bg-warning text-light">
         <h3 class="card-title">Edit animal</h3>
     </div>
+    <form asp-action="Edit">
     <div class="card-body">
-        <form asp-action="View">
             <div class="col-md-11 d-flex">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="col-md-5 offset-1">
@@ -34,9 +34,9 @@
                         <span asp-validation-for="DateOfBirth" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Sex" class="control-label"></label>
-                        <select asp-for="Sex" class="form-select" asp-items="Html.GetEnumSelectList<Sex>()"></select>
-                        <span asp-validation-for="Sex" class="text-danger"></span>
+                            <label asp-for="Sex" class="control-label"></label>
+                            <select asp-for="Sex" class="form-select" asp-items="Html.GetEnumSelectList<Sex>()"></select>
+                            <span asp-validation-for="Sex" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="HealthState" class="control-label"></label>
@@ -56,35 +56,40 @@
                         <span asp-validation-for="DateCreated" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Specie" class="control-label"></label>
-                        <select asp-for="Specie" class="form-select" asp-items="ViewBag.Species"></select>
-                        <span asp-validation-for="Specie" class="text-danger"></span>
+                        <label asp-for="SpecieId" class="control-label">Specie</label>
+                        <div class="form-group d-flex">
+                            @Html.DropDownListFor(model=>model.SpecieId, new SelectList(ViewBag.DropDowns.Species, "Id", "Name", Model.Specie), new { @class = "form-select"})
+                            <a asp-controller="Species" asp-action="Create" class="btn btn-sm btn-outline-success icon-float-end"><i class="bi bi-plus-circle t-2"></i></a>
+                        </div>
+                        <span asp-validation-for="SpecieId" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Type" class="control-label"></label>
-                        <input asp-for="Type" class="form-control" readonly/>
-                        <span asp-validation-for="Type" class="text-danger"></span>
+                        <label asp-for="TypeId" class="control-label">Type</label>
+                        @Html.DropDownListFor(model=>model.TypeId, new SelectList(ViewBag.DropDowns.Types, "Id", "Name", Model.Type), new { @class = "form-select", @disabled = "disabled"})
                     </div>
                     <div class="form-group">
-                        <label asp-for="Facility" class="control-label"></label>
-                        <select asp-for="Facility" class="form-select" asp-items="ViewBag.Facilities"></select>
-                        <span asp-validation-for="Facility" class="text-danger"></span>
+                        <label asp-for="FacilityId" class="control-label">Facility</label>
+                        <div class="form-group d-flex">
+                            @Html.DropDownListFor(model=>model.FacilityId, new SelectList(ViewBag.DropDowns.Facilities, "Id", "Name", Model.Facility), new { @class = "form-select"})
+                            <a asp-controller="Facilities" asp-action="Create" class="btn btn-sm btn-outline-success icon-float-end"><i class="bi bi-plus-circle"></i></a>
+                        </div>
+                        <span asp-validation-for="FacilityId" class="text-danger"></span>
                     </div>
                 </div>
             </div>
-            <div class="card-footer form-group mt-4">
-                <button type="submit" class="btn btn-sm btn-warning"><i class="bi bi-save"></i> Save</button>
-                @if (ViewData["Reffer"] != null)
-                {
-                    <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-sm btn-secondary float-end"><i class="bi bi-x"></i> Cancel</a>
-                }
-                else
-                {
-                    <a asp-action="Index" class="btn btn-sm btn-secondary float-end"><i class="bi bi-list"></i> Cancel</a>
-                }
-            </div>
-        </form>
     </div>
+    <div class="card-footer form-group mt-4">
+        <button type="submit" class="btn btn-sm btn-warning"><i class="bi bi-save"></i> Save</button>
+        @if (ViewData["Reffer"] != null)
+        {
+            <a href="@ViewData["Reffer"]" class="btn btn-sm btn-secondary float-end"><i class="bi bi-x"></i> Cancel</a>
+        }
+        else
+        {
+            <a asp-controller="Animals" asp-action="Index" class="btn btn-sm btn-secondary float-end"><i class="bi bi-list"></i> Back to browser</a>
+        }
+    </div>
+</form>
 </div>
 @section Scripts{
     @{

@@ -16,3 +16,13 @@ html {
 body {
     margin-bottom: 60px;
 }
+
+.bg-body {
+    background-color: #7a7870 !important;
+}
+
+.icon-float-end {
+    float: right !important;
+    position: relative;
+    align-self: center;
+}

@@ -1,16 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Reflection;
 using WebApp.Data;
 using WebApp.Dtos;
 using WebApp.Interfaces;
+using WebApp.Models;
 
 namespace WebApp.Controllers
 {
     public class AnimalsController : Controller
     {
-        private readonly IAnimalsService _service;
+        private readonly IAnimalService _service;
 
-        public AnimalsController(IAnimalsService service)
+        public AnimalsController(IAnimalService service)
         {
             _service = service;
         }
@@ -20,17 +22,19 @@ namespace WebApp.Controllers
             (sortingField, sortingOrder) = SessionHandlerForSorting(sortingField, sortingOrder);
             filteringString = SessionHandlerForSearching(filteringString);
 
-            var data = await _service.GetAllAsync<Animal>(sortingField, sortingOrder, filteringString);
+            var data = await _service.GetAllAsync(sortingField, sortingOrder, filteringString);
 
-            foreach (var prop in new Animal().GetType().GetProperties().Select(p => p.Name))
+            foreach (var prop in new FilterAnimalViewModel().GetType().GetProperties().Select(p => p.Name))
             {
                 ViewData[prop + "Order"] = sortingField == prop && sortingOrder != "desc" ? "desc" : "asc";
                 ViewData[prop + "Field"] = prop;
             }
 
             ViewBag.Field = sortingField;
-            ViewBag.Fields = new SelectList(new Animal().GetType().GetProperties().Select(p => p.Name), sortingField);
-            ViewBag.OrderList = new SelectList(new string[] {"asc", "desc"}, sortingOrder);
+            ViewBag.Fields = new FilterAnimalViewModel().GetType().GetProperties().Select(p => p.Name);
+            ViewBag.OrderList = new string[] { "asc", "desc" };
+            //ViewBag.Fields = new SelectList(new FilterAnimalViewModel().GetType().GetProperties().Select(p => p.Name), sortingField);
+            //ViewBag.OrderList = new SelectList(new string[] { "asc", "desc" }, sortingOrder);
             ViewBag.Order = sortingOrder;
             ViewBag.Filter = filteringString;
 
@@ -67,7 +71,7 @@ namespace WebApp.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeletePOST(Guid? id)
+        public async Task<IActionResult> DeletePOST(Guid id)
         {
             var animalDb = await _service.GetByIdAsync(id);
             if (animalDb == null)
@@ -80,35 +84,36 @@ namespace WebApp.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> Edit(Guid id)
-        {
-            var dropdowns = await _service.GetNewAnimalDropdownsVM();
-
-            ViewBag.Species = new SelectList(dropdowns.Species, "Id", "Name");
-            ViewBag.Facilities = new SelectList(dropdowns.Facilities, "Id", "Name");
-
-            return await GetByIdAsync(id);
-        }
+        public async Task<IActionResult> Edit(Guid id) => await GetByIdAsync(id);
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, AnimalDto dto)
+        public async Task<IActionResult> Edit(Guid id, AnimalViewModel data)
         {
             if (!ModelState.IsValid)
             {
-                return View(dto);
+                return View(data);
             }
-            await _service.EditAsync(id, dto);
+            await _service.EditAsync(id, data);
 
             return RedirectToAction("Index");
         }
 
+        public async Task<IActionResult> List(string? sortingField, string? sortingOrder, string? filteringString = "")
+        {
+            ViewData["Reffer"] = Request.Headers["Referer"].ToString();
+
+            return await Index(sortingField, sortingOrder, filteringString);
+        }
+
         private async Task<IActionResult> GetByIdAsync(Guid id)
         {
-            if (Request.Headers["Referer"] != string.Empty && Request.Headers["Referer"].ToString().Contains("Details"))
+            if (Request.Headers["Referer"] != string.Empty && !Request.Headers["Referer"].ToString().Contains("Index"))
             {
                 ViewData["Reffer"] = Request.Headers["Referer"].ToString();
             }
+
+            var dropdowns = await _service.GetNewAnimalDropdownsVM();
 
             var data = await _service.GetByIdAsync(id);
 
@@ -116,6 +121,12 @@ namespace WebApp.Controllers
             {
                 return View("NotFound");
             }
+
+            ViewBag.DropDowns = dropdowns;
+            ViewBag.Specie = data.Specie;
+            ViewBag.Species = new SelectList(dropdowns.Species, "Id", "Name");
+            ViewBag.Facilities = new SelectList(dropdowns.Facilities, "Id", "Name");
+            ViewBag.Types = new SelectList(dropdowns.Types, "Id", "Name");
 
             return View(data);
         }

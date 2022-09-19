@@ -4,7 +4,8 @@ using WebApp.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
-builder.Services.AddScoped<IAnimalsService, AnimalsService>();
+builder.Services.AddScoped<IBaseService, BaseService>();
+builder.Services.AddScoped<IAnimalService, AnimalService>();
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);

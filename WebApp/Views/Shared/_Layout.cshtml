@@ -6,54 +6,90 @@
     <title>@ViewData["Title"] - WebApp</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/WebApp.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/slate.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/sketchy.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
 </head>
-<body>
+<body class="bg-body">
     <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between small">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">Navbar</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-light justify-content-between small text-dark">
+            <div class="container-fluid text-dark ">
+                <a class="navbar-brand text-dark" href="#">Animal Sanctuary</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon "></span>
                 </button>
 
-                <div class="collapse navbar-collapse" id="navbarColor02">
-                    <ul class="navbar-nav me-auto">
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between text-dark">
+                    <ul class="navbar-nav text-dark flex-grow-1">
                         <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Animals" asp-action="Index">Animal Sanctuary</a>
+                            <a class="nav-link text-dark" asp-controller="Animals" asp-action="Index"><i class="bi bi-grid-3x3-gap"></i> Animals</a>
+                        </li>
+                        <li class="nav-item dropdown text-dark ">
+                            <a a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-controls="dropdown-target" data-bs-target="#dropdown-target" aria-haspopup="true" aria-expanded="false">
+                                <i class="bi bi-gear"></i> Management
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown" id="dropdown-target">
+                                <a class="dropdown-item text-dark" asp-controller="Animals" asp-action="List"><i class="bi bi-list"></i> Animals</a>
+                                <a class="dropdown-item text-dark" asp-controller="Species" asp-action="List"><i class="bi bi-list"></i> Species</a>
+                                <a class="dropdown-item text-dark" asp-controller="Types" asp-action="List"><i class="bi bi-list"></i> Types</a>
+                                <a class="dropdown-item text-dark" asp-controller="Facilities" asp-action="List"><i class="bi bi-list"></i> Facilities</a>
+                            </div>
                         </li>
                     </ul>
-                    @if (ViewBag.Fields != null)
+                </div>
+                <div class="text-dark">
+                    <ul class="navbar-nav text-dark flex-grow-1">
+                        @if (ViewBag.Fields != null)
+                        {
+                            <li class="nav-item dropdown text-dark ">
+                                <a a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-controls="dropdown-target" data-bs-target="#dropdown-target" aria-haspopup="true" aria-expanded="false">
+                                    <i class="bi bi-gear"></i> Sorting
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown" id="dropdown-target">
+                                    @foreach (var item in ViewBag.Fields)
+                                    {
+                                        @Html.ActionLink((string)item.ToString(), ViewContext.RouteData.Values["Action"]!.ToString(), new {sortingField = ViewData[$"{(string)item.ToString()}Field"]}, new {@class="dropdown-item text-dark"})
+                                    }
+                                </div>
+                            </li>
+                        }
+                        @if (ViewBag.OrderList != null)
+                        {
+                            <li class="nav-item dropdown text-dark ">
+                                <a a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-controls="dropdown-target" data-bs-target="#dropdown-target" aria-haspopup="true" aria-expanded="false">
+                                    <i class="bi bi-gear"></i> Order
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown" id="dropdown-target">
+                                    @foreach (var item in ViewBag.OrderList)
+                                    {
+                                        @Html.ActionLink((string)item.ToString(), ViewContext.RouteData.Values["Action"]!.ToString(), new {sortingOrder = ViewData[$"{ViewBag.Field.ToString()}Order"]}, new {@class="dropdown-item text-dark"})
+                                    }
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <div class="text-dark">
+                    @if (ViewBag.Filter != null)
                     {
-                    <form class="form-inline my-2 my-lg-0 d-flex" asp-controller="Animals" style="padding-right: 25px;">
-                        <select id="sortingField" name="sortingField" class="form-select-sm" asp-items="ViewBag.Fields"></select>
-                    </form>
-                    }
-                    @if (ViewBag.OrderList != null){
-                    <form class="form-inline my-2 my-lg-0 d-flex" asp-controller="Animals" style="padding-right: 25px;">
-                        <select id="sortingOrder" name="sortingOrder" class="form-select-sm" asp-items="ViewBag.OrderList"></select>
-                    </form>
-                    }
-                    @if (ViewBag.Filter != null){
+                        <form class="form-inline my-2 my-lg-0 d-flex" asp-controller="Animals" style="padding-right: 25px;">
+                            <div class="input-group">
+                            @Html.AntiForgeryToken()
+                            @if (!string.IsNullOrEmpty(ViewBag.Filter))
+                            {
+                                <input name="filteringString" value="@ViewBag.Filter" type="text" class="form-control form-control-sm" style="background-color:#fde7e7;" placeholder="Search for a..." aria-label="" aria-describedby="button-addon2">
+                                <button class="btn btn-sm btn-danger my-2 my-sm-0" type="submit">Filter</button>
+                            }
+                            else
+                            {
+                                <input name="filteringString" value="@ViewBag.Filter" type="text" class="form-control form-control-sm" placeholder="Search for a..." aria-label="" aria-describedby="button-addon2">
+                                <button class="btn btn-sm btn-info my-2 my-sm-0" type="submit">Filter</button>
 
-                    <form class="form-inline my-2 my-lg-0 d-flex" asp-controller="Animals" style="padding-right: 25px;">
-                        <div class="input-group">
-                        @Html.AntiForgeryToken()
-                        @if (!string.IsNullOrEmpty(ViewBag.Filter))
-                        {
-                            <input name="filteringString" value="@ViewBag.Filter" type="text" class="form-control form-control-sm" style="background-color:#fde7e7;" placeholder="Search for a..." aria-label="" aria-describedby="button-addon2">
-                            <button class="btn btn-sm btn-danger my-2 my-sm-0" type="submit">Filter</button>
-                        }
-                        else
-                        {
-                            <input name="filteringString" value="@ViewBag.Filter" type="text" class="form-control form-control-sm" placeholder="Search for a..." aria-label="" aria-describedby="button-addon2">
-                            <button class="btn btn-sm btn-info my-2 my-sm-0" type="submit">Filter</button>
-
-                        }
-                        </div>
-                    </form>
+                            }
+                            </div>
+                        </form>
                     }
                 </div>
             </div>

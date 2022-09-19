@@ -20,10 +20,13 @@ namespace AnimalSanctuaryAPI.ViewModels
 
         public DateTime DateCreated { get; set; }
 
+        public Guid? SpecieId { get; set; }
         public string? Specie { get; set; }
 
+        public Guid? TypeId { get; set; }
         public string? Type { get; set; }
 
+        public Guid? FacilityId { get; set; }
         public string? Facility { get; set; }
     }
 }

@@ -1,12 +1,9 @@
-﻿using System.ComponentModel;
-
-namespace WebApp.Data
+﻿namespace WebApp.Models
 {
-    public class AnimalSpecie
+    public class AnimalSpecieViewModel
     {
         public Guid Id { get; set; }
 
-        [DisplayName("Specie")]
         public string Name { get; set; } = String.Empty;
 
         public string? Description { get; set; }

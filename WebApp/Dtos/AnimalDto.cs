@@ -13,7 +13,7 @@ namespace WebApp.Dtos
         public Sex? Sex { get; set; }
         public string? HealthState { get; set; }
         public Attitude? Attitude { get; set; }
-        public DateTime DateCreated { get; } = DateTime.Now;
+        public DateTime DateCreated { get; set; }
 
         [Required]
         public Guid SpecieId { get; set; }

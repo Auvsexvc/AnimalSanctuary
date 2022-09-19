@@ -18,9 +18,12 @@ namespace AnimalSanctuaryAPI.Extensions
                 HealthState = animal.HealthState,
                 Attitude = animal.Attitude,
                 DateCreated = animal.DateCreated,
-                Facility = animal.Facility!.ToViewModel().Name,
-                Specie = animal.Specie!.ToViewModel().Name,
-                Type = animal.Specie!.ToViewModel().TypeName
+                FacilityId = animal.Facility.Id,
+                Facility = animal.Facility.Name,
+                SpecieId = animal.Specie.Id,
+                Specie = animal.Specie.Name,
+                TypeId = animal.Specie.TypeId,
+                Type = animal.Specie.Type.Name
             };
         }
 

@@ -3,7 +3,7 @@
 @model AnimalDto
 
 @{
-    ViewData["Title"] = "Add new employee";
+    ViewData["Title"] = "Add new animal";
 }
 
 <div class="card border-dark mb-3 mt-3 col-md-8 offset-2 w-30">
@@ -49,19 +49,32 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="SpecieId" class="control-label"></label>
-                    <select asp-for="SpecieId" class="form-select" asp-items="ViewBag.Species"></select>
+                        <div class="form-group d-flex">
+                            <select asp-for="SpecieId" class="form-select" asp-items="ViewBag.Species"></select>
+                            <a asp-controller="Species" asp-action="Create" class="btn btn-sm btn-outline-success icon-float-end"><i class="bi bi-plus-circle t-2"></i></a>
+                        </div>
                         <span asp-validation-for="SpecieId" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="FacilityId" class="control-label"></label>
-                    <select asp-for="FacilityId" class="form-select" asp-items="ViewBag.Facilities"></select>
+                        <div class="form-group d-flex">
+                            <select asp-for="FacilityId" class="form-select" asp-items="ViewBag.Facilities"></select>
+                            <a asp-controller="Facilities" asp-action="Create" class="btn btn-sm btn-outline-success icon-float-end"><i class="bi bi-plus-circle t-2"></i></a>
+                        </div>
                         <span asp-validation-for="FacilityId" class="text-danger"></span>
                     </div>
                 </div>
             </div>
             <div class="card-footer form-group mt-4">
             <button type="submit" class="btn btn-sm btn-success"><i class="bi bi-plus-circle"></i> Create</button>
-            <a id="Cancel" asp-action="Index" class="btn btn-sm btn-secondary float-end"><i class="bi bi-x"></i> Cancel</a>
+            @if (ViewData["Reffer"] != null)
+            {
+                <a href="@ViewData["Reffer"]" class="btn btn-sm btn-secondary float-end"><i class="bi bi-x"></i> Back to list</a>
+            }
+            else
+            {
+                <a asp-controller="Animals" asp-action="Index" class="btn btn-sm btn-secondary float-end"><i class="bi bi-list"></i> Back to browser</a>
+            }
             </div>
         </form>
 

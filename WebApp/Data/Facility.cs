@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebApp.Data
 {
@@ -6,7 +7,8 @@ namespace WebApp.Data
     {
         public Guid Id { get; set; }
 
-        public string? Name { get; set; }
+        [DisplayName("Facility")]
+        public string Name { get; set; } = String.Empty;
 
         public string? Description { get; set; }
 

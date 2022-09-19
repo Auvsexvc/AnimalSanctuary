@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Animal>
+﻿@model IEnumerable<AnimalViewModel>
 <th class="headerSort @(!ViewBag.Field.ToString().Contains("Id") ? string.Empty :ViewBag.Order.ToString().Contains("desc") ? "headerSortDown" : "headerSortUp")">
     @Html.ActionLink(@Html.DisplayNameFor(model => model.Id), ViewContext.RouteData.Values["Action"]!.ToString(), new {sortingOrder = ViewData["IdOrder"], sortingField = ViewData["IdField"]})
 </th>
@@ -24,11 +24,11 @@
     @Html.ActionLink(@Html.DisplayNameFor(model => model.DateCreated), ViewContext.RouteData.Values["Action"]!.ToString(), new {sortingOrder = ViewData["DateCreatedOrder"], sortingField = ViewData["DateCreatedField"]})
 </th>
 <th class="headerSort @(!ViewBag.Field.ToString().Contains("Specie") ? string.Empty : ViewBag.Order.ToString().Contains("desc") ? "headerSortDown" : "headerSortUp")">
-    @Html.ActionLink(@Html.DisplayNameFor(model => model.Specie), ViewContext.RouteData.Values["Action"]!.ToString(), new {sortingOrder = ViewData["SpecieOrder"], sortingField = ViewData["SpecieField"]})
+    @Html.ActionLink(@Html.DisplayNameFor(model => model.Specie.Name), ViewContext.RouteData.Values["Action"]!.ToString(), new {sortingOrder = ViewData["SpecieOrder"], sortingField = ViewData["SpecieField"]})
 </th>
 <th class="headerSort @(!ViewBag.Field.ToString().Contains("Type") ? string.Empty : ViewBag.Order.ToString().Contains("desc") ? "headerSortDown" : "headerSortUp")">
-    @Html.ActionLink(@Html.DisplayNameFor(model => model.Type), ViewContext.RouteData.Values["Action"]!.ToString(), new {sortingOrder = ViewData["TypeOrder"], sortingField = ViewData["TypeField"]})
+    @Html.ActionLink(@Html.DisplayNameFor(model => model.Type.Name), ViewContext.RouteData.Values["Action"]!.ToString(), new {sortingOrder = ViewData["TypeOrder"], sortingField = ViewData["TypeField"]})
 </th>
 <th class="headerSort @(!ViewBag.Field.ToString().Contains("Facility") ? string.Empty : ViewBag.Order.ToString().Contains("desc") ? "headerSortDown" : "headerSortUp")">
-    @Html.ActionLink(@Html.DisplayNameFor(model => model.Facility), ViewContext.RouteData.Values["Action"]!.ToString(), new {sortingOrder = ViewData["FacilityOrder"], sortingField = ViewData["FacilityField"]})
+    @Html.ActionLink(@Html.DisplayNameFor(model => model.Facility.Name), ViewContext.RouteData.Values["Action"]!.ToString(), new {sortingOrder = ViewData["FacilityOrder"], sortingField = ViewData["FacilityField"]})
 </th>

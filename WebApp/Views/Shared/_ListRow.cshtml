@@ -4,7 +4,8 @@
 @foreach (var item in (ViewBag.Sorting.Fields as List<string>)!)
 {
     <td>
-        @Model.GetType().GetProperty(item)!.GetValue(Model)
+        @Html.Display(item)
+        @*@Model.GetType().GetProperty(item)!.GetValue(Model)*@
     </td>
 }
 @*<td>

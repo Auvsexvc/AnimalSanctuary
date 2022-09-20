@@ -1,13 +1,17 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using WebApp.Data;
 using WebApp.Enums;
 
 namespace WebApp.Models
 {
-    public class AnimalSortingFieldsViewModel
+    public class UpdateAnimalViewModel
     {
         [DisplayName("ID")]
         public Guid Id { get; set; }
 
+        [Required]
+        [MinLength(2)]
         public string Name { get; set; } = String.Empty;
 
         public string? Description { get; set; }
@@ -26,12 +30,21 @@ namespace WebApp.Models
         public DateTime DateCreated { get; set; }
 
         [DisplayName("Specie")]
-        public string Specie { get; set; } = String.Empty;
+        public AnimalSpecie Specie { get; set; } = new AnimalSpecie();
 
         [DisplayName("Type")]
-        public string Type { get; set; } = String.Empty;
+        public AnimalType Type { get; set; } = new AnimalType();
 
         [DisplayName("Facility")]
-        public string Facility { get; set; } = String.Empty;
+        public Facility Facility { get; set; } = new Facility();
+
+        [DisplayName("Specie ID")]
+        public Guid SpecieId { get; set; }
+
+        [DisplayName("Type ID")]
+        public Guid TypeId { get; set; }
+
+        [DisplayName("Facility ID")]
+        public Guid FacilityId { get; set; }
     }
 }

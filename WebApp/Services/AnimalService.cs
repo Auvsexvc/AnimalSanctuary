@@ -27,7 +27,7 @@ namespace WebApp.Services
             return await _baseService.DeleteAsync<Animal>(id);
         }
 
-        public async Task<HttpResponseMessage?> EditAsync(Guid id, AnimalViewModel vm)
+        public async Task<HttpResponseMessage?> EditAsync(Guid id, UpdateAnimalViewModel vm)
         {
             try
             {
@@ -54,7 +54,7 @@ namespace WebApp.Services
             }
         }
 
-        public async Task<IEnumerable<AnimalSortingFieldsViewModel?>?> GetAllAsync(string? sortingField, string? sortingOrder, string? filteringString)
+        public async Task<IEnumerable<AnimalViewModel?>?> GetAllAsync(string? sortingField, string? sortingOrder, string? filteringString)
         {
             try
             {
@@ -62,14 +62,14 @@ namespace WebApp.Services
 
                 if (data == null)
                 {
-                    return Enumerable.Empty<AnimalSortingFieldsViewModel>();
+                    return Enumerable.Empty<AnimalViewModel>();
                 }
 
-                var result = (await Task.WhenAll(data.Select(obj => Task.Run(async () => await ToPlainViewModel(obj))))).ToList();
+                var result = (await Task.WhenAll(data.Select(obj => Task.Run(async () => await ToViewModel(obj))))).ToList();
 
                 if (result == null)
                 {
-                    return Enumerable.Empty<AnimalSortingFieldsViewModel>();
+                    return Enumerable.Empty<AnimalViewModel>();
                 }
 
                 return result.Where(x => x is not null);
@@ -82,7 +82,7 @@ namespace WebApp.Services
             }
         }
 
-        public async Task<AnimalSortingFieldsViewModel?> GetByIdAsync(Guid id)
+        public async Task<AnimalViewModel?> GetByIdAsync(Guid id)
         {
             try
             {
@@ -92,7 +92,7 @@ namespace WebApp.Services
                     return null;
                 }
 
-                AnimalSortingFieldsViewModel? data = await ToPlainViewModel(obj);
+                AnimalViewModel? data = await ToViewModel(obj);
 
                 return data;
             }
@@ -104,7 +104,7 @@ namespace WebApp.Services
             }
         }
 
-        public async Task<AnimalViewModel?> GetByIdUpdateModelAsync(Guid id)
+        public async Task<UpdateAnimalViewModel?> GetByIdUpdateModelAsync(Guid id)
         {
             try
             {
@@ -114,7 +114,7 @@ namespace WebApp.Services
                     return null;
                 }
 
-                AnimalViewModel? data = await ToViewModel(obj);
+                UpdateAnimalViewModel? data = await ToUpdateViewModel(obj);
 
                 return data;
             }
@@ -138,10 +138,10 @@ namespace WebApp.Services
 
         public SortingDropdowns GetSortingDropdownsVM()
         {
-            return _baseService.GetSortingDropdownsVM(new AnimalSortingFieldsViewModel());
+            return _baseService.GetSortingDropdownsVM(new AnimalViewModel());
         }
 
-        private async Task<AnimalSortingFieldsViewModel?> ToPlainViewModel(Animal obj)
+        private async Task<UpdateAnimalViewModel?> ToUpdateViewModel(Animal obj)
         {
             var specie = await _baseService.GetByIdAsync<AnimalSpecie>(obj.SpecieId);
             var type = await _baseService.GetByIdAsync<AnimalType>(obj.TypeId);
@@ -152,7 +152,7 @@ namespace WebApp.Services
                 return null;
             }
 
-            return new AnimalSortingFieldsViewModel()
+            return new UpdateAnimalViewModel()
             {
                 Id = obj.Id,
                 Name = obj.Name,
@@ -162,9 +162,12 @@ namespace WebApp.Services
                 HealthState = obj.HealthState,
                 Attitude = obj.Attitude,
                 DateCreated = obj.DateCreated,
-                Specie = specie.Name,
-                Type = type.Name,
-                Facility = facility.Name
+                Specie = specie,
+                Type = type,
+                Facility = facility,
+                SpecieId = obj.SpecieId,
+                FacilityId = obj.FacilityId,
+                TypeId = obj.TypeId
             };
         }
 
@@ -189,12 +192,9 @@ namespace WebApp.Services
                 HealthState = obj.HealthState,
                 Attitude = obj.Attitude,
                 DateCreated = obj.DateCreated,
-                Specie = specie,
-                Type = type,
-                Facility = facility,
-                SpecieId = obj.SpecieId,
-                FacilityId = obj.FacilityId,
-                TypeId = obj.TypeId
+                Specie = specie.Name,
+                Type = type.Name,
+                Facility = facility.Name
             };
         }
 
@@ -221,25 +221,6 @@ namespace WebApp.Services
                 FreeSpace = obj.FreeSpace,
                 AnimalsIds = obj.Animals,
                 Animals = animals
-            };
-        }
-
-        private async Task<AnimalSpecieViewModel?> ToViewModel(AnimalSpecie obj)
-        {
-            var type = await _baseService.GetByIdAsync<AnimalType>(obj.TypeId);
-
-            if (type == null)
-            {
-                return null;
-            }
-
-            return new AnimalSpecieViewModel()
-            {
-                Id = obj.Id,
-                Name = obj.Name,
-                Description = obj.Description,
-                TypeId = obj.TypeId,
-                Type = type
             };
         }
     }

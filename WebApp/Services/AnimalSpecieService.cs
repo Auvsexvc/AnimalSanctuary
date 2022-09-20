@@ -1,5 +1,6 @@
 ﻿using WebApp.Data;
 using WebApp.Dtos;
+using WebApp.Helpers;
 using WebApp.Interfaces;
 using WebApp.Models;
 
@@ -8,10 +9,12 @@ namespace WebApp.Services
     public class AnimalSpecieService : IAnimalSpecieService
     {
         private readonly IBaseService _baseService;
+        private readonly ILogger<AnimalSpecieService> _logger;
 
-        public AnimalSpecieService(IBaseService baseService)
+        public AnimalSpecieService(IBaseService baseService, ILogger<AnimalSpecieService> logger)
         {
             _baseService = baseService;
+            _logger = logger;
         }
 
         public async Task<HttpResponseMessage?> CreateAsync(AnimalSpecieDto dto)
@@ -22,25 +25,145 @@ namespace WebApp.Services
         {
             return await _baseService.DeleteAsync<AnimalSpecie>(id);
         }
-        public async Task<HttpResponseMessage?> EditAsync(Guid id, AnimalSpecieDto dto)
+        public async Task<HttpResponseMessage?> EditAsync(Guid id, UpdateSpecieViewModel vm)
         {
-            return await _baseService.EditAsync<AnimalSpecieDto>(id, dto);
+            try
+            {
+                var dto = new AnimalSpecieDto()
+                {
+                    Name = vm.Name,
+                    Description = vm.Description,
+                    TypeId = vm.TypeId
+                };
+
+                return await _baseService.EditAsync<AnimalSpecieDto>(id, dto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(Message.ERROR, ex.Message);
+
+                return null;
+            }
         }
-        public async Task<IEnumerable<AnimalSpecie>?> GetAllAsync(string? sortingField, string? sortingOrder, string? filteringString)
+        public async Task<IEnumerable<AnimalSpecieViewModel?>?> GetAllAsync(string? sortingField, string? sortingOrder, string? filteringString)
         {
-            return await _baseService.GetAllAsync<AnimalSpecie>(sortingField, sortingOrder, filteringString);
+            try
+            {
+                var data = await _baseService.GetAllAsync<AnimalSpecie>(sortingField, sortingOrder, filteringString);
+
+                if (data == null)
+                {
+                    return Enumerable.Empty<AnimalSpecieViewModel>();
+                }
+
+                var result = (await Task.WhenAll(data.Select(obj => Task.Run(async () => await ToViewModel(obj))))).ToList();
+
+                if (result == null)
+                {
+                    return Enumerable.Empty<AnimalSpecieViewModel>();
+                }
+
+                return result.Where(x => x is not null);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(Message.ERROR, ex.Message);
+
+                return null;
+            }
         }
-        public async Task<AnimalSpecie?> GetByIdAsync(Guid id)
+        public async Task<AnimalSpecieViewModel?> GetByIdAsync(Guid id)
         {
-            return await _baseService.GetByIdAsync<AnimalSpecie>(id);
+            try
+            {
+                var obj = await _baseService.GetByIdAsync<AnimalSpecie>(id);
+                if (obj == null)
+                {
+                    return null;
+                }
+
+                AnimalSpecieViewModel? data = await ToViewModel(obj);
+
+                return data;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(Message.ERROR, ex.Message);
+
+                return null;
+            }
         }
 
-        public async Task<NewSpecieDropdownsVM> GetNewAnimalDropdownsVM()
+        public async Task<NewSpecieDropdownsVM> GetNewSpecieDropdownsVM()
         {
             return new NewSpecieDropdownsVM()
             {
-                Types = (await _baseService.GetAllAsync<AnimalType>(null, null, null))?.OrderBy(a => a.Name).ToList(),
+                Types = (await _baseService.GetAllAsync<AnimalType>(null, null, null))?.OrderBy(a => a.Name).ToList()
             };
+        }
+
+        public SortingDropdowns GetSortingDropdownsVM()
+        {
+            return _baseService.GetSortingDropdownsVM(new AnimalSpecieViewModel());
+        }
+
+        private async Task<AnimalSpecieViewModel?> ToViewModel(AnimalSpecie obj)
+        {
+            var type = await _baseService.GetByIdAsync<AnimalType>(obj.TypeId);
+
+            if (type == null)
+            {
+                return null;
+            }
+
+            return new AnimalSpecieViewModel()
+            {
+                Id = obj.Id,
+                Name = obj.Name,
+                Description = obj.Description,
+                Type = obj.TypeName
+            };
+        }
+
+        private async Task<UpdateSpecieViewModel?> ToUpdateViewModel(AnimalSpecie obj)
+        {
+            var type = await _baseService.GetByIdAsync<AnimalType>(obj.TypeId);
+
+            if (type == null)
+            {
+                return null;
+            }
+
+            return new UpdateSpecieViewModel()
+            {
+                Id = obj.Id,
+                Name = obj.Name,
+                Description = obj.Description,
+                TypeId = obj.TypeId,
+                Type = type
+            };
+        }
+
+        public async Task<UpdateSpecieViewModel?> GetByIdUpdateModelAsync(Guid id)
+        {
+            try
+            {
+                var obj = await _baseService.GetByIdAsync<AnimalSpecie>(id);
+                if (obj == null)
+                {
+                    return null;
+                }
+
+                UpdateSpecieViewModel? data = await ToUpdateViewModel(obj);
+
+                return data;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(Message.ERROR, ex.Message);
+
+                return null;
+            }
         }
     }
 }

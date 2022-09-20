@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using WebApp.Data;
 using WebApp.Enums;
 
 namespace WebApp.Models
@@ -10,13 +9,12 @@ namespace WebApp.Models
         [DisplayName("ID")]
         public Guid Id { get; set; }
 
-        [Required]
-        [MinLength(2)]
         public string Name { get; set; } = String.Empty;
 
         public string? Description { get; set; }
 
         [DisplayName("Date of birth")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? DateOfBirth { get; set; }
 
         public Sex? Sex { get; set; }
@@ -27,24 +25,16 @@ namespace WebApp.Models
         public Attitude? Attitude { get; set; }
 
         [DisplayName("Registration date")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime DateCreated { get; set; }
 
         [DisplayName("Specie")]
-        public AnimalSpecie Specie { get; set; } = new AnimalSpecie();
+        public string Specie { get; set; } = String.Empty;
 
         [DisplayName("Type")]
-        public AnimalType Type { get; set; } = new AnimalType();
+        public string Type { get; set; } = String.Empty;
 
         [DisplayName("Facility")]
-        public Facility Facility { get; set; } = new Facility();
-
-        [DisplayName("Specie ID")]
-        public Guid SpecieId { get; set; }
-
-        [DisplayName("Type ID")]
-        public Guid TypeId { get; set; }
-
-        [DisplayName("Facility ID")]
-        public Guid FacilityId { get; set; }
+        public string Facility { get; set; } = String.Empty;
     }
 }

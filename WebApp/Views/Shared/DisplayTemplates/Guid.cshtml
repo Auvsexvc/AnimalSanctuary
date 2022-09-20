@@ -1,0 +1,5 @@
+﻿@model Guid?
+@if (Model.HasValue)
+{
+    @string.Join("......", string.Concat(Model.Value.ToString().Take(4)), string.Concat(Model.Value.ToString().TakeLast(4)))
+}

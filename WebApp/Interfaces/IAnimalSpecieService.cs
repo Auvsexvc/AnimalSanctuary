@@ -1,5 +1,4 @@
 ﻿using WebApp.Dtos;
-using WebApp.Data;
 using WebApp.Models;
 
 namespace WebApp.Interfaces
@@ -7,10 +6,18 @@ namespace WebApp.Interfaces
     public interface IAnimalSpecieService
     {
         Task<HttpResponseMessage?> CreateAsync(AnimalSpecieDto dto);
+
         Task<HttpResponseMessage?> DeleteAsync(Guid id);
-        Task<HttpResponseMessage?> EditAsync(Guid id, AnimalSpecieDto dto);
-        Task<IEnumerable<AnimalSpecie>?> GetAllAsync(string? sortingField, string? sortingOrder, string? filteringString);
-        Task<AnimalSpecie?> GetByIdAsync(Guid id);
-        Task<NewSpecieDropdownsVM> GetNewAnimalDropdownsVM();
+
+        Task<HttpResponseMessage?> EditAsync(Guid id, UpdateSpecieViewModel vm);
+
+        Task<IEnumerable<AnimalSpecieViewModel?>?> GetAllAsync(string? sortingField, string? sortingOrder, string? filteringString);
+
+        Task<AnimalSpecieViewModel?> GetByIdAsync(Guid id);
+        Task<UpdateSpecieViewModel?> GetByIdUpdateModelAsync(Guid id);
+
+        SortingDropdowns GetSortingDropdownsVM();
+
+        Task<NewSpecieDropdownsVM> GetNewSpecieDropdownsVM();
     }
 }

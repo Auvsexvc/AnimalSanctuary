@@ -3,7 +3,7 @@ using WebApp.Data;
 
 namespace WebApp.Models
 {
-    public class AnimalSpecieViewModel
+    public class UpdateSpecieViewModel
     {
         [DisplayName("ID")]
         public Guid Id { get; set; }
@@ -12,7 +12,10 @@ namespace WebApp.Models
 
         public string? Description { get; set; }
 
+        [DisplayName("Type ID")]
+        public Guid TypeId { get; set; }
+
         [DisplayName("Type")]
-        public string Type { get; set; } = String.Empty;
+        public AnimalType Type { get; set; } = new AnimalType();
     }
 }

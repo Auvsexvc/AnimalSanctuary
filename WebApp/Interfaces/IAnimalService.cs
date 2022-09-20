@@ -9,13 +9,13 @@ namespace WebApp.Interfaces
 
         Task<HttpResponseMessage?> DeleteAsync(Guid id);
 
-        Task<HttpResponseMessage?> EditAsync(Guid id, AnimalViewModel vm);
+        Task<HttpResponseMessage?> EditAsync(Guid id, UpdateAnimalViewModel vm);
 
-        Task<IEnumerable<AnimalSortingFieldsViewModel?>?> GetAllAsync(string? sortingField, string? sortingOrder, string? filteringString);
+        Task<IEnumerable<AnimalViewModel?>?> GetAllAsync(string? sortingField, string? sortingOrder, string? filteringString);
 
-        Task<AnimalSortingFieldsViewModel?> GetByIdAsync(Guid id);
+        Task<AnimalViewModel?> GetByIdAsync(Guid id);
 
-        Task<AnimalViewModel?> GetByIdUpdateModelAsync(Guid id);
+        Task<UpdateAnimalViewModel?> GetByIdUpdateModelAsync(Guid id);
 
         Task<NewAnimalDropdownsVM> GetNewAnimalDropdownsVM();
 

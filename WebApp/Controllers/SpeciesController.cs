@@ -6,11 +6,11 @@ using WebApp.Models;
 
 namespace WebApp.Controllers
 {
-    public class AnimalsController : Controller
+    public class SpeciesController : Controller
     {
-        private readonly IAnimalService _service;
+        private readonly IAnimalSpecieService _service;
 
-        public AnimalsController(IAnimalService service)
+        public SpeciesController(IAnimalSpecieService service)
         {
             _service = service;
         }
@@ -31,10 +31,9 @@ namespace WebApp.Controllers
 
         public async Task<IActionResult> Create()
         {
-            var dropdowns = await _service.GetNewAnimalDropdownsVM();
+            var dropdowns = await _service.GetNewSpecieDropdownsVM();
 
-            ViewBag.Species = new SelectList(dropdowns.Species, "Id", "Name");
-            ViewBag.Facilities = new SelectList(dropdowns.Facilities, "Id", "Name");
+            ViewBag.Types = new SelectList(dropdowns.Types, "Id", "Name");
 
             ViewBag.Session = HttpContext.Session.GetString("browser") ?? "true";
 
@@ -43,16 +42,16 @@ namespace WebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(AnimalDto dto)
+        public async Task<IActionResult> Create(AnimalSpecieDto dto)
         {
             if (!ModelState.IsValid)
             {
-                TempData["error"] = "Animal not added";
+                TempData["error"] = "Specie not added";
                 return View();
             }
 
             await _service.CreateAsync(dto);
-            TempData["success"] = "Animal added";
+            TempData["success"] = "Specie added";
 
             if (HttpContext.Session.GetString("browser") == "false")
             {
@@ -75,7 +74,7 @@ namespace WebApp.Controllers
 
             await _service.DeleteAsync(id);
 
-            TempData["success"] = "Animal deleted";
+            TempData["success"] = "Specie deleted";
 
             HttpContext.Session.SetString("return", String.Empty);
 
@@ -89,7 +88,7 @@ namespace WebApp.Controllers
 
         public async Task<IActionResult> Edit(Guid id)
         {
-            var dropdowns = await _service.GetNewAnimalDropdownsVM();
+            var dropdowns = await _service.GetNewSpecieDropdownsVM();
             var data = await _service.GetByIdUpdateModelAsync(id);
 
             if (data == null)
@@ -98,9 +97,7 @@ namespace WebApp.Controllers
             }
 
             ViewBag.DropDowns = dropdowns;
-            ViewBag.Specie = data.Specie;
-            ViewBag.Species = new SelectList(dropdowns.Species, "Id", "Name");
-            ViewBag.Facilities = new SelectList(dropdowns.Facilities, "Id", "Name");
+            ViewBag.Type = data.Type;
             ViewBag.Types = new SelectList(dropdowns.Types, "Id", "Name");
 
             ViewBag.Session = HttpContext.Session.GetString("browser") ?? "true";
@@ -111,15 +108,15 @@ namespace WebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, UpdateAnimalViewModel data)
+        public async Task<IActionResult> Edit(Guid id, UpdateSpecieViewModel data)
         {
             if (!ModelState.IsValid)
             {
-                TempData["error"] = "Animal not updated";
+                TempData["error"] = "Specie not updated";
                 return View(data);
             }
             await _service.EditAsync(id, data);
-            TempData["success"] = "Animal updated";
+            TempData["success"] = "Specie updated";
 
             if (string.IsNullOrEmpty(HttpContext.Session.GetString("return")))
             {
@@ -214,7 +211,7 @@ namespace WebApp.Controllers
             }
             else
             {
-                sortingOrder = HttpContext.Session.GetString("sortingOrder") ?? "desc";
+                sortingOrder = HttpContext.Session.GetString("sortingOrder") ?? "asc";
             }
 
             if (sortingField != null)
@@ -223,7 +220,7 @@ namespace WebApp.Controllers
             }
             else
             {
-                sortingField = HttpContext.Session.GetString("sortingField") ?? "DateCreated";
+                sortingField = HttpContext.Session.GetString("sortingField") ?? "Name";
             }
 
             return (sortingField, sortingOrder);

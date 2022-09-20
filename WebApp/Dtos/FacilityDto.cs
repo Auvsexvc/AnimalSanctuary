@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AnimalSanctuaryAPI.Dtos
+namespace WebApp.Dtos
 {
     public class FacilityDto
     {

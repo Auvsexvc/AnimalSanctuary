@@ -1,4 +1,4 @@
-﻿using AnimalSanctuaryAPI.Dtos;
+﻿using WebApp.Dtos;
 using WebApp.Data;
 
 namespace WebApp.Interfaces

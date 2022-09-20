@@ -3,7 +3,6 @@ using WebApp.Dtos;
 using WebApp.Helpers;
 using WebApp.Interfaces;
 using WebApp.Models;
-using WebApp.ViewModels;
 
 namespace WebApp.Services
 {
@@ -55,7 +54,7 @@ namespace WebApp.Services
             }
         }
 
-        public async Task<IEnumerable<AnimalViewModel?>?> GetAllAsync(string? sortingField, string? sortingOrder, string? filteringString)
+        public async Task<IEnumerable<AnimalSortingFieldsViewModel?>?> GetAllAsync(string? sortingField, string? sortingOrder, string? filteringString)
         {
             try
             {
@@ -63,14 +62,14 @@ namespace WebApp.Services
 
                 if (data == null)
                 {
-                    return Enumerable.Empty<AnimalViewModel>();
+                    return Enumerable.Empty<AnimalSortingFieldsViewModel>();
                 }
 
-                var result = (await Task.WhenAll(data.Select(obj => Task.Run(async () => await ToViewModel(obj))))).ToList();
+                var result = (await Task.WhenAll(data.Select(obj => Task.Run(async () => await ToPlainViewModel(obj))))).ToList();
 
                 if (result == null)
                 {
-                    return Enumerable.Empty<AnimalViewModel>();
+                    return Enumerable.Empty<AnimalSortingFieldsViewModel>();
                 }
 
                 return result.Where(x => x is not null);
@@ -115,12 +114,35 @@ namespace WebApp.Services
             };
         }
 
-        public AnimalSortingDropdowns GetAnimalSortingDropdownsVM()
+        public SortingDropdowns GetSortingDropdownsVM()
         {
-            return new AnimalSortingDropdowns()
+            return _baseService.GetSortingDropdownsVM(new AnimalSortingFieldsViewModel());
+        }
+
+        private async Task<AnimalSortingFieldsViewModel?> ToPlainViewModel(Animal obj)
+        {
+            var specie = await _baseService.GetByIdAsync<AnimalSpecie>(obj.SpecieId);
+            var type = await _baseService.GetByIdAsync<AnimalType>(obj.TypeId);
+            var facility = await _baseService.GetByIdAsync<Facility>(obj.FacilityId);
+
+            if (specie == null || type == null || facility == null)
             {
-                Fields = new FilterAnimalViewModel().GetType().GetProperties().Select(p => p.Name).ToList(),
-                Order = new List<string>() { "asc", "desc" }
+                return null;
+            }
+
+            return new AnimalSortingFieldsViewModel()
+            {
+                Id = obj.Id,
+                Name = obj.Name,
+                Description = obj.Description,
+                DateOfBirth = obj.DateOfBirth,
+                Sex = obj.Sex,
+                HealthState = obj.HealthState,
+                Attitude = obj.Attitude,
+                DateCreated = obj.DateCreated,
+                Specie = specie.Name,
+                Type = type.Name,
+                Facility = facility.Name
             };
         }
 
@@ -189,35 +211,13 @@ namespace WebApp.Services
                 return null;
             }
 
-            var typeVM = ToViewModel(type);
-
-            if(typeVM == null)
-            {
-                return null;
-            }
-
             return new AnimalSpecieViewModel()
             {
                 Id = obj.Id,
                 Name = obj.Name,
-                Description= obj.Description,
+                Description = obj.Description,
                 TypeId = obj.TypeId,
                 Type = type
-            };
-        }
-
-        private static AnimalTypeViewModel? ToViewModel(AnimalType obj)
-        {
-            if (obj == null)
-            {
-                return null;
-            }
-
-            return new AnimalTypeViewModel()
-            {
-                Id = obj.Id,
-                Name = obj.Name,
-                Description = obj.Description,
             };
         }
     }

@@ -1,0 +1,8 @@
+﻿@model SortingDropdowns;
+
+@foreach(var item in Model.Fields)
+{
+    <th class="headerSort @(ViewBag.Field != item ? string.Empty :ViewBag.Order.ToString().Contains("desc") ? "headerSortDown" : "headerSortUp")">
+        @Html.ActionLink(Model.DisplayNames.FirstOrDefault(x=>x.Key == item).Value, ViewContext.RouteData.Values["Action"]!.ToString(), new {sortingOrder = ViewData[$"{item}Order"], sortingField = ViewData[$"{item}Field"]})
+    </th>
+}

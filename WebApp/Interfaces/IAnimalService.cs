@@ -1,6 +1,5 @@
 ﻿using WebApp.Dtos;
 using WebApp.Models;
-using WebApp.ViewModels;
 
 namespace WebApp.Interfaces
 {
@@ -12,12 +11,12 @@ namespace WebApp.Interfaces
 
         Task<HttpResponseMessage?> EditAsync(Guid id, AnimalViewModel vm);
 
-        Task<IEnumerable<AnimalViewModel?>?> GetAllAsync(string? sortingField, string? sortingOrder, string? filteringString);
+        Task<IEnumerable<AnimalSortingFieldsViewModel?>?> GetAllAsync(string? sortingField, string? sortingOrder, string? filteringString);
 
         Task<AnimalViewModel?> GetByIdAsync(Guid id);
 
         Task<NewAnimalDropdownsVM> GetNewAnimalDropdownsVM();
 
-        AnimalSortingDropdowns GetAnimalSortingDropdownsVM();
+        SortingDropdowns GetSortingDropdownsVM();
     }
 }

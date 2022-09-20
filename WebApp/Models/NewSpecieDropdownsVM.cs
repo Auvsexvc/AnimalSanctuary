@@ -1,6 +1,6 @@
 ﻿using WebApp.Data;
 
-namespace WebApp.ViewModels
+namespace WebApp.Models
 {
     public class NewSpecieDropdownsVM
     {

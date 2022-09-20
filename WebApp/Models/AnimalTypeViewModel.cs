@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace WebApp.Data
+namespace WebApp.Models
 {
     public class AnimalTypeViewModel
     {

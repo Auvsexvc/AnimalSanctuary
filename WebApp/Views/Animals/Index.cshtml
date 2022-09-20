@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AnimalViewModel>
+﻿@model IEnumerable<AnimalSortingFieldsViewModel>
 
 @{
     ViewData["Title"] = "Animals";
@@ -10,7 +10,7 @@
         {
             <div class="col border-primary mb-3 container-fluid">
             <div class="g-0 flex-grow-1 h-100">
-                <div class="card mb-3 h-100"@* style="width:15vw; min-height:45vh"*@>
+                <div class="card mb-3 h-100" style="min-width:240px">
                     <div class="card-header bg-dark text-white">
                         <div class="col-md-12">
                             <h3 class="card-title">
@@ -32,11 +32,11 @@
                             </div>
                             <div class="col-md-8 float-end">
                                 <p class="card-text mb-1"><b>Name: </b>@item.Name</p>
-                                <p class="card-text mb-1"><b>Specie: </b>@item.Specie!.Name</p>
+                                <p class="card-text mb-1"><b>Specie: </b>@item.Specie</p>
                                 <p class="card-text mb-1"><b>Sex: </b>@item.Sex</p>
                                 <p class="card-text mb-1"><b>DateOfBirth: </b>@(item.DateOfBirth != null ? ((DateTime)item.DateOfBirth).ToShortDateString() : "N/A")</p>
                                 <p class="card-text mb-1"><b>Attitude: </b>@item.Attitude</p>
-                                <p class="card-text mb-1"><b>Facility: </b>@item.Facility!.Name</p>
+                                <p class="card-text mb-1"><b>Facility: </b>@item.Facility</p>
                             </div>
                         </div>
                         <div class="row">

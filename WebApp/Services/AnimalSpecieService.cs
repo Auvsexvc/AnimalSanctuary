@@ -1,7 +1,7 @@
-﻿using AnimalSanctuaryAPI.Dtos;
-using WebApp.Data;
+﻿using WebApp.Data;
+using WebApp.Dtos;
 using WebApp.Interfaces;
-using WebApp.ViewModels;
+using WebApp.Models;
 
 namespace WebApp.Services
 {

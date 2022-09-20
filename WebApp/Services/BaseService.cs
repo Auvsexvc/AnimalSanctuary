@@ -1,5 +1,8 @@
-﻿using WebApp.Helpers;
+﻿using System.ComponentModel;
+using WebApp.Extensions;
+using WebApp.Helpers;
 using WebApp.Interfaces;
+using WebApp.Models;
 
 namespace WebApp.Services
 {
@@ -131,6 +134,16 @@ namespace WebApp.Services
 
                 return null;
             }
+        }
+
+        public SortingDropdowns GetSortingDropdownsVM<T>(T obj)
+        {
+            return new SortingDropdowns()
+            {
+                Fields = obj!.GetType().GetProperties().Select(p => p.Name).ToList(),
+                DisplayNames = obj!.GetType().GetProperties().ToDictionary(p => p.Name, p => p.GetAttribute<DisplayNameAttribute>(false) == null ? p.Name : p.GetAttribute<DisplayNameAttribute>(false).DisplayName),
+                Order = new List<string>() { "asc", "desc" }
+            };
         }
     }
 }

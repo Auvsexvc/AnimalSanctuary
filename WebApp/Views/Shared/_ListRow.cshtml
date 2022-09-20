@@ -1,5 +1,13 @@
-﻿@model AnimalViewModel
-<td>
+﻿@model Object
+
+
+@foreach (var item in (ViewBag.Sorting.Fields as List<string>)!)
+{
+    <td>
+        @Model.GetType().GetProperty(item)!.GetValue(Model)
+    </td>
+}
+@*<td>
     @string.Join("......", string.Concat(Model.Id.ToString().Take(4)), string.Concat(Model.Id.ToString().TakeLast(4)))
 </td>
 <td>
@@ -31,4 +39,4 @@
 </td>
 <td>
     @Html.DisplayFor(modelItem => Model.Facility.Name)
-</td>
+</td>*@

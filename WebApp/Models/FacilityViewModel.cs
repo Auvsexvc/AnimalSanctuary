@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using WebApp.Models;
+using WebApp.Data;
 
-namespace WebApp.Data
+namespace WebApp.Models
 {
     public class FacilityViewModel
     {

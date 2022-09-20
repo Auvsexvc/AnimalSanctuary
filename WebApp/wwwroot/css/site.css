@@ -45,3 +45,20 @@ table thead tr th a {
     display: block;
     text-decoration: none;
 }
+
+.headerSortUp a, .headerSortDown a {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    height: var(--bs-card-height);
+    word-wrap: break-word;
+    background-color: var(--bs-card-bg);
+    background-clip: border-box;
+    border: var(--bs-card-border-width) solid var(--bs-card-border-color);
+    border-radius: 5px 5px 5px 5px/25px 25px 25px 5px;
+    border-top-style: none;
+    border-right-style: none;
+    border-left-style: none;
+    background-color: lightgray;
+}

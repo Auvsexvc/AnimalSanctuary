@@ -82,7 +82,29 @@ namespace WebApp.Services
             }
         }
 
-        public async Task<AnimalViewModel?> GetByIdAsync(Guid id)
+        public async Task<AnimalSortingFieldsViewModel?> GetByIdAsync(Guid id)
+        {
+            try
+            {
+                var obj = await _baseService.GetByIdAsync<Animal>(id);
+                if (obj == null)
+                {
+                    return null;
+                }
+
+                AnimalSortingFieldsViewModel? data = await ToPlainViewModel(obj);
+
+                return data;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(Message.ERROR, ex.Message);
+
+                return null;
+            }
+        }
+
+        public async Task<AnimalViewModel?> GetByIdUpdateModelAsync(Guid id)
         {
             try
             {

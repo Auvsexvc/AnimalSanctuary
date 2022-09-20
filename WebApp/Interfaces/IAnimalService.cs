@@ -13,7 +13,9 @@ namespace WebApp.Interfaces
 
         Task<IEnumerable<AnimalSortingFieldsViewModel?>?> GetAllAsync(string? sortingField, string? sortingOrder, string? filteringString);
 
-        Task<AnimalViewModel?> GetByIdAsync(Guid id);
+        Task<AnimalSortingFieldsViewModel?> GetByIdAsync(Guid id);
+
+        Task<AnimalViewModel?> GetByIdUpdateModelAsync(Guid id);
 
         Task<NewAnimalDropdownsVM> GetNewAnimalDropdownsVM();
 

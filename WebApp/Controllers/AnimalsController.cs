@@ -87,7 +87,27 @@ namespace WebApp.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> Edit(Guid id) => await GetByIdAsync(id);
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            var dropdowns = await _service.GetNewAnimalDropdownsVM();
+            var data = await _service.GetByIdUpdateModelAsync(id);
+
+            if (data == null)
+            {
+                return View("NotFound");
+            }
+
+            ViewBag.DropDowns = dropdowns;
+            ViewBag.Specie = data.Specie;
+            ViewBag.Species = new SelectList(dropdowns.Species, "Id", "Name");
+            ViewBag.Facilities = new SelectList(dropdowns.Facilities, "Id", "Name");
+            ViewBag.Types = new SelectList(dropdowns.Types, "Id", "Name");
+
+            ViewBag.Session = HttpContext.Session.GetString("browser") ?? "true";
+            ViewBag.SessionReturn = HttpContext.Session.GetString("return") ?? String.Empty;
+
+            return View(data);
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -146,20 +166,12 @@ namespace WebApp.Controllers
 
         private async Task<IActionResult> GetByIdAsync(Guid id)
         {
-            var dropdowns = await _service.GetNewAnimalDropdownsVM();
-
             var data = await _service.GetByIdAsync(id);
 
             if (data == null)
             {
                 return View("NotFound");
             }
-
-            ViewBag.DropDowns = dropdowns;
-            ViewBag.Specie = data.Specie;
-            ViewBag.Species = new SelectList(dropdowns.Species, "Id", "Name");
-            ViewBag.Facilities = new SelectList(dropdowns.Facilities, "Id", "Name");
-            ViewBag.Types = new SelectList(dropdowns.Types, "Id", "Name");
 
             ViewBag.Session = HttpContext.Session.GetString("browser") ?? "true";
             ViewBag.SessionReturn = HttpContext.Session.GetString("return") ?? String.Empty;

@@ -50,6 +50,39 @@ namespace WebApp.Services
             }
         }
 
+        public async Task<IEnumerable<T>?> GetAllAsync<T>()
+        {
+            try
+            {
+                IEnumerable<T> data = Enumerable.Empty<T>();
+
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(_configuration.GetConnectionString("DefaultConnection"));
+                    //client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
+                    var result = await client.GetAsync($"{typeof(T).Name}");
+
+                    if (result.IsSuccessStatusCode)
+                    {
+                        var json = await result.Content.ReadAsStringAsync();
+
+                        if (!string.IsNullOrEmpty(json))
+                        {
+                            return (await result.Content.ReadFromJsonAsync<IList<T>>())!;
+                        }
+                    }
+                }
+
+                return data;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(Message.ERROR, ex.Message);
+
+                return null;
+            }
+        }
+
         public async Task<T?> GetByIdAsync<T>(Guid id)
         {
             try

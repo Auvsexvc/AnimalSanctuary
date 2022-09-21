@@ -15,7 +15,7 @@
                         <div class="col-md-12">
                             <h3 class="card-title">
                                 @item.Name
-                                @if (User.Identity!.IsAuthenticated && User.IsInRole("Admin"))
+                                @if (ViewBag.User != null)
                                 {
                                     <a class="text-black float-end" alt="Edit" asp-action="Edit" asp-route-id="@item.Id">
                                         <i class="bi bi-pencil-square"></i>
@@ -49,5 +49,7 @@
         }
     </div>
 </div>
-
-@await Html.PartialAsync("_AddButton", "Species")
+@if (ViewBag.User != null)
+{
+    @await Html.PartialAsync("_AddButton", "Species")
+}

@@ -107,6 +107,7 @@
                             </form>
                         }
                     </div>
+                    @await Html.PartialAsync("_Identity", (string)ViewBag.User)
                 </div>
             </div>
         </nav>

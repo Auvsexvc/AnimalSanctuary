@@ -1,4 +1,8 @@
 ﻿@using WebApp
-@using WebApp.Models
 @using WebApp.Data
+@using WebApp.Dtos
+@using WebApp.Enums
+@using WebApp.Models
+@using Microsoft.AspNetCore.Http
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor

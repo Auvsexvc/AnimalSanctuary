@@ -189,7 +189,7 @@ namespace WebApp.Controllers
             ViewBag.Field = sortingField;
             ViewBag.FieldDisplayName = sortingDropdown.DisplayNames.FirstOrDefault(x => x.Key == sortingField).Value;
             ViewBag.Order = sortingOrder;
-            ViewBag.User = HttpContext.Session.GetString("user");
+
             ViewBag.Filter = filteringString;
 
             return View(data);

@@ -61,7 +61,10 @@
     </div>
     <div class="btn-group-sm card-footer mt-4">
         <form asp-action="Delete">
-            <button type="submit" class="btn btn-sm btn-danger"><i class="bi bi-trash-fill"></i> Yes, Delete!</button>
+            @if (!string.IsNullOrEmpty(HttpContextAccessor.HttpContext.Session.GetString("user")))
+            {
+                <button type="submit" class="btn btn-sm btn-danger"><i class="bi bi-trash-fill"></i> Yes, Delete!</button>
+            }
             @if (ViewBag.SessionReturn == "Details")
             {
                 <a asp-controller="Animals" asp-action="@ViewBag.SessionReturn" asp-route-id="@Model.Id" class="btn btn-sm btn-secondary float-end"><i class="bi bi-x"></i> Cancel</a>

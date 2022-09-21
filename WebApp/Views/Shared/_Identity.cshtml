@@ -1,6 +1,4 @@
-﻿@model string;
-
-@if (string.IsNullOrEmpty(Model))
+﻿@if (string.IsNullOrEmpty(HttpContextAccessor.HttpContext.Session.GetString("user")))
 {
     <div class="text-dark">
         <a class="btn btn-sm btn-outline-success my-2 my-sm-0" asp-controller="Account" asp-action="Login">
@@ -17,10 +15,10 @@ else
 {
     <div class="dropdown">
         <button class="btn btn-sm btn-success dropdown-toggle" type="button" id="profile-btn" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="bi bi-person-badge"></i> Hello @Model
+            <i class="bi bi-person-badge"></i> Hello @HttpContextAccessor.HttpContext.Session.GetString("user")
         </button>
         <ul class="dropdown-menu" aria-labelledby="profile-btn">
-            @if (Model.Contains("admin"))
+            @if (HttpContextAccessor.HttpContext.Session.GetString("user").Contains("admin"))
             {
 
                 <li>

@@ -15,24 +15,27 @@
                 </tr>
             </thead>
             <tbody>
-            @foreach(var obj in Model)
-            {
-                <tr>
-                    @await Html.PartialAsync("_ListRow", obj)
-                    <td>
-                        <div class="w-75 btn-group" role="group">
+                @foreach (var obj in Model)
+                {
+                    <tr>
+                        @await Html.PartialAsync("_ListRow", obj)
+                        <td>
+                            <div class="w-75 btn-group" role="group">
                                 <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@obj.Id"><i class="bi bi-eye"></i></a>
                                 <a class="btn btn-warning btn-sm" asp-action="Edit" asp-route-id="@obj.Id"><i class="bi bi-pencil-square"></i></a>
                                 <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@obj.Id"><i class="bi bi-trash-fill"></i></a>
-                        </div>
-                    </td>
-                </tr>
-            }
+                            </div>
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>
     <div class="btn-group-sm card-footer mt-4">
+        @if (!string.IsNullOrEmpty(HttpContextAccessor.HttpContext.Session.GetString("user")))
+        {
             <a asp-action="Create" class="btn btn-sm btn-success"><i class="bi bi-plus-circle"></i> Add new</a>
+        }
     </div>
 </div>
 

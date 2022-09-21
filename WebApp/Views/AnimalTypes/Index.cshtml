@@ -9,44 +9,43 @@
         @foreach (var item in Model)
         {
             <div class="col border-primary mb-3 container-fluid">
-            <div class="g-0 flex-grow-1 h-100">
-                <div class="card mb-3 h-100" style="min-width:240px">
-                    <div class="card-header bg-dark text-white">
-                        <div class="col-md-12">
-                            <h3 class="card-title">
-                                @item.Name
-                                @if (User.Identity!.IsAuthenticated && User.IsInRole("Admin"))
-                                {
-                                    <a class="text-black float-end" alt="Edit" asp-action="Edit" asp-route-id="@item.Id">
-                                        <i class="bi bi-pencil-square"></i>
-                                    </a>
+                <div class="g-0 flex-grow-1 h-100">
+                    <div class="card mb-3 h-100" style="min-width:240px">
+                        <div class="card-header bg-dark text-white">
+                            <div class="col-md-12">
+                                <h3 class="card-title">
+                                    @item.Name
+                                    @if (User.Identity!.IsAuthenticated && User.IsInRole("Admin"))
+                                    {
+                                        <a class="text-black float-end" alt="Edit" asp-action="Edit" asp-route-id="@item.Id">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
 
-                                }
-                            </h3>
-                        </div>
-                    </div>
-                    <div class="card-body bg-light text-dark">
-                        <div class="row">
-                            <div class="float-end">
-                                <p class="card-text mb-1"><b>Name: </b>@item.Name</p>
-                                    <p class="card-text mb-1"><b>Description: </b>@(string.IsNullOrEmpty(item.Description) ? "..." : item.Description.Length > 100 ? item.Description.Substring(0, 100) + "..." : item.Description)</p>
+                                    }
+                                </h3>
                             </div>
                         </div>
-                    </div>
-                    <div class="card-footer ">
-                        <div class="col-md-12">
-                            <p class="card-text">
-                                <a class="btn btn-sm btn-info float-end" asp-action="Details" asp-route-id="@item.Id">
-                                    <i class="bi bi-eye-fill"></i> Show Details
-                                </a>
-                            </p>
+                        <div class="card-body bg-light text-dark">
+                            <div class="row">
+                                <div class="float-end">
+                                    <p class="card-text mb-1"><b>Name: </b>@item.Name</p>
+                                    <p class="card-text mb-1"><b>Description: </b>@(string.IsNullOrEmpty(item.Description) ? "..." : item.Description.Length > 100 ? item.Description.Substring(0, 100) + "..." : item.Description)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer ">
+                            <div class="col-md-12">
+                                <p class="card-text">
+                                    <a class="btn btn-sm btn-info float-end" asp-action="Details" asp-route-id="@item.Id">
+                                        <i class="bi bi-eye-fill"></i> Show Details
+                                    </a>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
         }
     </div>
 </div>
-
 @await Html.PartialAsync("_AddButton", "AnimalTypes")

@@ -1,5 +1,4 @@
-﻿@using WebApp.Enums
-@model WebApp.Models.UpdateAnimalViewModel
+﻿@model WebApp.Models.UpdateAnimalViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -9,13 +8,13 @@
         <h3 class="card-title">Edit animal</h3>
     </div>
     <form asp-action="Edit">
-    <div class="card-body">
+        <div class="card-body">
             <div class="col-md-11 d-flex">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="col-md-5 offset-1">
                     <div class="form-group">
                         <label asp-for="Id" class="control-label"></label>
-                        <input asp-for="Id" class="form-control" readonly/>
+                        <input asp-for="Id" class="form-control" readonly />
                         <span asp-validation-for="Id" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -25,7 +24,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="Description" class="control-label"></label>
-                        <textarea asp-for="Description" type="text" class="form-control" ></textarea>
+                        <textarea asp-for="Description" type="text" class="form-control"></textarea>
                         <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -34,9 +33,9 @@
                         <span asp-validation-for="DateOfBirth" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                            <label asp-for="Sex" class="control-label"></label>
-                            <select asp-for="Sex" class="form-select" asp-items="Html.GetEnumSelectList<Sex>()"></select>
-                            <span asp-validation-for="Sex" class="text-danger"></span>
+                        <label asp-for="Sex" class="control-label"></label>
+                        <select asp-for="Sex" class="form-select" asp-items="Html.GetEnumSelectList<Sex>()"></select>
+                        <span asp-validation-for="Sex" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="HealthState" class="control-label"></label>
@@ -52,7 +51,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="DateCreated" class="control-label"></label>
-                        <input asp-for="DateCreated" type="date" class="form-control" readonly/>
+                        <input asp-for="DateCreated" type="date" class="form-control" readonly />
                         <span asp-validation-for="DateCreated" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -77,23 +76,26 @@
                     </div>
                 </div>
             </div>
-    </div>
-    <div class="card-footer form-group mt-4">
-        <button type="submit" class="btn btn-sm btn-warning"><i class="bi bi-save"></i> Save</button>
-        @if (ViewBag.SessionReturn == "Details")
-        {
-            <a asp-action="@ViewBag.SessionReturn" asp-route-id="@Model.Id" class="btn btn-sm btn-secondary float-end"><i class="bi bi-x"></i> Cancel</a>
-        }
-        else
-        {
-            <a asp-action="List" class="btn btn-sm btn-secondary float-end"><i class="bi bi-list"></i> Back to list</a>
-        }
-    </div>
-</form>
+        </div>
+        <div class="card-footer form-group mt-4">
+            @if (!string.IsNullOrEmpty(HttpContextAccessor.HttpContext.Session.GetString("user")))
+            {
+                <button type="submit" class="btn btn-sm btn-warning"><i class="bi bi-save"></i> Save</button>
+            }
+            @if (ViewBag.SessionReturn == "Details")
+            {
+                <a asp-action="@ViewBag.SessionReturn" asp-route-id="@Model.Id" class="btn btn-sm btn-secondary float-end"><i class="bi bi-x"></i> Cancel</a>
+            }
+            else
+            {
+                <a asp-action="List" class="btn btn-sm btn-secondary float-end"><i class="bi bi-list"></i> Back to list</a>
+            }
+        </div>
+    </form>
 </div>
 @section Scripts{
     @{
         <partial name="_ValidationScriptsPartial" />
     }
-}
+    }
 

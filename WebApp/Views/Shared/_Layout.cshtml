@@ -36,6 +36,8 @@
                                     <a class="dropdown-item text-dark" asp-controller="Facilities" asp-action="Index"><i class="bi bi-grid-3x3-gap"></i> Facilities</a>
                                 </div>
                             </li>
+                            @if (!string.IsNullOrEmpty(HttpContextAccessor.HttpContext.Session.GetString("user")))
+                            {
                             <li class="nav-item  me-2 dropdown text-dark ">
                                 <a a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-controls="dropdown-target" data-bs-target="#dropdown-target" aria-haspopup="true" aria-expanded="false">
                                     <i class="bi bi-gear"></i> Management
@@ -47,6 +49,7 @@
                                     <a class="dropdown-item text-dark" asp-controller="Facilities" asp-action="List"><i class="bi bi-list"></i> Facilities</a>
                                 </div>
                             </li>
+                            }
                         </ul>
                     </div>
                 </div>
@@ -107,7 +110,7 @@
                             </form>
                         }
                     </div>
-                    @await Html.PartialAsync("_Identity", (string)ViewBag.User)
+                    <partial name="_Identity" />
                 </div>
             </div>
         </nav>

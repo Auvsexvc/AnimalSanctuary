@@ -9,78 +9,69 @@
         @foreach (var item in Model)
         {
             <div class="col border-primary mb-3 container-fluid">
-            <div class="g-0 flex-grow-1 h-100">
-                <div class="card mb-3 h-100" style="min-width:240px">
-                    <div class="card-header bg-dark text-white">
-                        <div class="col-md-12">
-                            <h3 class="card-title">
-                                @item.Name
-                                @if (ViewBag.User != null)
-                                {
-                                    <a class="text-black float-end" alt="Edit" asp-action="Edit" asp-route-id="@item.Id">
-                                        <i class="bi bi-pencil-square"></i>
-                                    </a>
-
-                                }
-                            </h3>
-                        </div>
-                    </div>
-                    <div class="card-body bg-light text-dark">
-                        <div class="row">
-                            <div class="col-md-4 float-start p-2">
-                                <img src="/gfx/big_35ef567eca53ac949d238443aeca56ab.png" class="w-100 border-info rounded-circle" alt="@item.Name" />
-                            </div>
-                            <div class="col-md-8 float-end">
-                                <p class="card-text mb-1"><b>Name: </b>@item.Name</p>
-                                <p class="card-text mb-1"><b>Specie: </b>@item.Specie</p>
-                                <p class="card-text mb-1"><b>Sex: </b>@item.Sex</p>
-                                <p class="card-text mb-1"><b>DateOfBirth: </b>@(item.DateOfBirth != null ? ((DateTime)item.DateOfBirth).ToShortDateString() : "N/A")</p>
-                                <p class="card-text mb-1"><b>Attitude: </b>@item.Attitude</p>
-                                <p class="card-text mb-1"><b>Facility: </b>@item.Facility</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                        @if (Model.Where(a => a.Specie == item.Specie && a.Id != item.Id).Count() > 0)
-                        {
-                            <p class="card-text mb-0">
-                                See also:
-                            </p>
-                            <div class="column d-flex flex-wrap">
-
-                                @foreach (var similarRecentAnimal in Model.Where(a => a.Specie == item.Specie && a.Id != item.Id).OrderByDescending(a => a.DateCreated).Take(3))
-                                {
-                                    <div class="text-center" style="padding:2px;">
-                                        <a class="text-center d-grid" asp-controller="Animals" asp-action="Details" asp-route-id="@similarRecentAnimal.Id">
-                                            <img class="border-info rounded-circle avatar w-100" src="/gfx/big_35ef567eca53ac949d238443aeca56ab.png" style="width: 50px !important; height: 50px !important;" />
+                <div class="g-0 flex-grow-1 h-100">
+                    <div class="card mb-3 h-100" style="min-width:240px">
+                        <div class="card-header bg-dark text-white">
+                            <div class="col-md-12">
+                                <h3 class="card-title">
+                                    @item.Name
+                                    @if (ViewBag.User != null)
+                                    {
+                                        <a class="text-black float-end" alt="Edit" asp-action="Edit" asp-route-id="@item.Id">
+                                            <i class="bi bi-pencil-square"></i>
                                         </a>
+
+                                    }
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="card-body bg-light text-dark">
+                            <div class="row">
+                                <div class="col-md-4 float-start p-2">
+                                    <img src="/gfx/big_35ef567eca53ac949d238443aeca56ab.png" class="w-100 border-info rounded-circle" alt="@item.Name" />
+                                </div>
+                                <div class="col-md-8 float-end">
+                                    <p class="card-text mb-1"><b>Name: </b>@item.Name</p>
+                                    <p class="card-text mb-1"><b>Specie: </b>@item.Specie</p>
+                                    <p class="card-text mb-1"><b>Sex: </b>@item.Sex</p>
+                                    <p class="card-text mb-1"><b>DateOfBirth: </b>@(item.DateOfBirth != null ? ((DateTime)item.DateOfBirth).ToShortDateString() : "N/A")</p>
+                                    <p class="card-text mb-1"><b>Attitude: </b>@item.Attitude</p>
+                                    <p class="card-text mb-1"><b>Facility: </b>@item.Facility</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                @if (Model.Where(a => a.Specie == item.Specie && a.Id != item.Id).Count() > 0)
+                                {
+                                    <p class="card-text mb-0">
+                                        See also:
+                                    </p>
+                                    <div class="column d-flex flex-wrap">
+
+                                        @foreach (var similarRecentAnimal in Model.Where(a => a.Specie == item.Specie && a.Id != item.Id).OrderByDescending(a => a.DateCreated).Take(3))
+                                        {
+                                            <div class="text-center" style="padding:2px;">
+                                                <a class="text-center d-grid" asp-controller="Animals" asp-action="Details" asp-route-id="@similarRecentAnimal.Id">
+                                                    <img class="border-info rounded-circle avatar w-100" src="/gfx/big_35ef567eca53ac949d238443aeca56ab.png" style="width: 50px !important; height: 50px !important;" />
+                                                </a>
+                                            </div>
+                                        }
                                     </div>
                                 }
                             </div>
-                        }
                         </div>
-                    </div>
-                    <div class="card-footer ">
-                        <div class="col-md-12">
-                            <p class="card-text">
-                                <a class="btn btn-sm btn-info float-end" asp-action="Details" asp-route-id="@item.Id">
-                                    <i class="bi bi-eye-fill"></i> Show Details
-                                </a>
-                                @*<a class="btn btn-success text-white @((DateTime.Now > item.EndDate) ? "disabled" : "")"
-                                asp-controller="Orders"
-                                asp-action="AddToShoppingCart"
-                                asp-route-id="@item.Id">
-                                    <i class="bi bi-cart-plus"></i> Add to Cart (Price @item.Price.ToString("c"))
-                                </a>*@
-                            </p>
+                        <div class="card-footer ">
+                            <div class="col-md-12">
+                                <p class="card-text">
+                                    <a class="btn btn-sm btn-info float-end" asp-action="Details" asp-route-id="@item.Id">
+                                        <i class="bi bi-eye-fill"></i> Show Details
+                                    </a>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
         }
     </div>
 </div>
-@if (ViewBag.User != null)
-{
-    @await Html.PartialAsync("_AddButton", "Species")
-}
+@await Html.PartialAsync("_AddButton", "Species")

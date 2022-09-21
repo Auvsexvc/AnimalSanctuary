@@ -1,4 +1,5 @@
-﻿using WebApp.Enums;
+﻿using System.ComponentModel;
+using WebApp.Enums;
 
 namespace WebApp.Data
 {
@@ -6,6 +7,7 @@ namespace WebApp.Data
     {
         public Guid Id { get; set; }
 
+        [DisplayName("Animal")]
         public string Name { get; set; } = String.Empty;
 
         public string? Description { get; set; }

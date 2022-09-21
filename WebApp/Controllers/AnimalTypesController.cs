@@ -41,12 +41,23 @@ namespace WebApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                TempData["error"] = "Type not added";
-                return View();
+                TempData["warning"] = "Check fields";
+
+                return Create();
             }
 
-            await _service.CreateAsync(dto);
-            TempData["success"] = "Type added";
+            var result = await _service.CreateAsync(dto);
+
+            if (result?.IsSuccessStatusCode == true)
+            {
+                TempData["success"] = "Type added";
+            }
+            else
+            {
+                TempData["error"] = "Type not added";
+
+                return Create();
+            }
 
             if (HttpContext.Session.GetString("browser") == "false")
             {
@@ -67,9 +78,18 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            await _service.DeleteAsync(id);
+            var result = await _service.DeleteAsync(id);
 
-            TempData["success"] = "Type deleted";
+            if (result?.IsSuccessStatusCode == true)
+            {
+                TempData["success"] = "Type deleted";
+            }
+            else
+            {
+                TempData["error"] = "Type not deleted";
+
+                return await Delete(id);
+            }
 
             HttpContext.Session.SetString("return", String.Empty);
 
@@ -89,11 +109,23 @@ namespace WebApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                TempData["error"] = "Type not updated";
+                TempData["warning"] = "Check fields";
+
                 return View(data);
             }
-            await _service.EditAsync(id, data);
-            TempData["success"] = "Type updated";
+
+            var result = await _service.EditAsync(id, data);
+
+            if (result?.IsSuccessStatusCode == true)
+            {
+                TempData["success"] = "Type updated";
+            }
+            else
+            {
+                TempData["error"] = "Type not updated";
+
+                return await Edit(id);
+            }
 
             if (string.IsNullOrEmpty(HttpContext.Session.GetString("return")))
             {

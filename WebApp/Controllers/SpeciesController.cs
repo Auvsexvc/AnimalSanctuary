@@ -46,12 +46,23 @@ namespace WebApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                TempData["error"] = "Specie not added";
-                return View();
+                TempData["warning"] = "Check fields";
+
+                return await Create();
             }
 
-            await _service.CreateAsync(dto);
-            TempData["success"] = "Specie added";
+            var result = await _service.CreateAsync(dto);
+
+            if (result?.IsSuccessStatusCode == true)
+            {
+                TempData["success"] = "Specie added";
+            }
+            else
+            {
+                TempData["error"] = "Specie not added";
+
+                return await Create();
+            }
 
             if (HttpContext.Session.GetString("browser") == "false")
             {
@@ -72,9 +83,18 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            await _service.DeleteAsync(id);
+            var result = await _service.DeleteAsync(id);
 
-            TempData["success"] = "Specie deleted";
+            if (result?.IsSuccessStatusCode == true)
+            {
+                TempData["success"] = "Specie deleted";
+            }
+            else
+            {
+                TempData["error"] = "Specie not deleted";
+
+                return await Delete(id);
+            }
 
             HttpContext.Session.SetString("return", String.Empty);
 
@@ -112,11 +132,22 @@ namespace WebApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                TempData["error"] = "Specie not updated";
+                TempData["warning"] = "Check fields";
+
                 return View(data);
             }
-            await _service.EditAsync(id, data);
-            TempData["success"] = "Specie updated";
+            var result = await _service.EditAsync(id, data);
+
+            if (result?.IsSuccessStatusCode == true)
+            {
+                TempData["success"] = "Specie updated";
+            }
+            else
+            {
+                TempData["error"] = "Specie not updated";
+
+                return await Edit(id);
+            }
 
             if (string.IsNullOrEmpty(HttpContext.Session.GetString("return")))
             {

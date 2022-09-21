@@ -47,12 +47,23 @@ namespace WebApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                TempData["error"] = "Animal not added";
-                return View();
+                TempData["warning"] = "Check fields";
+
+                return await Create();
             }
 
-            await _service.CreateAsync(dto);
-            TempData["success"] = "Animal added";
+            var result = await _service.CreateAsync(dto);
+
+            if (result?.IsSuccessStatusCode == true)
+            {
+                TempData["success"] = "Animal added";
+            }
+            else
+            {
+                TempData["error"] = "Animal not added";
+
+                return await Create();
+            }
 
             if (HttpContext.Session.GetString("browser") == "false")
             {
@@ -73,9 +84,18 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            await _service.DeleteAsync(id);
+            var result = await _service.DeleteAsync(id);
 
-            TempData["success"] = "Animal deleted";
+            if (result?.IsSuccessStatusCode == true)
+            {
+                TempData["success"] = "Animal deleted";
+            }
+            else
+            {
+                TempData["error"] = "Animal not deleted";
+
+                return await Edit(id);
+            }
 
             HttpContext.Session.SetString("return", String.Empty);
 
@@ -115,11 +135,22 @@ namespace WebApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                TempData["error"] = "Animal not updated";
-                return View(data);
+                TempData["warning"] = "Check fields";
+
+                return await Edit(id);
             }
-            await _service.EditAsync(id, data);
-            TempData["success"] = "Animal updated";
+            var result = await _service.EditAsync(id, data);
+
+            if (result?.IsSuccessStatusCode == true)
+            {
+                TempData["success"] = "Animal updated";
+            }
+            else
+            {
+                TempData["error"] = "Animal not updated";
+
+                return await Edit(id);
+            }
 
             if (string.IsNullOrEmpty(HttpContext.Session.GetString("return")))
             {

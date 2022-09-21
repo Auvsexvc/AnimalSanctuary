@@ -26,6 +26,7 @@ namespace WebApp.Services
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new Uri(_configuration.GetConnectionString("DefaultConnection"));
+                    //client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
                     var result = await client.GetAsync($"{typeof(T).Name}?sortingField={sortingField}&sortingOrder={sortingOrder}&filteringString={filteringString}");
 
                     if (result.IsSuccessStatusCode)
@@ -141,7 +142,7 @@ namespace WebApp.Services
             return new SortingDropdowns()
             {
                 Fields = obj!.GetType().GetProperties().Select(p => p.Name).ToList(),
-                DisplayNames = obj!.GetType().GetProperties().ToDictionary(p => p.Name, p => p.GetAttribute<DisplayNameAttribute>(false) == null ? p.Name : p.GetAttribute<DisplayNameAttribute>(false).DisplayName),
+                DisplayNames = obj!.GetType().GetProperties().ToDictionary(p => p.Name, p => p.GetAttribute<DisplayNameAttribute>(false) != null ? p.GetAttribute<DisplayNameAttribute>(false)!.DisplayName : p.Name),
                 Order = new List<string>() { "asc", "desc" }
             };
         }

@@ -57,11 +57,11 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="SpecieId" class="control-label">Specie</label>
+                        <span asp-validation-for="SpecieId" class="text-danger"></span>
                         <div class="form-group d-flex">
                             @Html.DropDownListFor(model=>model.SpecieId, new SelectList(ViewBag.DropDowns.Species, "Id", "Name", Model.Specie), new { @class = "form-select"})
                             <a asp-controller="Species" asp-action="Create" class="btn btn-sm btn-outline-success icon-float-end"><i class="bi bi-plus-circle t-2"></i></a>
                         </div>
-                        <span asp-validation-for="SpecieId" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="TypeId" class="control-label">Type</label>
@@ -69,11 +69,11 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="FacilityId" class="control-label">Facility</label>
+                        <span asp-validation-for="FacilityId" class="text-danger"></span>
                         <div class="form-group d-flex">
                             @Html.DropDownListFor(model=>model.FacilityId, new SelectList(ViewBag.DropDowns.Facilities, "Id", "Name", Model.Facility), new { @class = "form-select"})
                             <a asp-controller="Facilities" asp-action="Create" class="btn btn-sm btn-outline-success icon-float-end"><i class="bi bi-plus-circle"></i></a>
                         </div>
-                        <span asp-validation-for="FacilityId" class="text-danger"></span>
                     </div>
                 </div>
             </div>

@@ -19,7 +19,6 @@ namespace WebApp.Data
         public string? StreetName { get; set; }
         public string City { get; set; } = String.Empty;
 
-        [Phone]
         public string PhoneNumber { get; set; } = String.Empty;
 
         public int MaxCapacity { get; set; }

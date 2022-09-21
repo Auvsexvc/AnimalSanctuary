@@ -46,12 +46,12 @@ namespace WebApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                TempData["error"] = "Specie not added";
+                TempData["error"] = "Facility not added";
                 return View();
             }
 
             await _service.CreateAsync(dto);
-            TempData["success"] = "Specie added";
+            TempData["success"] = "Facility added";
 
             if (HttpContext.Session.GetString("browser") == "false")
             {
@@ -74,7 +74,7 @@ namespace WebApp.Controllers
 
             await _service.DeleteAsync(id);
 
-            TempData["success"] = "Specie deleted";
+            TempData["success"] = "Facility deleted";
 
             HttpContext.Session.SetString("return", String.Empty);
 
@@ -97,7 +97,7 @@ namespace WebApp.Controllers
             }
 
             ViewBag.DropDowns = dropdowns;
-            ViewBag.AnimalString = string.Join(", ", data.Animals.Select(x => x.Name));
+            ViewBag.AnimalString = data.Animals!=null ? string.Join(", ", data.Animals.Select(x => x.Name)) : string.Empty;
             ViewBag.Animals = new SelectList(dropdowns.Animals, "Id", "Name");
 
             ViewBag.Session = HttpContext.Session.GetString("browser") ?? "true";
@@ -112,11 +112,11 @@ namespace WebApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                TempData["error"] = "Specie not updated";
+                TempData["error"] = "Facility not updated";
                 return View(data);
             }
             await _service.EditAsync(id, data);
-            TempData["success"] = "Specie updated";
+            TempData["success"] = "Facility updated";
 
             if (string.IsNullOrEmpty(HttpContext.Session.GetString("return")))
             {

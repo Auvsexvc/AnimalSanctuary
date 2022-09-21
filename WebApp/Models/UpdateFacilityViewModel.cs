@@ -11,7 +11,7 @@ namespace WebApp.Models
 
         [DisplayName("Facility")]
         [Required]
-        [MinLength(3)]
+        [MinLength(2)]
         public string Name { get; set; } = String.Empty;
 
         public string? Description { get; set; }
@@ -19,22 +19,26 @@ namespace WebApp.Models
         [DisplayName("Building number")]
         public string? BuildingNumber { get; set; }
 
-        [DisplayName("apartment number(optional)")]
+        [DisplayName("Apartment number(optional)")]
         public string? ApartmentNumber { get; set; }
 
-        [DisplayName("Street name")]
+        [DisplayName("Street")]
         public string? StreetName { get; set; }
 
+        [Required]
         [DisplayName("City")]
+        [MinLength(2)]
         public string City { get; set; } = String.Empty;
 
         [Phone]
         [DisplayName("Contact number")]
-        public string? PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; } = String.Empty;
 
         [Required]
+        [DisplayName("Max. capacity")]
         public int MaxCapacity { get; set; }
 
+        [DisplayName("Free. space")]
         public int FreeSpace { get; set; }
 
         [DisplayName("Animals IDs")]

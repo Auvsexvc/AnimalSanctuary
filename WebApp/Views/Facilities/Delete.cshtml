@@ -34,6 +34,11 @@
                     <input asp-for="MaxCapacity" class="form-control" readonly />
                     <span asp-validation-for="MaxCapacity" class="text-danger"></span>
                 </div>
+                <div class="form-group">
+                    <label asp-for="FreeSpace" class="control-label"></label>
+                    <input asp-for="FreeSpace" class="form-control" readonly />
+                    <span asp-validation-for="FreeSpace" class="text-danger"></span>
+                </div>
             </div>
             <div class="col-md-5 offset-1">
                 <div class="form-group">
@@ -57,7 +62,7 @@
                     <span asp-validation-for="City" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    @if (Model.Animals.Count() > 0)
+                    @if (Model.Animals != null && Model.Animals.Count() > 0)
                     {
                         <label asp-for="Animals" class="control-label"></label>
                         <div class="card container-fluid">

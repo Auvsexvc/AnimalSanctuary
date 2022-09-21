@@ -1,0 +1,60 @@
+﻿@model WebApp.Models.UpdateSpecieViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+<div class="card border-dark mb-3 mt-3 col-md-8 offset-2 w-30">
+    <div class="card-header bg-warning text-light">
+        <h3 class="card-title">Edit specie</h3>
+    </div>
+    <form asp-action="Edit">
+    <div class="card-body">
+        <div class="col-md-11 d-flex">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="col-md-5 offset-1">
+                <div class="form-group">
+                    <label asp-for="Id" class="control-label"></label>
+                    <input asp-for="Id" class="form-control" readonly />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-5 offset-1">
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <textarea asp-for="Description" class="form-control"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                    <div class="form-group">
+                        <label asp-for="TypeId" class="control-label">Type</label>
+                        <div class="form-group d-flex">
+                            @Html.DropDownListFor(model=>model.TypeId, new SelectList(ViewBag.DropDowns.Types, "Id", "Name", Model.Type), new { @class = "form-select"})
+                            <a asp-controller="AnimalTypes" asp-action="Create" class="btn btn-sm btn-outline-success icon-float-end"><i class="bi bi-plus-circle t-2"></i></a>
+                        </div>
+                        <span asp-validation-for="TypeId" class="text-danger"></span>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer form-group mt-4">
+        <button type="submit" class="btn btn-sm btn-warning"><i class="bi bi-save"></i> Save</button>
+        @if (ViewBag.SessionReturn == "Details")
+        {
+            <a asp-action="@ViewBag.SessionReturn" asp-route-id="@Model.Id" class="btn btn-sm btn-secondary float-end"><i class="bi bi-x"></i> Cancel</a>
+        }
+        else
+        {
+            <a asp-action="List" class="btn btn-sm btn-secondary float-end"><i class="bi bi-list"></i> Back to list</a>
+        }
+    </div>
+</form>
+</div>
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
+

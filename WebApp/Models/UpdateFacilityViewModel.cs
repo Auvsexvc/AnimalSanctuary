@@ -4,12 +4,12 @@ using WebApp.Data;
 
 namespace WebApp.Models
 {
-    public class FacilityViewModel
+    public class UpdateFacilityViewModel
     {
         [DisplayName("Facility ID")]
         public Guid Id { get; set; }
 
-        [DisplayName("Name")]
+        [DisplayName("Facility")]
         [Required]
         [MinLength(3)]
         public string Name { get; set; } = String.Empty;
@@ -32,14 +32,15 @@ namespace WebApp.Models
         [DisplayName("Contact number")]
         public string? PhoneNumber { get; set; }
 
-        [DisplayName("Max. capacity")]
         [Required]
         public int MaxCapacity { get; set; }
 
-        [DisplayName("Free space")]
         public int FreeSpace { get; set; }
 
+        [DisplayName("Animals IDs")]
+        public List<Guid>? AnimalsIds { get; set; }
+
         [DisplayName("Animals")]
-        public string? Animals { get; set; }
+        public IEnumerable<Animal>? Animals { get; set; }
     }
 }

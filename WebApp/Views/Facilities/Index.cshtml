@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AnimalSpecieViewModel>
+﻿@model IEnumerable<FacilityViewModel>
 
 @{
     ViewData["Title"] = "Animals";
@@ -30,7 +30,6 @@
                             <div class="float-end">
                                 <p class="card-text mb-1"><b>Name: </b>@item.Name</p>
                                 <p class="card-text mb-1"><b>Description: </b>@(string.IsNullOrEmpty(item.Description) ? "..." : item.Description.Length > 100 ? item.Description.Substring(0, 100) + "..." : item.Description)</p>
-                                <p class="card-text mb-1"><b>Type: </b>@item.Type</p>
                             </div>
                         </div>
                     </div>

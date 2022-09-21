@@ -197,31 +197,5 @@ namespace WebApp.Services
                 Facility = facility.Name
             };
         }
-
-        private async Task<FacilityViewModel?> ToViewModel(Facility obj)
-        {
-            var animals = await _baseService.GetAllAsync<Animal>(null, null, obj.Id.ToString());
-
-            if (animals == null)
-            {
-                return null;
-            }
-
-            return new FacilityViewModel()
-            {
-                Id = obj.Id,
-                Name = obj.Name,
-                Description = obj.Description,
-                BuildingNumber = obj.BuildingNumber,
-                ApartmentNumber = obj.ApartmentNumber,
-                StreetName = obj.StreetName,
-                City = obj.City!,
-                PhoneNumber = obj.PhoneNumber,
-                MaxCapacity = obj.MaxCapacity,
-                FreeSpace = obj.FreeSpace,
-                AnimalsIds = obj.Animals,
-                Animals = animals
-            };
-        }
     }
 }

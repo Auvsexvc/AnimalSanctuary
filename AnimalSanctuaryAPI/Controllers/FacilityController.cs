@@ -1,9 +1,11 @@
 ﻿using AnimalSanctuaryAPI.Dtos;
 using AnimalSanctuaryAPI.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AnimalSanctuaryAPI.Controllers
 {
+    [Authorize(Roles = "Administrator, Manager")]
     [Route("api/[controller]")]
     [ApiController]
     public class FacilityController : ControllerBase
@@ -15,6 +17,7 @@ namespace AnimalSanctuaryAPI.Controllers
             _service = service;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetAll(string? sortingField, string? sortingOrder, string? filteringString)
         {
@@ -23,6 +26,7 @@ namespace AnimalSanctuaryAPI.Controllers
             return data == null ? NotFound() : Ok(data);
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {

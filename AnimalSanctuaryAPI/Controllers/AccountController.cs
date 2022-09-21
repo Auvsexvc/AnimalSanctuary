@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace RestaurantAPI.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Administrator")]
     [Route("api/account")]
     [ApiController]
     public class AccountController : ControllerBase
@@ -16,7 +16,7 @@ namespace RestaurantAPI.Controllers
         {
             _accountService = accountService;
         }
-        [AllowAnonymous]
+
         [HttpGet]
         public ActionResult GetAll()
         {
@@ -24,7 +24,7 @@ namespace RestaurantAPI.Controllers
 
             return Ok(userDtos);
         }
-        [AllowAnonymous]
+
         [HttpPost("register")]
         public ActionResult RegisterUser([FromBody] RegisterUserDto dto)
         {

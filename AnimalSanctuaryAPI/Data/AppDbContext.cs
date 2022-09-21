@@ -9,6 +9,8 @@ namespace AnimalSanctuaryAPI.Data
         public DbSet<AnimalType> Types => Set<AnimalType>();
         public DbSet<AnimalSpecie> Species => Set<AnimalSpecie>();
         public DbSet<Facility> Facilities => Set<Facility>();
+        public DbSet<Role> Roles => Set<Role>();
+        public DbSet<User> Users => Set<User>();
 
         public AppDbContext(DbContextOptions options) : base(options)
         {

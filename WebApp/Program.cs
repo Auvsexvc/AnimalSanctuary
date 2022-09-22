@@ -10,9 +10,9 @@ builder.Services.AddScoped<IAnimalService, AnimalService>();
 builder.Services.AddScoped<IAnimalTypeService, AnimalTypeService>();
 builder.Services.AddScoped<IAnimalSpecieService, AnimalSpecieService>();
 builder.Services.AddScoped<IFacilityService, FacilityService>();
-builder.Services.AddScoped<AccountService>();
-builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddSingleton<UserManagerService>();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddMemoryCache();
 builder.Services.AddSession(options =>
 {

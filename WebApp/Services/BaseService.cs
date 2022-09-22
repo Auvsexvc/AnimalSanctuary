@@ -26,7 +26,6 @@ namespace WebApp.Services
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new Uri(_configuration.GetConnectionString("DefaultConnection"));
-                    //client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
                     var result = await client.GetAsync($"{typeof(T).Name}?sortingField={sortingField}&sortingOrder={sortingOrder}&filteringString={filteringString}");
 
                     if (result.IsSuccessStatusCode)
@@ -59,7 +58,6 @@ namespace WebApp.Services
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new Uri(_configuration.GetConnectionString("DefaultConnection"));
-                    //client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
                     var result = await client.GetAsync($"{typeof(T).Name}");
 
                     if (result.IsSuccessStatusCode)
@@ -110,14 +108,14 @@ namespace WebApp.Services
             }
         }
 
-        public async Task<HttpResponseMessage?> CreateAsync<T>(T dto)
+        public async Task<HttpResponseMessage?> CreateAsync<T>(T dto, string accessToken)
         {
             try
             {
                 var name = string.Concat(typeof(T).Name.TakeLast(3)) == "Dto" ? string.Concat(typeof(T).Name.SkipLast(3)) : typeof(T).Name;
                 using var client = new HttpClient();
                 client.BaseAddress = new Uri(_configuration.GetConnectionString("DefaultConnection"));
-
+                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
                 var result = await client.PostAsJsonAsync<T>($"{name}", dto);
 
                 return result;
@@ -130,14 +128,14 @@ namespace WebApp.Services
             }
         }
 
-        public async Task<HttpResponseMessage?> EditAsync<T>(Guid id, T dto)
+        public async Task<HttpResponseMessage?> EditAsync<T>(Guid id, T dto, string accessToken)
         {
             try
             {
                 var name = string.Concat(typeof(T).Name.TakeLast(3)) == "Dto" ? string.Concat(typeof(T).Name.SkipLast(3)) : typeof(T).Name;
                 using var client = new HttpClient();
                 client.BaseAddress = new Uri(_configuration.GetConnectionString("DefaultConnection"));
-
+                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
                 var result = await client.PutAsJsonAsync<T>($"{name}/{id}", dto);
 
                 return result;
@@ -150,14 +148,14 @@ namespace WebApp.Services
             }
         }
 
-        public async Task<HttpResponseMessage?> DeleteAsync<T>(Guid id)
+        public async Task<HttpResponseMessage?> DeleteAsync<T>(Guid id, string accessToken)
         {
             try
             {
                 var name = string.Concat(typeof(T).Name.TakeLast(3)) == "Dto" ? string.Concat(typeof(T).Name.SkipLast(3)) : typeof(T).Name;
                 using var client = new HttpClient();
                 client.BaseAddress = new Uri(_configuration.GetConnectionString("DefaultConnection"));
-
+                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
                 var result = await client.DeleteAsync($"{name}/{id}");
 
                 return result;

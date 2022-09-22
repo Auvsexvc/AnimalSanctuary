@@ -17,17 +17,17 @@ namespace WebApp.Services
             _logger = logger;
         }
 
-        public async Task<HttpResponseMessage?> CreateAsync(AnimalDto dto)
+        public async Task<HttpResponseMessage?> CreateAsync(AnimalDto dto, string accessToken)
         {
-            return await _baseService.CreateAsync<AnimalDto>(dto);
+            return await _baseService.CreateAsync<AnimalDto>(dto, accessToken);
         }
 
-        public async Task<HttpResponseMessage?> DeleteAsync(Guid id)
+        public async Task<HttpResponseMessage?> DeleteAsync(Guid id, string accessToken)
         {
-            return await _baseService.DeleteAsync<Animal>(id);
+            return await _baseService.DeleteAsync<Animal>(id, accessToken);
         }
 
-        public async Task<HttpResponseMessage?> EditAsync(Guid id, UpdateAnimalViewModel vm)
+        public async Task<HttpResponseMessage?> EditAsync(Guid id, UpdateAnimalViewModel vm, string accessToken)
         {
             try
             {
@@ -44,7 +44,7 @@ namespace WebApp.Services
                     FacilityId = vm.FacilityId
                 };
 
-                return await _baseService.EditAsync<AnimalDto>(id, dto);
+                return await _baseService.EditAsync<AnimalDto>(id, dto, accessToken);
             }
             catch (Exception ex)
             {

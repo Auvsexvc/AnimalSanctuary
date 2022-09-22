@@ -2,16 +2,19 @@
 using WebApp.Dtos;
 using WebApp.Interfaces;
 using WebApp.Models;
+using WebApp.Services;
 
 namespace WebApp.Controllers
 {
     public class AnimalTypesController : Controller
     {
         private readonly IAnimalTypeService _service;
+        private readonly UserManagerService _userManagerService;
 
-        public AnimalTypesController(IAnimalTypeService service)
+        public AnimalTypesController(IAnimalTypeService service, UserManagerService userManagerService)
         {
             _service = service;
+            _userManagerService = userManagerService;
         }
 
         public async Task<IActionResult> Index(string? sortingField, string? sortingOrder, string? filteringString = "")
@@ -30,6 +33,13 @@ namespace WebApp.Controllers
 
         public IActionResult Create()
         {
+            var accessToken = _userManagerService.GetUserToken(HttpContext.Session.GetString("Id"));
+
+            if (accessToken == null)
+            {
+                return RedirectToAction("AccessDenied","Account");
+            }
+
             ViewBag.Session = HttpContext.Session.GetString("browser") ?? "true";
 
             return View();
@@ -39,6 +49,13 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(AnimalTypeDto dto)
         {
+            var accessToken = _userManagerService.GetUserToken(HttpContext.Session.GetString("Id"));
+
+            if (accessToken == null)
+            {
+                return RedirectToAction("AccessDenied","Account");
+            }
+
             if (!ModelState.IsValid)
             {
                 TempData["warning"] = "Check fields";
@@ -46,7 +63,7 @@ namespace WebApp.Controllers
                 return Create();
             }
 
-            var result = await _service.CreateAsync(dto);
+            var result = await _service.CreateAsync(dto, accessToken);
 
             if (result?.IsSuccessStatusCode == true)
             {
@@ -66,19 +83,36 @@ namespace WebApp.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> Delete(Guid id) => await GetByIdAsync(id);
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var accessToken = _userManagerService.GetUserToken(HttpContext.Session.GetString("Id"));
+
+            if (accessToken == null)
+            {
+                return RedirectToAction("AccessDenied","Account");
+            }
+
+            return await GetByIdAsync(id);
+        }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeletePOST(Guid id)
         {
+            var accessToken = _userManagerService.GetUserToken(HttpContext.Session.GetString("Id"));
+
+            if (accessToken == null)
+            {
+                return RedirectToAction("AccessDenied","Account");
+            }
+
             var data = await _service.GetByIdAsync(id);
             if (data == null)
             {
                 return NotFound();
             }
 
-            var result = await _service.DeleteAsync(id);
+            var result = await _service.DeleteAsync(id,accessToken);
 
             if (result?.IsSuccessStatusCode == true)
             {
@@ -101,12 +135,29 @@ namespace WebApp.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> Edit(Guid id) => await GetByIdAsync(id);
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            var accessToken = _userManagerService.GetUserToken(HttpContext.Session.GetString("Id"));
+
+            if (accessToken == null)
+            {
+                return RedirectToAction("AccessDenied","Account");
+            }
+
+            return await GetByIdAsync(id);
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, AnimalTypeViewModel data)
         {
+            var accessToken = _userManagerService.GetUserToken(HttpContext.Session.GetString("Id"));
+
+            if (accessToken == null)
+            {
+                return RedirectToAction("AccessDenied","Account");
+            }
+
             if (!ModelState.IsValid)
             {
                 TempData["warning"] = "Check fields";
@@ -114,7 +165,7 @@ namespace WebApp.Controllers
                 return View(data);
             }
 
-            var result = await _service.EditAsync(id, data);
+            var result = await _service.EditAsync(id, data, accessToken);
 
             if (result?.IsSuccessStatusCode == true)
             {

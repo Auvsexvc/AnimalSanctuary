@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WebApp.Data;
 using WebApp.Dtos;
+using WebApp.Interfaces;
 using WebApp.Services;
 using WebApp.ViewModels;
 
@@ -9,22 +9,29 @@ namespace WebApp.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly AccountService _service;
+        private readonly IAccountService _service;
         private readonly UserManagerService _userManagerService;
 
-        public AccountController(AccountService service, UserManagerService userManagerService)
+        public AccountController(IAccountService service, UserManagerService userManagerService)
         {
             _service = service;
             _userManagerService = userManagerService;
         }
 
         //[Authorize(Roles = UserRoles.Admin)]
-        //public async Task<IActionResult> Users()
-        //{
-        //    var users = await _service.GetAllAsync<Account>();
+        public async Task<IActionResult> Users()
+        {
+            var accessToken = _userManagerService.GetUserToken(HttpContext.Session.GetString("Id"));
 
-        //    return View(users);
-        //}
+            if (accessToken == null)
+            {
+                return RedirectToAction("AccessDenied","Account");
+            }
+
+            var users = await _service.GetAllAccounts(accessToken);
+
+            return View(users);
+        }
 
         [AllowAnonymous]
         public IActionResult Login() => View(new LoginDto());
@@ -39,81 +46,70 @@ namespace WebApp.Controllers
                 return View(loginVM);
             }
 
-            var result = await _service.GetToken(loginVM);
+            var user = await _service.GetAccount(loginVM);
 
-            if (result?.IsSuccessStatusCode != true)
+            if (user == null)
             {
                 TempData["error"] = "Wrong credential. Please try again.";
 
                 return View(loginVM);
             }
 
-            var user = await result.Content.ReadFromJsonAsync<Account>();
-
-            //var token = await result.Content.ReadAsStringAsync();
-
-            if (user != null)
-            {
-                var sessionId = Guid.NewGuid().ToString();
-                HttpContext.Session.SetString("Id", sessionId);
-                _userManagerService.AddUser(sessionId, user);
-            }
+            var sessionId = Guid.NewGuid().ToString();
+            HttpContext.Session.SetString("Id", sessionId);
+            _userManagerService.AddUser(sessionId, user);
+            TempData["success"] = $"Successfully logged in as {user.Email}";
 
             return RedirectToAction("Index", "Animals");
-
-            //var result = await _baseService
-
-            //var user = await _userManager.FindByEmailAsync(loginVM.EmailAddress);
-            //if (user != null)
-            //{
-            //    var passwordCheck = await _userManager.CheckPasswordAsync(user, loginVM.Password);
-
-            // if (passwordCheck) { var result = await _signInManager.PasswordSignInAsync(user,
-            // loginVM.Password, false, false); if (result.Succeeded) { return
-            // RedirectToAction("Index", "Movies"); } } TempData["Error"] = "Wrong credential.
-            // Please try again.";
-
-            //    return View(loginVM);
-            //}
-
-            //TempData["Error"] = "Wrong credential. Please try again.";
         }
 
         [AllowAnonymous]
-        public IActionResult Register() => View(new RegisterVM());
+        public IActionResult Register()
+        {
+            var accessToken = _userManagerService.GetUserToken(HttpContext.Session.GetString("Id"));
+
+            if (accessToken == null)
+            {
+                return RedirectToAction("AccessDenied","Account");
+            }
+
+            return View(new RegisterVM());
+        }
 
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RegisterAsync(RegisterVM registerVM)
         {
+            var accessToken = _userManagerService.GetUserToken(HttpContext.Session.GetString("Id"));
+
+            if (accessToken == null)
+            {
+                return RedirectToAction("AccessDenied","Account");
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(registerVM);
             }
 
-            //var user = await _userManager.FindByEmailAsync(registerVM.EmailAddress);
+            var users = await _service.GetAllAccounts(accessToken);
+            var user = users.FirstOrDefault(x => x.Email == registerVM.Email);
 
-            //if (user != null)
-            //{
-            //    TempData["Error"] = $"{registerVM.EmailAddress} is already in use.";
+            if (user != null)
+            {
+                TempData["Error"] = $"{registerVM.Email} is already in use.";
 
-            //    return View(registerVM);
-            //}
+                return View(registerVM);
+            }
 
-            //var newUser = new AppUser()
-            //{
-            //    FullName = registerVM.FullName,
-            //    Email = registerVM.EmailAddress,
-            //    UserName = registerVM.EmailAddress
-            //};
+            using var newUserResult = await _service.RegisterAsync(registerVM, accessToken);
 
-            //var newUserResult = await _userManager.CreateAsync(newUser, registerVM.Password);
+            if (!newUserResult.IsSuccessStatusCode)
+            {
+                TempData["Error"] = $"{registerVM.Email} couldn't be registered this time.";
 
-            //if (newUserResult.Succeeded)
-            //{
-            //    await _userManager.AddToRoleAsync(newUser, UserRoles.User);
-            //}
+                return View(registerVM);
+            }
 
             return View("RegisterCompleted");
         }
@@ -123,12 +119,17 @@ namespace WebApp.Controllers
         public IActionResult Logout()
         {
             var sessionId = HttpContext.Session.GetString("Id");
-            if (string.IsNullOrEmpty(sessionId))
+
+            var user = _userManagerService.GetUser(sessionId);
+
+            if (string.IsNullOrEmpty(sessionId) || user == null)
             {
                 return View();
             }
+
             _userManagerService.DeleteUser(sessionId);
             HttpContext.Session.Remove("Id");
+            TempData["warning"] = $"{user.Email} logged out";
 
             return RedirectToAction("Index", "Animals");
         }

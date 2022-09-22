@@ -13,6 +13,6 @@ namespace WebApp.Models
         public string? Description { get; set; }
 
         [DisplayName("Type")]
-        public string Type { get; set; } = String.Empty;
+        public string TypeName { get; set; } = String.Empty;
     }
 }

@@ -1,17 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
 
 namespace WebApp.ViewModels
 {
     public class RegisterVM
     {
-        [Display(Name = "Full name")]
-        [Required(ErrorMessage = "Full name is required")]
-        public string FullName { get; set; } = string.Empty;
-
         [Display(Name = "Email address")]
         [Required(ErrorMessage = "Email address is required")]
-        public string EmailAddress { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
 
         [Required]
         [DataType(DataType.Password)]
@@ -22,5 +17,13 @@ namespace WebApp.ViewModels
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "Password fields do not match")]
         public string ConfirmPassword { get; set; } = string.Empty;
+
+        [Display(Name = "Date of birth")]
+        [Required(ErrorMessage = "Date of birth is required")]
+        public DateTime DateOfBirth { get; set; }
+
+        [Display(Name = "Role ID")]
+        [Required(ErrorMessage = "RoleId is required")]
+        public string RoleId { get; set; } = string.Empty;
     }
 }

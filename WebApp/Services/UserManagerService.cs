@@ -7,10 +7,6 @@ namespace WebApp.Services
     {
         public List<User> Users { get; set; } = new List<User>();
 
-        public UserManagerService()
-        {
-        }
-
         public void AddUser(string sessionId, Account account)
         {
             var user = new User()
@@ -44,6 +40,18 @@ namespace WebApp.Services
             }
 
             return false;
+        }
+
+        public string? GetUserToken(string? sessionId)
+        {
+            var user = Users.Find(x => x.SessionId == sessionId);
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            return user.Token;
         }
     }
 }

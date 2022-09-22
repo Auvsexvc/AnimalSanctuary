@@ -17,17 +17,17 @@ namespace WebApp.Services
             _logger = logger;
         }
 
-        public async Task<HttpResponseMessage?> CreateAsync(FacilityDto dto)
+        public async Task<HttpResponseMessage?> CreateAsync(FacilityDto dto, string accessToken)
         {
-            return await _baseService.CreateAsync<FacilityDto>(dto);
+            return await _baseService.CreateAsync<FacilityDto>(dto, accessToken);
         }
 
-        public async Task<HttpResponseMessage?> DeleteAsync(Guid id)
+        public async Task<HttpResponseMessage?> DeleteAsync(Guid id, string accessToken)
         {
-            return await _baseService.DeleteAsync<Facility>(id);
+            return await _baseService.DeleteAsync<Facility>(id, accessToken);
         }
 
-        public async Task<HttpResponseMessage?> EditAsync(Guid id, UpdateFacilityViewModel vm)
+        public async Task<HttpResponseMessage?> EditAsync(Guid id, UpdateFacilityViewModel vm, string accessToken)
         {
             try
             {
@@ -43,7 +43,7 @@ namespace WebApp.Services
                     MaxCapacity = vm.MaxCapacity
                 };
 
-                return await _baseService.EditAsync<FacilityDto>(id, dto);
+                return await _baseService.EditAsync<FacilityDto>(id, dto, accessToken);
             }
             catch (Exception ex)
             {
@@ -159,7 +159,7 @@ namespace WebApp.Services
                 PhoneNumber = obj.PhoneNumber,
                 MaxCapacity = obj.MaxCapacity,
                 FreeSpace = obj.FreeSpace,
-                Animals = string.Join(", ", animals.Select(x=>x.Name))
+                Animals = string.Join(", ", animals.Select(x => x.Name))
             };
         }
 

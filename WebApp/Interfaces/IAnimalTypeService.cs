@@ -5,11 +5,11 @@ namespace WebApp.Interfaces
 {
     public interface IAnimalTypeService
     {
-        Task<HttpResponseMessage?> CreateAsync(AnimalTypeDto dto);
+        Task<HttpResponseMessage?> CreateAsync(AnimalTypeDto dto, string accessToken);
 
-        Task<HttpResponseMessage?> DeleteAsync(Guid id);
+        Task<HttpResponseMessage?> DeleteAsync(Guid id, string accessToken);
 
-        Task<HttpResponseMessage?> EditAsync(Guid id, AnimalTypeViewModel vm);
+        Task<HttpResponseMessage?> EditAsync(Guid id, AnimalTypeViewModel vm, string accessToken);
 
         Task<IEnumerable<AnimalTypeViewModel?>?> GetAllAsync(string? sortingField, string? sortingOrder, string? filteringString);
 

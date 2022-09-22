@@ -29,7 +29,7 @@
     </div>
     <div class="btn-group-sm card-footer mt-4">
         <form asp-action="Delete">
-            @if (userManager.GetUser(HttpContextAccessor.HttpContext.Session.GetString("Id")) != null)
+            @if (userManager.GetUser(HttpContextAccessor.HttpContext!.Session.GetString("Id")) != null)
             {
                 <button type="submit" class="btn btn-sm btn-danger"><i class="bi bi-trash-fill"></i> Yes, Delete!</button>
             }

@@ -1,5 +1,5 @@
 ﻿@model string;
-@if (userManager.GetUser(HttpContextAccessor.HttpContext.Session.GetString("Id")) != null && userManager.GetUser(HttpContextAccessor.HttpContext.Session.GetString("Id")).Role == "Administrator")
+@if (userManager.GetUser(HttpContextAccessor.HttpContext!.Session.GetString("Id")) != null && userManager.GetUser(HttpContextAccessor.HttpContext!.Session.GetString("Id"))!.Role == "Administrator")
 {
     <div style="position:fixed; right:25px; bottom:25px;" class="text-white">
         <a asp-controller="@Model" asp-action="Create" class="btn btn-sm btn-success"><i class="bi bi-plus-circle"></i> Add new</a>

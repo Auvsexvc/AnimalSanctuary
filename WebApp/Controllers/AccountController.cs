@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebApp.Data;
 using WebApp.Dtos;
-using WebApp.Interfaces;
-using WebApp.Models;
 using WebApp.Services;
 using WebApp.ViewModels;
 
@@ -55,12 +52,11 @@ namespace WebApp.Controllers
 
             //var token = await result.Content.ReadAsStringAsync();
 
-            if(user != null)
+            if (user != null)
             {
                 var sessionId = Guid.NewGuid().ToString();
                 HttpContext.Session.SetString("Id", sessionId);
                 _userManagerService.AddUser(sessionId, user);
-
             }
 
             return RedirectToAction("Index", "Animals");
@@ -72,21 +68,15 @@ namespace WebApp.Controllers
             //{
             //    var passwordCheck = await _userManager.CheckPasswordAsync(user, loginVM.Password);
 
-            //    if (passwordCheck)
-            //    {
-            //        var result = await _signInManager.PasswordSignInAsync(user, loginVM.Password, false, false);
-            //        if (result.Succeeded)
-            //        {
-            //            return RedirectToAction("Index", "Movies");
-            //        }
-            //    }
-            //    TempData["Error"] = "Wrong credential. Please try again.";
+            // if (passwordCheck) { var result = await _signInManager.PasswordSignInAsync(user,
+            // loginVM.Password, false, false); if (result.Succeeded) { return
+            // RedirectToAction("Index", "Movies"); } } TempData["Error"] = "Wrong credential.
+            // Please try again.";
 
             //    return View(loginVM);
             //}
 
             //TempData["Error"] = "Wrong credential. Please try again.";
-
         }
 
         [AllowAnonymous]
@@ -132,7 +122,12 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Logout()
         {
-            _userManagerService.DeleteUser(HttpContext.Session.GetString("Id"));
+            var sessionId = HttpContext.Session.GetString("Id");
+            if (string.IsNullOrEmpty(sessionId))
+            {
+                return View();
+            }
+            _userManagerService.DeleteUser(sessionId);
             HttpContext.Session.Remove("Id");
 
             return RedirectToAction("Index", "Animals");

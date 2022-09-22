@@ -24,8 +24,13 @@ namespace WebApp.Services
             Users.Add(user);
         }
 
-        public User? GetUser(string sessionId)
+        public User? GetUser(string? sessionId)
         {
+            if (sessionId == null)
+            {
+                return default;
+            }
+
             return Users.Find(i => i.SessionId == sessionId);
         }
 

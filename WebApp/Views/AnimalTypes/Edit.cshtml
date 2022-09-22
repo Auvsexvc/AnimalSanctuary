@@ -32,7 +32,7 @@
             </div>
         </div>
         <div class="card-footer form-group mt-4">
-            @if (userManager.GetUser(HttpContextAccessor.HttpContext.Session.GetString("Id")) != null)
+            @if (userManager.GetUser(HttpContextAccessor.HttpContext!.Session.GetString("Id")) != null)
             {
                 <button type="submit" class="btn btn-sm btn-warning"><i class="bi bi-save"></i> Save</button>
             }

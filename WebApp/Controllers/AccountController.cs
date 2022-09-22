@@ -13,10 +13,12 @@ namespace WebApp.Controllers
     public class AccountController : Controller
     {
         private readonly AccountService _service;
+        private readonly UserManagerService _userManagerService;
 
-        public AccountController(AccountService service)
+        public AccountController(AccountService service, UserManagerService userManagerService)
         {
             _service = service;
+            _userManagerService = userManagerService;
         }
 
         //[Authorize(Roles = UserRoles.Admin)]
@@ -45,14 +47,21 @@ namespace WebApp.Controllers
             if (result?.IsSuccessStatusCode != true)
             {
                 TempData["error"] = "Wrong credential. Please try again.";
-                HttpContext.Session.Remove("token");
 
                 return View(loginVM);
             }
 
-            var token = await result.Content.ReadAsStringAsync();
-            HttpContext.Session.SetString("token", token);
-            HttpContext.Session.SetString("user", loginVM.Email);
+            var user = await result.Content.ReadFromJsonAsync<Account>();
+
+            //var token = await result.Content.ReadAsStringAsync();
+
+            if(user != null)
+            {
+                var sessionId = Guid.NewGuid().ToString();
+                HttpContext.Session.SetString("Id", sessionId);
+                _userManagerService.AddUser(sessionId, user);
+
+            }
 
             return RedirectToAction("Index", "Animals");
 
@@ -123,8 +132,8 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Logout()
         {
-            HttpContext.Session.Remove("token");
-            HttpContext.Session.Remove("user");
+            _userManagerService.DeleteUser(HttpContext.Session.GetString("Id"));
+            HttpContext.Session.Remove("Id");
 
             return RedirectToAction("Index", "Animals");
         }

@@ -79,8 +79,11 @@
         </div>
     </div>
     <div class="btn-group-sm card-footer mt-4">
-        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i> Edit</a>
-        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger btn-sm"><i class="bi bi-trash-fill"></i> Delete</a>
+        @if (userManager.GetUser(HttpContextAccessor.HttpContext.Session.GetString("Id")) != null)
+        {
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i> Edit</a>
+            <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger btn-sm"><i class="bi bi-trash-fill"></i> Delete</a>
+        }
         @if (ViewBag.Session != null && ViewBag.Session == "false")
         {
             <a asp-action="List" class="btn btn-sm btn-secondary float-end"><i class="bi bi-x"></i> Back to list</a>

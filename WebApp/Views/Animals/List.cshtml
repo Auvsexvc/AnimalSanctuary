@@ -32,10 +32,7 @@
         </table>
     </div>
     <div class="btn-group-sm card-footer mt-4">
-        @if (!string.IsNullOrEmpty(HttpContextAccessor.HttpContext.Session.GetString("user")))
-        {
-            <a asp-action="Create" class="btn btn-sm btn-success"><i class="bi bi-plus-circle"></i> Add new</a>
-        }
+        @await Html.PartialAsync("_AddButton", "Animals")
     </div>
 </div>
 

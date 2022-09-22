@@ -1,5 +1,6 @@
 ﻿using AnimalSanctuaryAPI.Dtos;
 using AnimalSanctuaryAPI.Interfaces;
+using AnimalSanctuaryAPI.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,8 +39,21 @@ namespace RestaurantAPI.Controllers
         public ActionResult Login([FromBody] LoginDto dto)
         {
             string token = _accountService.GenereateJWT(dto);
+            var roleName = _accountService.GetAll().FirstOrDefault(x => x.Email == dto.Email);
 
-            return Ok(token);
+            if (roleName == null)
+            {
+                return BadRequest();
+            }
+
+            var loginVM = new LoginViewModel()
+            {
+                Email = dto.Email,
+                RoleName = roleName.RoleName,
+                Token = token
+            };
+
+            return Ok(loginVM);
         }
     }
 }

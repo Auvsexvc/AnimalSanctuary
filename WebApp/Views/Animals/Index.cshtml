@@ -15,7 +15,7 @@
                             <div class="col-md-12">
                                 <h3 class="card-title">
                                     @item.Name
-                                    @if (ViewBag.User != null)
+                                    @if (userManager.GetUser(HttpContextAccessor.HttpContext.Session.GetString("Id")) != null)
                                     {
                                         <a class="text-black float-end" alt="Edit" asp-action="Edit" asp-route-id="@item.Id">
                                             <i class="bi bi-pencil-square"></i>

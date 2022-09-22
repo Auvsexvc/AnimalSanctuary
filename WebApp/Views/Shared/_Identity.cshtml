@@ -1,4 +1,4 @@
-﻿@if (string.IsNullOrEmpty(HttpContextAccessor.HttpContext.Session.GetString("user")))
+﻿@if(userManager.GetUser(HttpContextAccessor.HttpContext.Session.GetString("Id")) == null)
 {
     <div class="text-dark">
         <a class="btn btn-sm btn-outline-success my-2 my-sm-0" asp-controller="Account" asp-action="Login">
@@ -18,7 +18,7 @@ else
             <i class="bi bi-person-badge"></i> Hello @HttpContextAccessor.HttpContext.Session.GetString("user")
         </button>
         <ul class="dropdown-menu" aria-labelledby="profile-btn">
-            @if (HttpContextAccessor.HttpContext.Session.GetString("user").Contains("admin"))
+            @if (userManager.GetUser(HttpContextAccessor.HttpContext.Session.GetString("Id")).Role == "Administrator")
             {
 
                 <li>

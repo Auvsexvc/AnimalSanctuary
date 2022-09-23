@@ -62,16 +62,18 @@
                         <div class="card-footer ">
                             <div class="col-md-12">
                                 <p class="card-text">
-                                    <a class="btn btn-sm btn-info float-end" asp-action="Details" asp-route-id="@item.Id">
+                                    <button type="button" class="btn btn-sm btn-info icon-float-end" data-bs-toggle="modal" data-bs-target="#Modal_Details_@item.Id">
                                         <i class="bi bi-eye-fill"></i> Show Details
-                                    </a>
+                                    </button>
                                 </p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            @await Html.PartialAsync("_ModalDetails", item)
         }
     </div>
 </div>
-@await Html.PartialAsync("_AddButton", "Species")
+
+@await Html.PartialAsync("_AddButton", "Animals")

@@ -54,7 +54,7 @@
                         <label asp-for="SpecieId" class="control-label"></label>
                         <div class="form-group d-flex">
                             <select asp-for="SpecieId" class="form-select" asp-items="ViewBag.Species"></select>
-                            <a asp-controller="Species" asp-action="Create" class="btn btn-sm btn-outline-success icon-float-end"><i class="bi bi-plus-circle t-2"></i></a>
+                            <button type="button" class="btn btn-sm btn-outline-success icon-float-end" data-bs-toggle="modal" data-bs-target="#AddSpecieModal"><i class="bi bi-plus-circle t-2"></i></button>
                         </div>
                         <span asp-validation-for="SpecieId" class="text-danger"></span>
                     </div>
@@ -62,7 +62,7 @@
                         <label asp-for="FacilityId" class="control-label"></label>
                         <div class="form-group d-flex">
                             <select asp-for="FacilityId" class="form-select" asp-items="ViewBag.Facilities"></select>
-                            <a asp-controller="Facilities" asp-action="Create" class="btn btn-sm btn-outline-success icon-float-end"><i class="bi bi-plus-circle t-2"></i></a>
+                            <button type="button" class="btn btn-sm btn-outline-success icon-float-end" data-bs-toggle="modal" data-bs-target="#AddFacilityModal"><i class="bi bi-plus-circle t-2"></i></button>
                         </div>
                         <span asp-validation-for="FacilityId" class="text-danger"></span>
                     </div>
@@ -85,6 +85,8 @@
         </div>
     </form>
 </div>
+@await Html.PartialAsync("_ModalAddSpecie", new AnimalSpecieDto())
+@await Html.PartialAsync("_ModalAddFacility", new FacilityDto())
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

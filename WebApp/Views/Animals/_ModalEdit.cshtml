@@ -1,0 +1,97 @@
+﻿@model WebApp.Models.UpdateAnimalViewModel
+
+<div class="modal fade" id="Modal_Edit_@Model.Id" tabindex="-1" aria-labelledby="Edit_Title_@Model.Id" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content card border-dark mb-3 mt-3 col-8 w-30">
+            <div class="modal-header card-header bg-warning text-light">
+                <h5 class="modal-title card-title" id="Edit_Title_@Model.Id">@Model.Name the @Model.Specie.Name details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="Edit_@Model.Id" name="Edit_@Model.Id" asp-action="Edit">
+                <div class="modal-body card-body">
+                    <div class="col-md-11 d-flex">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="col-md-5 offset-1">
+                            <div class="form-group">
+                                <label asp-for="Id" class="control-label"></label>
+                                <input asp-for="Id" class="form-control" readonly />
+                                <span asp-validation-for="Id" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Name" class="control-label"></label>
+                                <input asp-for="Name" class="form-control" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Description" class="control-label"></label>
+                                <textarea asp-for="Description" type="text" class="form-control"></textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="DateOfBirth" class="control-label"></label>
+                                <input asp-for="DateOfBirth" type="date" class="form-control" />
+                                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Sex" class="control-label"></label>
+                                <select asp-for="Sex" class="form-select" asp-items="Html.GetEnumSelectList<Sex>()"></select>
+                                <span asp-validation-for="Sex" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="HealthState" class="control-label"></label>
+                                <textarea asp-for="HealthState" class="form-control"></textarea>
+                                <span asp-validation-for="HealthState" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-5 offset-1">
+                            <div class="form-group">
+                                <label asp-for="Attitude" class="control-label"></label>
+                                <select asp-for="Attitude" class="form-select" asp-items="Html.GetEnumSelectList<Attitude>()"></select>
+                                <span asp-validation-for="Attitude" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="DateCreated" class="control-label"></label>
+                                <input asp-for="DateCreated" type="date" class="form-control" readonly />
+                                <span asp-validation-for="DateCreated" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="SpecieId" class="control-label">Specie</label>
+                                <span asp-validation-for="SpecieId" class="text-danger"></span>
+                                <div class="form-group d-flex">
+                                    @Html.DropDownListFor(model=>model.SpecieId, new SelectList(ViewBag.DropDowns.Species, "Id", "Name", Model.Specie), new { @class = "form-select"})
+                                    <button type="button" class="btn btn-sm btn-outline-success icon-float-end" data-bs-toggle="modal" data-bs-target="#AddSpecieModal"><i class="bi bi-plus-circle t-2"></i></button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="TypeId" class="control-label">Type</label>
+                                @Html.DropDownListFor(model=>model.TypeId, new SelectList(ViewBag.DropDowns.Types, "Id", "Name", Model.Type), new { @class = "form-select", @disabled = "disabled"})
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="FacilityId" class="control-label">Facility</label>
+                                <span asp-validation-for="FacilityId" class="text-danger"></span>
+                                <div class="form-group d-flex">
+                                    @Html.DropDownListFor(model=>model.FacilityId, new SelectList(ViewBag.DropDowns.Facilities, "Id", "Name", Model.Facility), new { @class = "form-select"})
+                                    <button type="button" class="btn btn-sm btn-outline-success icon-float-end" data-bs-toggle="modal" data-bs-target="#AddFacilityModal"><i class="bi bi-plus-circle t-2"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer card-footer btn-group-sm mt-4">
+                    <button type="submit" form="Edit_@Model.Id" class="btn btn-sm btn-warning float-start"><i class="bi bi-save"></i> Save</button>
+                    <button type="button" class="btn btn-sm btn-secondary float-end" data-bs-dismiss="modal"><i class="bi bi-x"></i> Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@await Html.PartialAsync("_ModalAddSpecie", new AnimalSpecieDto())
+@await Html.PartialAsync("_ModalAddFacility", new FacilityDto())
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+    <script>
+
+    </script>
+}

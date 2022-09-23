@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AnimalSanctuaryAPI.Controllers
 {
-    [Authorize(Roles = "Administrator, Manager")]
+    [Authorize(Roles = "Administrator, Manager, User")]
     [Route("api/[controller]")]
     [ApiController]
     public class AnimalController : ControllerBase

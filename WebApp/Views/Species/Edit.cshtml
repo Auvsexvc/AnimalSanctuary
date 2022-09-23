@@ -32,7 +32,8 @@
                         <label asp-for="TypeId" class="control-label">Type</label>
                         <div class="form-group d-flex">
                             @Html.DropDownListFor(model=>model.TypeId, new SelectList(ViewBag.DropDowns.Types, "Id", "Name", Model.Type), new { @class = "form-select"})
-                            <a asp-controller="AnimalTypes" asp-action="Create" class="btn btn-sm btn-outline-success icon-float-end"><i class="bi bi-plus-circle t-2"></i></a>
+                            @*<a asp-controller="AnimalTypes" asp-action="Create" class="btn btn-sm btn-outline-success icon-float-end"><i class="bi bi-plus-circle t-2"></i></a>*@
+                            <button type="button" class="btn btn-sm btn-outline-success icon-float-end" data-bs-toggle="modal" data-bs-target="#AddTypeModal"><i class="bi bi-plus-circle t-2"></i></button>
                         </div>
                         <span asp-validation-for="TypeId" class="text-danger"></span>
                     </div>
@@ -50,11 +51,19 @@
             }
             else
             {
-                <a asp-action="List" class="btn btn-sm btn-secondary float-end"><i class="bi bi-list"></i> Back to list</a>
+                if (HttpContextAccessor.HttpContext!.Session.GetString("browser") == "false")
+                {
+                    <a asp-action="List" class="btn btn-sm btn-secondary float-end"><i class="bi bi-list"></i> Back to list</a>
+                }
+                else
+                {
+                    <a asp-action="Index" class="btn btn-sm btn-secondary float-end"><i class="bi bi-list"></i> Back to browser</a>
+                }
             }
         </div>
     </form>
 </div>
+@await Html.PartialAsync("_ModalAddType", new AnimalTypeDto())
 @section Scripts{
     @{
         <partial name="_ValidationScriptsPartial" />

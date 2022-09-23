@@ -46,6 +46,7 @@ namespace WebApp.Controllers
 
             ViewBag.Species = new SelectList(dropdowns.Species, "Id", "Name");
             ViewBag.Facilities = new SelectList(dropdowns.Facilities, "Id", "Name");
+            ViewBag.Types = new SelectList(dropdowns.Types, "Id", "Name");
 
             ViewBag.Session = HttpContext.Session.GetString("browser") ?? "true";
 
@@ -213,6 +214,12 @@ namespace WebApp.Controllers
         {
             HttpContext.Session.SetString("browser", "false");
 
+            var dropdowns = await _service.GetNewAnimalDropdownsVM();
+            ViewBag.DropDowns = dropdowns;
+            ViewBag.Species = new SelectList(dropdowns.Species, "Id", "Name");
+            ViewBag.Facilities = new SelectList(dropdowns.Facilities, "Id", "Name");
+            ViewBag.Types = new SelectList(dropdowns.Types, "Id", "Name");
+
             return await GetAllSortedAndFiltered(sortingField, sortingOrder, filteringString);
         }
 
@@ -232,6 +239,14 @@ namespace WebApp.Controllers
             {
                 ViewData[prop + "Order"] = sortingField == prop && sortingOrder != "desc" ? "desc" : "asc";
                 ViewData[prop + "Field"] = prop;
+            }
+
+            if(data != null)
+            {
+                foreach (var animalViewModel in data)
+                {
+                    ViewData[$"{animalViewModel.Id}"] = await _service.GetByIdUpdateModelAsync(animalViewModel.Id);
+                }
             }
 
             ViewBag.Sorting = sortingDropdown;

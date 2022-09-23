@@ -1,5 +1,6 @@
 ﻿using WebApp.Dtos;
 using WebApp.Models;
+using WebApp.ViewModels;
 
 namespace WebApp.Interfaces
 {

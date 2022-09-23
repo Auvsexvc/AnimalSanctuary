@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<AnimalViewModel>
 @{
-    ViewData["Title"] = "List";
+    ViewData["Title"] = "List of Animals";
 }
 <div class="card border-dark mb-3 mt-3 col-md-12">
     <div class="card-header bg-info text-light">
-        <h3 class="card-title">Animals in Sanctuary</h3>
+        <h3 class="card-title">@ViewData["Title"]</h3>
     </div>
     <div class="card-body">
         <table class="table table-striped bg-light" style="width: 100%">
@@ -21,12 +21,22 @@
                         @await Html.PartialAsync("_ListRow", obj)
                         <td>
                             <div class="w-75 btn-group" role="group">
-                                <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@obj.Id"><i class="bi bi-eye"></i></a>
+                                <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#Modal_Details_@obj.Id">
+                                    <i class="bi bi-eye-fill"></i>
+                                </button>
                                 <a class="btn btn-warning btn-sm" asp-action="Edit" asp-route-id="@obj.Id"><i class="bi bi-pencil-square"></i></a>
-                                <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@obj.Id"><i class="bi bi-trash-fill"></i></a>
+                                @*<button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#Modal_Edit_@obj.Id">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>*@
+                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#Modal_Delete_@obj.Id">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
                             </div>
                         </td>
                     </tr>
+                    @await Html.PartialAsync("_ModalDetails", obj)
+                    @await Html.PartialAsync("_ModalEdit", (UpdateAnimalViewModel)ViewData[$"{obj.Id}"])
+                    @await Html.PartialAsync("_ModalDelete", obj)
                 }
             </tbody>
         </table>
@@ -35,4 +45,12 @@
         @await Html.PartialAsync("_AddButton", "Animals")
     </div>
 </div>
+@await Html.PartialAsync("_ModalCreate", new AnimalDto())
+@await Html.PartialAsync("_ModalAddSpecie", new AnimalSpecieDto())
+@await Html.PartialAsync("_ModalAddFacility", new FacilityDto())
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
 

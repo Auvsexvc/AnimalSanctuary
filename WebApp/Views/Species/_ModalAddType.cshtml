@@ -1,0 +1,46 @@
+﻿@model AnimalTypeDto
+
+<div class="modal fade" id="AddTypeModal" tabindex="-1" aria-labelledby="AddTypeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content card border-dark mb-3 mt-3 col-8 w-30">
+            <div class="modal-header card-header bg-success text-light">
+                <h5 class="modal-title card-title" id="AddTypeModalLabel">Add new animal type</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="Type" name="Type" asp-action="CreateMod" asp-controller="AnimalTypes">
+                <div class="modal-body card-body">
+
+                    <div class="col-md-11 d-flex">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="col-md-5 offset-1">
+                            <div class="form-group">
+                                <label asp-for="Name" class="control-label"></label>
+                                <input asp-for="Name" class="form-control" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-5 offset-1">
+                            <div class="form-group">
+                                <label asp-for="Description" class="control-label"></label>
+                                <textarea asp-for="Description" class="form-control"></textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer  card-footer form-group mt-4">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal"><i class="bi bi-x"></i> Close</button>
+                    <button type="submit" form="Type" class="btn btn-sm btn-success" data-save="modal"><i class="bi bi-save"></i> Add new type</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+    <script>
+
+    </script>
+}

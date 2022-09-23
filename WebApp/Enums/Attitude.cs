@@ -9,9 +9,9 @@ namespace WebApp.Enums
 
         Friendly,
 
-        Tolerant,
-
         Intolerant,
+
+        Tolerant,
 
         Solitary
     }

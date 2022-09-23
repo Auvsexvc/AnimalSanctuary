@@ -12,13 +12,11 @@ namespace AnimalSanctuaryAPI.Entities
 
         public string? Description { get; set; }
 
-        [Required]
-        public string BuildingNumber { get; set; } = string.Empty;
+        public string? BuildingNumber { get; set; }
 
         public string? ApartmentNumber { get; set; }
 
-        [Required]
-        public string StreetName { get; set; } = string.Empty;
+        public string? StreetName { get; set; }
 
         [Required]
         public string City { get; set; } = string.Empty;

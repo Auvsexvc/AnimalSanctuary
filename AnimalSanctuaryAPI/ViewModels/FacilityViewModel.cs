@@ -18,7 +18,7 @@ namespace AnimalSanctuaryAPI.ViewModels
         public string? City { get; set; }
 
         [Phone]
-        public string? PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; } = string.Empty;
 
         public int MaxCapacity { get; set; }
         public int FreeSpace { get; set; }

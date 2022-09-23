@@ -11,9 +11,11 @@ namespace WebApp.Services
         {
             var user = new User()
             {
+                Id = account.Id,
                 Email = account.Email,
                 Role = account.Role,
                 Token = account.Token,
+                ValidTo = account.ValidTo,
                 SessionId = sessionId,
             };
 

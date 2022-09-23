@@ -29,7 +29,7 @@
                         <label asp-for="TypeId" class="control-label"></label>
                         <div class="form-group d-flex">
                             <select asp-for="TypeId" class="form-select" asp-items="ViewBag.Types"></select>
-                            <a asp-controller="AnimalTypes" asp-action="Create" class="btn btn-sm btn-outline-success icon-float-end"><i class="bi bi-plus-circle t-2"></i></a>
+                            <button type="button" class="btn btn-sm btn-outline-success icon-float-end" data-bs-toggle="modal" data-bs-target="#AddTypeModal"><i class="bi bi-plus-circle t-2"></i></button>
                         </div>
                         <span asp-validation-for="TypeId" class="text-danger"></span>
                     </div>
@@ -52,6 +52,7 @@
         </div>
     </form>
 </div>
+@await Html.PartialAsync("_ModalAddType", new AnimalTypeDto())
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

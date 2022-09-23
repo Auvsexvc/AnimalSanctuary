@@ -1,12 +1,15 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WebApp.Data;
 using WebApp.Dtos;
 using WebApp.Interfaces;
+using WebApp.Models;
 using WebApp.Services;
 using WebApp.ViewModels;
 
 namespace WebApp.Controllers
 {
+    //[Authorize(Roles = UserRoles.Admin)]
     public class AccountController : Controller
     {
         private readonly IAccountService _service;
@@ -18,7 +21,6 @@ namespace WebApp.Controllers
             _userManagerService = userManagerService;
         }
 
-        //[Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> Users()
         {
             var accessToken = _userManagerService.GetUserToken(HttpContext.Session.GetString("Id"));
@@ -28,7 +30,10 @@ namespace WebApp.Controllers
                 return RedirectToAction("AccessDenied","Account");
             }
 
-            var users = await _service.GetAllAccounts(accessToken);
+            var accounts = await _service.GetAllAccounts(accessToken);
+
+            var loggedInUsers = _userManagerService.Users;
+            var users = accounts.Where(x=>!loggedInUsers.Select(x=>x.Email).Contains(x.Email)).Select(x=> new User() { Email = x.Email, Id=x.Id, Role=x.Role }).Concat(loggedInUsers).OrderByDescending(x=>x.ValidTo);
 
             return View(users);
         }
@@ -63,7 +68,6 @@ namespace WebApp.Controllers
             return RedirectToAction("Index", "Animals");
         }
 
-        [AllowAnonymous]
         public IActionResult Register()
         {
             var accessToken = _userManagerService.GetUserToken(HttpContext.Session.GetString("Id"));

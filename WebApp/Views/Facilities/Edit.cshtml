@@ -90,7 +90,14 @@
             }
             else
             {
-                <a asp-action="List" class="btn btn-sm btn-secondary float-end"><i class="bi bi-list"></i> Back to list</a>
+                if (HttpContextAccessor.HttpContext!.Session.GetString("browser") == "false")
+                {
+                    <a asp-action="List" class="btn btn-sm btn-secondary float-end"><i class="bi bi-list"></i> Back to list</a>
+                }
+                else
+                {
+                    <a asp-action="Index" class="btn btn-sm btn-secondary float-end"><i class="bi bi-list"></i> Back to browser</a>
+                }
             }
         </div>
     </form>

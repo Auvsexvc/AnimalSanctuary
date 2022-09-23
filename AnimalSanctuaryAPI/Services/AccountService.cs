@@ -50,7 +50,7 @@ namespace AnimalSanctuaryAPI.Services
             var claims = new List<Claim>()
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
+                new Claim(ClaimTypes.Name, user.Email),
                 new Claim(ClaimTypes.Role, user.Role.Name)
             };
 
@@ -81,7 +81,6 @@ namespace AnimalSanctuaryAPI.Services
             User newUser = new()
             {
                 Email = dto.Email,
-                DateOfBirth = dto.DateOfBirth,
                 RoleId = dto.RoleId,
             };
 

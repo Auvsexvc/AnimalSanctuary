@@ -3,6 +3,7 @@ using WebApp.Dtos;
 using WebApp.Helpers;
 using WebApp.Interfaces;
 using WebApp.Models;
+using WebApp.ViewModels;
 
 namespace WebApp.Services
 {

@@ -1,0 +1,88 @@
+﻿@model AnimalDto
+
+<div class="modal fade" id="Modal_Create_" tabindex="-1" aria-labelledby="Create_Title_" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content card border-dark mb-3 mt-3 col-8 w-30">
+            <div class="modal-header card-header bg-success text-light">
+                <h5 class="modal-title card-title" id="Create_Title_">Add new animal</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="Create_" name="Create_" asp-action="Create">
+                <div class="modal-body card-body">
+                    <div class="col-md-11 d-flex">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="col-md-5 offset-1">
+                            <div class="form-group">
+                                <label asp-for="Name" class="control-label"></label>
+                                <input asp-for="Name" class="form-control" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Description" class="control-label"></label>
+                                <textarea asp-for="Description" class="form-control"></textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="DateOfBirth" class="control-label"></label>
+                                <input asp-for="DateOfBirth" type="date" class="form-control" />
+                                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Sex" class="control-label"></label>
+                                <select asp-for="Sex" class="form-select" asp-items="Html.GetEnumSelectList<Sex>()"></select>
+                                <span asp-validation-for="Sex" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-5 offset-1">
+                            <div class="form-group">
+                                <label asp-for="HealthState" class="control-label"></label>
+                                <input asp-for="HealthState" class="form-control" />
+                                <span asp-validation-for="HealthState" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Attitude" class="control-label"></label>
+                                <select asp-for="Attitude" class="form-select" asp-items="Html.GetEnumSelectList<Attitude>()"></select>
+                                <span asp-validation-for="Attitude" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="HealthState" class="control-label"></label>
+                                <textarea asp-for="HealthState" class="form-control"></textarea>
+                                <span asp-validation-for="HealthState" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="SpecieId" class="control-label"></label>
+                                <div class="form-group d-flex">
+                                    <select asp-for="SpecieId" class="form-select" asp-items="ViewBag.Species"></select>
+                                    <button type="button" class="btn btn-sm btn-outline-success icon-float-end" data-bs-toggle="modal" data-bs-target="#AddSpecieModal"><i class="bi bi-plus-circle t-2"></i></button>
+                                </div>
+                                <span asp-validation-for="SpecieId" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="FacilityId" class="control-label"></label>
+                                <div class="form-group d-flex">
+                                    <select asp-for="FacilityId" class="form-select" asp-items="ViewBag.Facilities"></select>
+                                    <button type="button" class="btn btn-sm btn-outline-success icon-float-end" data-bs-toggle="modal" data-bs-target="#AddFacilityModal"><i class="bi bi-plus-circle t-2"></i></button>
+                                </div>
+                                <span asp-validation-for="FacilityId" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer card-footer btn-group-sm mt-4">
+                    <button type="submit" form="Create_" class="btn btn-sm btn-success float-start"><i class="bi bi-save"></i> Save</button>
+                    <button type="button" class="btn btn-sm btn-secondary float-end" data-bs-dismiss="modal"><i class="bi bi-x"></i> Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@await Html.PartialAsync("_ModalAddSpecie", new AnimalSpecieDto())
+@await Html.PartialAsync("_ModalAddFacility", new FacilityDto())
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+    <script>
+
+    </script>
+}

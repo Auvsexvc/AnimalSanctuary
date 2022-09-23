@@ -1,4 +1,11 @@
-﻿using WebApp.Data;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json.Linq;
+using NuGet.Common;
+using System.IdentityModel.Tokens.Jwt;
+using System.IO;
+using System.Text;
+using WebApp.Data;
 using WebApp.Dtos;
 using WebApp.Helpers;
 using WebApp.Interfaces;
@@ -28,7 +35,18 @@ namespace WebApp.Services
                     return null;
                 }
 
-                var account = await result.Content.ReadFromJsonAsync<Account>();
+                var token = await result.Content.ReadAsStringAsync();
+                var handler = new JwtSecurityTokenHandler();
+                var jwtSecurityToken = handler.ReadJwtToken(token);
+
+                Account account = new()
+                {
+                    Id = jwtSecurityToken.Claims.FirstOrDefault(claim => claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value,
+                    Email = jwtSecurityToken.Claims.FirstOrDefault(claim => claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name").Value,
+                    Role = jwtSecurityToken.Claims.FirstOrDefault(claim => claim.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role").Value,
+                    Token = token,
+                    ValidTo = jwtSecurityToken.ValidTo
+                };
 
                 return account;
             }
@@ -98,7 +116,6 @@ namespace WebApp.Services
             {
                 using var client = new HttpClient();
                 client.BaseAddress = new Uri(_configuration.GetConnectionString("DefaultConnection"));
-
                 var result = await client.PostAsJsonAsync<LoginDto>("account/login", dto);
 
                 return result;

@@ -1,21 +1,23 @@
-﻿@model IEnumerable<Account>
+﻿@model IEnumerable<User>
 
 @{
     ViewData["Title"] = "List of Users";
 }
-
-<div class="row">
-    <div class="col-md-8 offset-md-2">
-        <p>
-            <h4>List of users</h4>
-        </p>
-        <table class="table">
+<div class="card border-dark mb-3 mt-3 col-md-12">
+    <div class="card-header bg-info text-light">
+        <h3 class="card-title">@ViewData["Title"]</h3>
+    </div>
+    <div class="card-body">
+        <table class="table table-striped bg-light" style="table-layout: fixed;">
             <thead>
-                <tr class="text-center">
-                    <th>@Html.DisplayNameFor(model=>model.Email)</></th>
-                    <th>@Html.DisplayNameFor(model=>model.Role)</></th>
-                    <th>@Html.DisplayNameFor(model=>model.Token)</></th>
-                    @if (User.Identity!.IsAuthenticated && User.IsInRole("Admin"))
+                <tr>
+                    <th>@Html.DisplayNameFor(model=>model.Id)</th>
+                    <th>@Html.DisplayNameFor(model=>model.Email)</th>
+                    <th>@Html.DisplayNameFor(model=>model.Role)</th>
+                    <th>@Html.DisplayNameFor(model=>model.Token)</th>
+                    <th>@Html.DisplayNameFor(model=>model.ValidTo)</th>
+                    <th>@Html.DisplayNameFor(model=>model.SessionId)</th>
+                    @if (userManager.GetUser(HttpContextAccessor.HttpContext!.Session.GetString("Id")) != null && userManager.GetUser(HttpContextAccessor.HttpContext!.Session.GetString("Id"))!.Role == "Administrator")
                     {
                         <th>Actions</th>
                     }
@@ -26,6 +28,9 @@
                 {
                     <tr>
                         <td class="align-middle">
+                            @Html.DisplayFor(modelItem=>item.Id)
+                        </td>
+                        <td class="align-middle">
                             @Html.DisplayFor(modelItem=>item.Email)
                         </td>
                         <td class="align-middle">
@@ -34,18 +39,30 @@
                         <td class="align-middle">
                             @Html.DisplayFor(modelItem=>item.Token)
                         </td>
-                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        <td class="align-middle">
+                            @Html.DisplayFor(modelItem=>item.ValidTo)
+                        </td>
+                        <td class="align-middle">
+                            @Html.DisplayFor(modelItem=>item.SessionId)
+                        </td>
+                        @if (userManager.GetUser(HttpContextAccessor.HttpContext!.Session.GetString("Id")) != null && userManager.GetUser(HttpContextAccessor.HttpContext!.Session.GetString("Id"))!.Role == "Administrator")
                         {
-
-                            <td class="align-middle" style="white-space:nowrap;">
-                                @*<a class="btn btn-outline-primary" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i>Edit</a> |
-                                <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-eye"></i>Details</a> |
-                                <a class="btn btn-danger text-white" asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash"></i>Delete</a>*@
+                            <td class="align-middle" role="group">
+                                <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-eye"></i></a>
+                                <a class="btn btn-warning btn-sm" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i></a>
+                                <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash-fill"></i></a>
                             </td>
                         }
                     </tr>
                 }
             </tbody>
         </table>
+    </div>
+    <div class="btn-group-sm card-footer mt-4">
+        <div style="position:fixed; right:25px; bottom:25px;" class="text-white">
+            <a class="btn btn-sm btn-success my-2 my-sm-0" asp-controller="Account" asp-action="Register">
+            <i class="bi bi-person-plus"></i> Register new user
+        </a>
+        </div>
     </div>
 </div>

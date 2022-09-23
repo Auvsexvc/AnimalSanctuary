@@ -1,6 +1,6 @@
 ﻿using WebApp.Data;
 
-namespace WebApp.Models
+namespace WebApp.ViewModels
 {
     public class NewFacilityDropdownsVM
     {

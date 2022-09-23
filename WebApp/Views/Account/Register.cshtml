@@ -41,18 +41,13 @@
                         <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="DateOfBirth" class="control-label"></label>
-                        <input asp-for="DateOfBirth" type="date" class="form-control" />
-                        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
                         <label asp-for="RoleId" class="control-label"></label>
                         <input asp-for="RoleId" class="form-control" />
                         <span asp-validation-for="RoleId" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <input type="submit" class="btn btn-success float-end" value="Register" />
-                        <a class="btn btn-outline-secondary" asp-controller="Animals" asp-action="Index">Cancel</a>
+                        <a class="btn btn-outline-secondary" asp-controller="Account" asp-action="Users">Cancel</a>
                     </div>
                 </form>
             </div>

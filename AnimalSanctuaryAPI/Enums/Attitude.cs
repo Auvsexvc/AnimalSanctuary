@@ -9,9 +9,9 @@ namespace AnimalSanctuaryAPI.Enums
 
         Friendly,
 
-        Tolerant,
-
         Intolerant,
+
+        Tolerant,
 
         Solitary
     }

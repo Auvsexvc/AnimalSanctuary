@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AnimalSanctuaryAPI.Controllers
 {
-    [Authorize(Roles = "Administrator, Manager")]
+    [Authorize(Roles = "Administrator, Manager, User")]
     [Route("api/[controller]")]
     [ApiController]
     public class AnimalSpecieController : ControllerBase
@@ -51,6 +51,7 @@ namespace AnimalSanctuaryAPI.Controllers
             return data == null ? BadRequest() : CreatedAtAction("Get", new { id = data.Id }, data);
         }
 
+        [Authorize(Roles = "Administrator, Manager")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {

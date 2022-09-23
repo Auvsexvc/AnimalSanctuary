@@ -88,6 +88,36 @@ namespace WebApp.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost, ActionName("CreateMod")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateMod(FacilityDto dto)
+        {
+            var accessToken = _userManagerService.GetUserToken(HttpContext.Session.GetString("Id"));
+
+            if (accessToken == null)
+            {
+                return RedirectToAction("AccessDenied", "Account");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                TempData["warning"] = "Check fields";
+            }
+
+            var result = await _service.CreateAsync(dto, accessToken);
+
+            if (result?.IsSuccessStatusCode == true)
+            {
+                TempData["success"] = "Facility added";
+            }
+            else
+            {
+                TempData["error"] = "Facility not added";
+            }
+
+            return Redirect(Request.Headers["Referer"]);
+        }
+
         public async Task<IActionResult> Delete(Guid id)
         {
             var accessToken = _userManagerService.GetUserToken(HttpContext.Session.GetString("Id"));

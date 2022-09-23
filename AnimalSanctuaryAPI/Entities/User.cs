@@ -8,8 +8,6 @@ namespace AnimalSanctuaryAPI.Entities
         [Key]
         public Guid Id { get; set; }
 
-        public DateTime? DateOfBirth { get; set; }
-
         [Required]
         [EmailAddress]
         public string Email { get; set; } = string.Empty;

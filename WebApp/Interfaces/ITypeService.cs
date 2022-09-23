@@ -3,7 +3,7 @@ using WebApp.Models;
 
 namespace WebApp.Interfaces
 {
-    public interface IAnimalTypeService
+    public interface ITypeService
     {
         Task<HttpResponseMessage?> CreateAsync(AnimalTypeDto dto, string accessToken);
 

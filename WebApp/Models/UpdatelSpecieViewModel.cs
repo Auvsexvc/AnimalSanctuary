@@ -16,6 +16,6 @@ namespace WebApp.Models
         public Guid TypeId { get; set; }
 
         [DisplayName("Type")]
-        public AnimalType Type { get; set; } = new AnimalType();
+        public Data.AnimalType Type { get; set; } = new Data.AnimalType();
     }
 }

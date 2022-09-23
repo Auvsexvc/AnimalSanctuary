@@ -6,7 +6,7 @@ namespace WebApp.ViewModels
     {
         public List<AnimalSpecie>? Species { get; set; }
         public List<Facility>? Facilities { get; set; }
-        public List<AnimalType>? Types { get; set; }
+        public List<Data.AnimalType>? Types { get; set; }
 
         public NewAnimalDropdownsVM()
         {

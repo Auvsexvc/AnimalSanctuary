@@ -4,7 +4,7 @@ namespace WebApp.ViewModels
 {
     public class NewSpecieDropdownsVM
     {
-        public List<AnimalType>? Types { get; set; }
+        public List<Data.AnimalType>? Types { get; set; }
 
         public NewSpecieDropdownsVM()
         {

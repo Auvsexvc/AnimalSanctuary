@@ -133,7 +133,7 @@ namespace WebApp.Services
             {
                 Species = (await _baseService.GetAllAsync<AnimalSpecie>(null, null, null))?.OrderBy(a => a.Name).ToList(),
                 Facilities = (await _baseService.GetAllAsync<Facility>(null, null, null))?.OrderBy(a => a.Name).ToList(),
-                Types = (await _baseService.GetAllAsync<AnimalType>(null, null, null))?.OrderBy(a => a.Name).ToList(),
+                Types = (await _baseService.GetAllAsync<Data.AnimalType>(null, null, null))?.OrderBy(a => a.Name).ToList(),
             };
         }
 
@@ -145,7 +145,7 @@ namespace WebApp.Services
         private async Task<UpdateAnimalViewModel?> ToUpdateViewModel(Animal obj)
         {
             var specie = await _baseService.GetByIdAsync<AnimalSpecie>(obj.SpecieId);
-            var type = await _baseService.GetByIdAsync<AnimalType>(obj.TypeId);
+            var type = await _baseService.GetByIdAsync<Data.AnimalType>(obj.TypeId);
             var facility = await _baseService.GetByIdAsync<Facility>(obj.FacilityId);
 
             if (specie == null || type == null || facility == null)
@@ -175,7 +175,7 @@ namespace WebApp.Services
         private async Task<AnimalViewModel?> ToViewModel(Animal obj)
         {
             var specie = await _baseService.GetByIdAsync<AnimalSpecie>(obj.SpecieId);
-            var type = await _baseService.GetByIdAsync<AnimalType>(obj.TypeId);
+            var type = await _baseService.GetByIdAsync<Data.AnimalType>(obj.TypeId);
             var facility = await _baseService.GetByIdAsync<Facility>(obj.FacilityId);
 
             if (specie == null || type == null || facility == null)

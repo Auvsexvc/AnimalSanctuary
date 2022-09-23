@@ -6,7 +6,7 @@ using WebApp.Models;
 
 namespace WebApp.Services
 {
-    public class AnimalTypeService : IAnimalTypeService
+    public class AnimalTypeService : ITypeService
     {
         private readonly IBaseService _baseService;
         private readonly ILogger<AnimalTypeService> _logger;
@@ -24,7 +24,7 @@ namespace WebApp.Services
 
         public async Task<HttpResponseMessage?> DeleteAsync(Guid id, string accessToken)
         {
-            return await _baseService.DeleteAsync<AnimalType>(id, accessToken);
+            return await _baseService.DeleteAsync<Data.AnimalType>(id, accessToken);
         }
 
         public async Task<HttpResponseMessage?> EditAsync(Guid id, AnimalTypeViewModel vm, string accessToken)
@@ -51,7 +51,7 @@ namespace WebApp.Services
         {
             try
             {
-                var data = await _baseService.GetAllAsync<AnimalType>(sortingField, sortingOrder, filteringString);
+                var data = await _baseService.GetAllAsync<Data.AnimalType>(sortingField, sortingOrder, filteringString);
 
                 if (data == null)
                 {
@@ -79,7 +79,7 @@ namespace WebApp.Services
         {
             try
             {
-                var obj = await _baseService.GetByIdAsync<AnimalType>(id);
+                var obj = await _baseService.GetByIdAsync<Data.AnimalType>(id);
                 if (obj == null)
                 {
                     return null;
@@ -102,7 +102,7 @@ namespace WebApp.Services
             return _baseService.GetSortingDropdownsVM(new AnimalTypeViewModel());
         }
 
-        private static AnimalTypeViewModel? ToViewModel(AnimalType obj)
+        private static AnimalTypeViewModel? ToViewModel(Data.AnimalType obj)
         {
             if (obj == null)
             {

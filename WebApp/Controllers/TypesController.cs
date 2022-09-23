@@ -6,12 +6,12 @@ using WebApp.Services;
 
 namespace WebApp.Controllers
 {
-    public class AnimalTypesController : Controller
+    public class TypesController : Controller
     {
-        private readonly IAnimalTypeService _service;
+        private readonly ITypeService _service;
         private readonly UserManagerService _userManagerService;
 
-        public AnimalTypesController(IAnimalTypeService service, UserManagerService userManagerService)
+        public TypesController(ITypeService service, UserManagerService userManagerService)
         {
             _service = service;
             _userManagerService = userManagerService;

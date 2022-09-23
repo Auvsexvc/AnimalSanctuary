@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IBaseService, BaseService>();
 builder.Services.AddScoped<IAnimalService, AnimalService>();
-builder.Services.AddScoped<IAnimalTypeService, AnimalTypeService>();
+builder.Services.AddScoped<ITypeService, AnimalTypeService>();
 builder.Services.AddScoped<IAnimalSpecieService, AnimalSpecieService>();
 builder.Services.AddScoped<IFacilityService, FacilityService>();
 builder.Services.AddScoped<IAccountService, AccountService>();

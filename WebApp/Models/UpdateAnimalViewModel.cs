@@ -33,7 +33,7 @@ namespace WebApp.Models
         public AnimalSpecie Specie { get; set; } = new AnimalSpecie();
 
         [DisplayName("Type")]
-        public AnimalType Type { get; set; } = new AnimalType();
+        public Data.AnimalType Type { get; set; } = new Data.AnimalType();
 
         [DisplayName("Facility")]
         public Facility Facility { get; set; } = new Facility();

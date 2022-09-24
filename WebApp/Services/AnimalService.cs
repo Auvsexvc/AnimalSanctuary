@@ -127,7 +127,7 @@ namespace WebApp.Services
             }
         }
 
-        public async Task<NewAnimalDropdownsVM> GetNewAnimalDropdownsVM()
+        public async Task<NewAnimalDropdownsVM> GetNewUserDropdownsVM()
         {
             return new NewAnimalDropdownsVM()
             {

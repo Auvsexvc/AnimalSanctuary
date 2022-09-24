@@ -1,5 +1,6 @@
 ﻿using AnimalSanctuaryAPI.Data;
 using AnimalSanctuaryAPI.Dtos;
+using AnimalSanctuaryAPI.Exceptions;
 using AnimalSanctuaryAPI.Extensions;
 using AnimalSanctuaryAPI.Helpers;
 using AnimalSanctuaryAPI.Interfaces;
@@ -26,7 +27,7 @@ namespace AnimalSanctuaryAPI.Services
                 var data = await _appDbContext.Species.Include(x => x.Type).ToListAsync();
                 if (data == null)
                 {
-                    return null;
+                    throw new NotFoundException(Message.MSG_NORECORDS);
                 }
 
                 return data.ConvertAll(f => f.ToViewModel()).FilterBy(filteringString).SortBy(sortingField, sortingOrder).ToList();
@@ -46,7 +47,7 @@ namespace AnimalSanctuaryAPI.Services
 
                 if (data == null)
                 {
-                    return null;
+                    throw new NotFoundException(Message.MSG_NORECORDS);
                 }
 
                 return data.Find(f => f.Id == id)?.ToViewModel();
@@ -62,17 +63,25 @@ namespace AnimalSanctuaryAPI.Services
         {
             try
             {
+                var datas = await _appDbContext.Species.ToListAsync();
+
+                if (datas.Any(x => string.Equals(x.Name, dto.Name, StringComparison.OrdinalIgnoreCase)))
+                {
+                    throw new BadRequestException(Message.MSG_NAMEINUSE);
+                }
+
                 var type = await _appDbContext.Types.FirstOrDefaultAsync(t => t.Id == dto.TypeId);
 
                 if (type == null)
                 {
-                    return null;
+                    throw new BadRequestException();
                 }
 
                 var data = dto.NewFromDto(type);
 
                 await _appDbContext.Species.AddAsync(data);
                 await _appDbContext.SaveChangesAsync();
+                _logger.LogInformation(string.Format(Message.MSG_CREATED, data.Id), data.Id);
 
                 return data.ToViewModel();
             }
@@ -91,7 +100,12 @@ namespace AnimalSanctuaryAPI.Services
 
                 if (datas == null)
                 {
-                    return null;
+                    throw new NotFoundException(Message.MSG_NORECORDS);
+                }
+
+                if (datas.Any(x => string.Equals(x.Name, dto.Name, StringComparison.OrdinalIgnoreCase) && x.Id != id))
+                {
+                    throw new BadRequestException(Message.MSG_NAMEINUSE);
                 }
 
                 var data = datas.Find(f => f.Id == id);
@@ -99,7 +113,7 @@ namespace AnimalSanctuaryAPI.Services
 
                 if (data == null || type == null)
                 {
-                    return null;
+                    throw new BadRequestException();
                 }
 
                 data = data.UpdateFromDto(dto, type);
@@ -107,6 +121,7 @@ namespace AnimalSanctuaryAPI.Services
                 _appDbContext.Entry(data).State = EntityState.Modified;
 
                 await _appDbContext.SaveChangesAsync();
+                _logger.LogInformation(string.Format(Message.MSG_UPDATED, data.Id), data.Id);
 
                 return data.ToViewModel();
             }
@@ -125,18 +140,19 @@ namespace AnimalSanctuaryAPI.Services
 
                 if (datas == null)
                 {
-                    return null;
+                    throw new NotFoundException(Message.MSG_NORECORDS);
                 }
 
                 var data = datas.Find(f => f.Id == id);
 
                 if (data == null)
                 {
-                    return null;
+                    throw new NotFoundException(Message.MSG_NORECORDS);
                 }
 
                 _appDbContext.Species.Remove(data);
                 await _appDbContext.SaveChangesAsync();
+                _logger.LogInformation(string.Format(Message.MSG_DELETED, data.Id), data.Id);
 
                 return id;
             }

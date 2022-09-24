@@ -1,0 +1,21 @@
+﻿@model WebApp.Models.Base.IModelBase
+
+<div class="modal fade" id="Modal_Delete_@Model.Id" tabindex="-1" aria-labelledby="Delete_Title_@Model.Id" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content card border-dark mb-3 mt-3 col-8 w-30">
+            <div class="modal-header card-header bg-danger text-light">
+                <h5 class="modal-title card-title" id="Delete_Title_@Model.Id">Delete @Model.Name ?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="Delete_@Model.Id" name="Delete_@Model.Id" asp-action="Delete">
+                <div class="modal-body card-body">
+                    @await Html.PartialAsync("_RO", Model)
+                </div>
+                <div class="modal-footer card-footer btn-group-sm mt-4">
+                    <button type="submit" form="Delete_@Model.Id" class="btn btn-sm btn-danger float-start" data-save="modal"><i class="bi bi-trash-fill"></i> Yes, Delete!</button>
+                    <button type="button" class="btn btn-sm btn-secondary float-end" data-bs-dismiss="modal"><i class="bi bi-x"></i> Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

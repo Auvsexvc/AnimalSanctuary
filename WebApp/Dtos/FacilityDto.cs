@@ -31,6 +31,7 @@ namespace WebApp.Dtos
 
         [Required]
         [DisplayName("Max. capacity")]
+        [Range(1, int.MaxValue, ErrorMessage = "Must be greater than or equal to {1}")]
         public int MaxCapacity { get; set; }
     }
 }

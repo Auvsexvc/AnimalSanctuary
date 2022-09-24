@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using WebApp.Enums;
+using WebApp.Validators;
 
 namespace WebApp.Dtos
 {
@@ -13,6 +14,7 @@ namespace WebApp.Dtos
         public string? Description { get; set; }
 
         [DisplayName("Date of birth")]
+        [DateMustNotBeFuture]
         public DateTime? DateOfBirth { get; set; }
 
         public Sex? Sex { get; set; }

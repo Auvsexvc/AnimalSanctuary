@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WebApp.Data;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using WebApp.Dtos;
 using WebApp.Interfaces;
 using WebApp.Models;
@@ -27,13 +27,13 @@ namespace WebApp.Controllers
 
             if (accessToken == null)
             {
-                return RedirectToAction("AccessDenied","Account");
+                return RedirectToAction("AccessDenied", "Account");
             }
 
             var accounts = await _service.GetAllAccounts(accessToken);
 
             var loggedInUsers = _userManagerService.Users;
-            var users = accounts.Where(x=>!loggedInUsers.Select(x=>x.Email).Contains(x.Email)).Select(x=> new User() { Email = x.Email, Id=x.Id, Role=x.Role }).Concat(loggedInUsers).OrderByDescending(x=>x.ValidTo);
+            var users = accounts.Where(x => !loggedInUsers.Select(x => x.Email).Contains(x.Email)).Select(x => new User() { Email = x.Email, Id = x.Id, Role = x.Role }).Concat(loggedInUsers).OrderByDescending(x => x.ValidTo);
 
             return View(users);
         }
@@ -68,14 +68,18 @@ namespace WebApp.Controllers
             return RedirectToAction("Index", "Animals");
         }
 
-        public IActionResult Register()
+        public async Task<IActionResult> Register()
         {
             var accessToken = _userManagerService.GetUserToken(HttpContext.Session.GetString("Id"));
 
             if (accessToken == null)
             {
-                return RedirectToAction("AccessDenied","Account");
+                return RedirectToAction("AccessDenied", "Account");
             }
+
+            var dropdowns = await _service.GetNewUserDropdownsVM(accessToken);
+
+            ViewBag.Roles = new SelectList(dropdowns.Roles, "Id", "Name");
 
             return View(new RegisterVM());
         }
@@ -88,8 +92,12 @@ namespace WebApp.Controllers
 
             if (accessToken == null)
             {
-                return RedirectToAction("AccessDenied","Account");
+                return RedirectToAction("AccessDenied", "Account");
             }
+
+            var dropdowns = await _service.GetNewUserDropdownsVM(accessToken);
+
+            ViewBag.Roles = new SelectList(dropdowns.Roles, "Id", "Name");
 
             if (!ModelState.IsValid)
             {

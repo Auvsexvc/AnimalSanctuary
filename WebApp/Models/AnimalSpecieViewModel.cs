@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel;
 using WebApp.Data;
+using WebApp.Models.Base;
 
 namespace WebApp.Models
 {
-    public class AnimalSpecieViewModel
+    public class AnimalSpecieViewModel : IModelBase
     {
         [DisplayName("ID")]
         public Guid Id { get; set; }

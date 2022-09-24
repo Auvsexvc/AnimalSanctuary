@@ -1,33 +1,17 @@
 ﻿@using WebApp.Dtos
-@model AnimalTypeDto
+@model Object
 
 @{
-    ViewData["Title"] = "Add new animal type";
+    ViewData["Title"] = "Add new";
 }
 
 <div class="card border-dark mb-3 mt-3 col-md-8 offset-2 w-30">
     <div class="card-header bg-success text-light">
-        <h3 class="card-title">Add new animal type</h3>
+        <h3 class="card-title">Add new</h3>
     </div>
     <form asp-action="Create">
         <div class="card-body">
-            <div class="col-md-11 d-flex">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="col-md-5 offset-1">
-                    <div class="form-group">
-                        <label asp-for="Name" class="control-label"></label>
-                        <input asp-for="Name" class="form-control" />
-                        <span asp-validation-for="Name" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="col-md-5 offset-1">
-                    <div class="form-group">
-                        <label asp-for="Description" class="control-label"></label>
-                        <textarea asp-for="Description" class="form-control"></textarea>
-                        <span asp-validation-for="Description" class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
+            @await Html.PartialAsync("_ADD", Model, ViewBag.Dropdowns)
         </div>
         <div class="card-footer form-group mt-4">
             @if (userManager.GetUser(HttpContextAccessor.HttpContext!.Session.GetString("Id")) != null)

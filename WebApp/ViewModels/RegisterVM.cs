@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using WebApp.Data;
 
 namespace WebApp.ViewModels
 {
@@ -10,11 +11,13 @@ namespace WebApp.ViewModels
 
         [Required]
         [DataType(DataType.Password)]
+        [MinLength(6, ErrorMessage = "Password must be at least {1} characters long")]
         public string Password { get; set; } = string.Empty;
 
         [Display(Name = "Confirm password")]
         [Required(ErrorMessage = "Confirm password")]
         [DataType(DataType.Password)]
+        [MinLength(6, ErrorMessage = "Password must be at least {1} characters long")]
         [Compare("Password", ErrorMessage = "Password fields do not match")]
         public string ConfirmPassword { get; set; } = string.Empty;
 

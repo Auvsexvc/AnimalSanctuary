@@ -1,35 +1,15 @@
-﻿@model WebApp.Models.AnimalTypeViewModel
+﻿@model WebApp.Models.Base.IModelBase
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = $"Edit {Model.Name}";
 }
 <div class="card border-dark mb-3 mt-3 col-md-8 offset-2 w-30">
     <div class="card-header bg-warning text-light">
-        <h3 class="card-title">Edit animal</h3>
+        <h3 class="card-title">Edit @Model.Name</h3>
     </div>
     <form asp-action="Edit">
         <div class="card-body">
-            <div class="col-md-11 d-flex">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="col-md-5 offset-1">
-                    <div class="form-group">
-                        <label asp-for="Id" class="control-label"></label>
-                        <input asp-for="Id" class="form-control" readonly />
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Name" class="control-label"></label>
-                        <input asp-for="Name" class="form-control" />
-                        <span asp-validation-for="Name" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="col-md-5 offset-1">
-                    <div class="form-group">
-                        <label asp-for="Description" class="control-label"></label>
-                        <textarea asp-for="Description" class="form-control"></textarea>
-                        <span asp-validation-for="Description" class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
+            @await Html.PartialAsync("_RW", Model)
         </div>
         <div class="card-footer form-group mt-4">
             @if (userManager.GetUser(HttpContextAccessor.HttpContext!.Session.GetString("Id")) != null)
@@ -58,5 +38,4 @@
     @{
         <partial name="_ValidationScriptsPartial" />
     }
-    }
-
+}

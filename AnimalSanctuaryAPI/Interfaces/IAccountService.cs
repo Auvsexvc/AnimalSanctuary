@@ -1,11 +1,16 @@
 ﻿using AnimalSanctuaryAPI.Dtos;
+using AnimalSanctuaryAPI.Entities;
 
 namespace AnimalSanctuaryAPI.Interfaces
 {
     public interface IAccountService
     {
-        string GenereateJWT(LoginDto dto);
-        IEnumerable<UserDto> GetAll();
-        void RegisterUser(RegisterUserDto dto);
+        Task<string> GenereateJWT(LoginDto dto);
+
+        Task<IEnumerable<UserDto>> GetAll();
+
+        Task<IEnumerable<Role>> GetRoles();
+
+        Task RegisterUser(RegisterUserDto dto);
     }
 }

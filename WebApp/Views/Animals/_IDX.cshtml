@@ -1,0 +1,36 @@
+﻿@model AnimalViewModel
+
+<div class="card-body bg-light text-dark">
+    <div class="row">
+        <div class="col-md-4 float-start p-2">
+            <img src="/gfx/big_35ef567eca53ac949d238443aeca56ab.png" class="w-100 border-info rounded-circle" alt="@Model.Name" />
+        </div>
+        <div class="col-md-8 float-end">
+            <p class="card-text mb-1"><b>Name: </b>@Model.Name</p>
+            <p class="card-text mb-1"><b>Specie: </b>@Model.Specie</p>
+            <p class="card-text mb-1"><b>Sex: </b>@Model.Sex</p>
+            <p class="card-text mb-1"><b>DateOfBirth: </b>@(Model.DateOfBirth != null ? ((DateTime)Model.DateOfBirth).ToShortDateString() : "N/A")</p>
+            <p class="card-text mb-1"><b>Attitude: </b>@Model.Attitude</p>
+            <p class="card-text mb-1"><b>Facility: </b>@Model.Facility</p>
+        </div>
+    </div>
+    <div class="row">
+        @if (((IEnumerable<AnimalViewModel>)ViewBag.All).Where(a => a.Specie == Model.Specie && a.Id != Model.Id).Count() > 0)
+        {
+            <p class="card-text mb-0">
+                See also:
+            </p>
+            <div class="column d-flex flex-wrap">
+
+                @foreach (var similarRecentAnimal in ((IEnumerable<AnimalViewModel>)ViewBag.All).Where(a => a.Specie == Model.Specie && a.Id != Model.Id).OrderByDescending(a => a.DateCreated).Take(3))
+                {
+                    <div class="text-center" style="padding:2px;">
+                        <a class="text-center d-grid" asp-controller="Animals" asp-action="Details" asp-route-id="@similarRecentAnimal.Id">
+                            <img class="border-info rounded-circle avatar w-100" src="/gfx/big_35ef567eca53ac949d238443aeca56ab.png" style="width: 50px !important; height: 50px !important;" />
+                        </a>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>

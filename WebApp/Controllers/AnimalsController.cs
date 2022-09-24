@@ -42,7 +42,7 @@ namespace WebApp.Controllers
                 return RedirectToAction("AccessDenied","Account");
             }
 
-            var dropdowns = await _service.GetNewAnimalDropdownsVM();
+            var dropdowns = await _service.GetNewUserDropdownsVM();
 
             ViewBag.Species = new SelectList(dropdowns.Species, "Id", "Name");
             ViewBag.Facilities = new SelectList(dropdowns.Facilities, "Id", "Name");
@@ -152,7 +152,7 @@ namespace WebApp.Controllers
                 return RedirectToAction("AccessDenied","Account");
             }
 
-            var dropdowns = await _service.GetNewAnimalDropdownsVM();
+            var dropdowns = await _service.GetNewUserDropdownsVM();
             var data = await _service.GetByIdUpdateModelAsync(id);
 
             if (data == null)
@@ -214,7 +214,7 @@ namespace WebApp.Controllers
         {
             HttpContext.Session.SetString("browser", "false");
 
-            var dropdowns = await _service.GetNewAnimalDropdownsVM();
+            var dropdowns = await _service.GetNewUserDropdownsVM();
             ViewBag.DropDowns = dropdowns;
             ViewBag.Species = new SelectList(dropdowns.Species, "Id", "Name");
             ViewBag.Facilities = new SelectList(dropdowns.Facilities, "Id", "Name");
@@ -253,6 +253,7 @@ namespace WebApp.Controllers
             ViewBag.Field = sortingField;
             ViewBag.FieldDisplayName = sortingDropdown.DisplayNames.FirstOrDefault(x => x.Key == sortingField).Value;
             ViewBag.Order = sortingOrder;
+            ViewBag.All = data;
 
             ViewBag.Filter = filteringString;
 

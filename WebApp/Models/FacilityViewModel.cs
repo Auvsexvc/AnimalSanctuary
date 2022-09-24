@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using WebApp.Data;
+using WebApp.Models.Base;
 
 namespace WebApp.Models
 {
-    public class FacilityViewModel
+    public class FacilityViewModel : IModelBase
     {
         [DisplayName("Facility ID")]
         public Guid Id { get; set; }

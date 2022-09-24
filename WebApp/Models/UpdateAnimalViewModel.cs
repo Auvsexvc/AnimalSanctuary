@@ -2,10 +2,12 @@
 using System.ComponentModel.DataAnnotations;
 using WebApp.Data;
 using WebApp.Enums;
+using WebApp.Models.Base;
+using WebApp.Validators;
 
 namespace WebApp.Models
 {
-    public class UpdateAnimalViewModel
+    public class UpdateAnimalViewModel : IModelBase
     {
         [DisplayName("ID")]
         public Guid Id { get; set; }
@@ -17,6 +19,7 @@ namespace WebApp.Models
         public string? Description { get; set; }
 
         [DisplayName("Date of birth")]
+        [DateMustNotBeFuture]
         public DateTime? DateOfBirth { get; set; }
 
         public Sex? Sex { get; set; }
@@ -33,7 +36,7 @@ namespace WebApp.Models
         public AnimalSpecie Specie { get; set; } = new AnimalSpecie();
 
         [DisplayName("Type")]
-        public Data.AnimalType Type { get; set; } = new Data.AnimalType();
+        public Data.AnimalType Type { get; set; } = new AnimalType();
 
         [DisplayName("Facility")]
         public Facility Facility { get; set; } = new Facility();

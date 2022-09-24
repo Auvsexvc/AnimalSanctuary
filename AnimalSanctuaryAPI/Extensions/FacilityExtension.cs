@@ -49,7 +49,7 @@ namespace AnimalSanctuaryAPI.Extensions
             data.StreetName = dto.StreetName;
             data.City = dto.City;
             data.PhoneNumber = dto.PhoneNumber;
-            data.MaxCapacity = dto.MaxCapacity;
+            data.MaxCapacity = data.MaxCapacity < dto.MaxCapacity ? dto.MaxCapacity : data.MaxCapacity;
 
             return data;
         }

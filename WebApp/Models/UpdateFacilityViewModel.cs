@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using WebApp.Data;
+using WebApp.Models.Base;
 
 namespace WebApp.Models
 {
-    public class UpdateFacilityViewModel
+    public class UpdateFacilityViewModel : IModelBase
     {
         [DisplayName("Facility ID")]
         public Guid Id { get; set; }
@@ -36,6 +37,7 @@ namespace WebApp.Models
 
         [Required]
         [DisplayName("Max. capacity")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than {1}")]
         public int MaxCapacity { get; set; }
 
         [DisplayName("Free. space")]

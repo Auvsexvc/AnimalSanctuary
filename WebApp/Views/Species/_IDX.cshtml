@@ -1,0 +1,11 @@
+﻿@model AnimalSpecieViewModel
+
+                        <div class="card-body bg-light text-dark">
+                            <div class="row">
+                                <div class="float-end">
+                                    <p class="card-text mb-1"><b>Name: </b>@Model.Name</p>
+                                    <p class="card-text mb-1"><b>Description: </b>@(string.IsNullOrEmpty(Model.Description) ? "..." : Model.Description.Length > 100 ? Model.Description.Substring(0, 100) + "..." : Model.Description)</p>
+                                    <p class="card-text mb-1"><b>Type: </b>@Model.TypeName</p>
+                                </div>
+                            </div>
+                        </div>

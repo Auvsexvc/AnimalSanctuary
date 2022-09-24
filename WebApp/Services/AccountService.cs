@@ -1,10 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json.Linq;
-using NuGet.Common;
-using System.IdentityModel.Tokens.Jwt;
-using System.IO;
-using System.Text;
+﻿using System.IdentityModel.Tokens.Jwt;
 using WebApp.Data;
 using WebApp.Dtos;
 using WebApp.Helpers;
@@ -41,9 +35,9 @@ namespace WebApp.Services
 
                 Account account = new()
                 {
-                    Id = jwtSecurityToken.Claims.FirstOrDefault(claim => claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value,
-                    Email = jwtSecurityToken.Claims.FirstOrDefault(claim => claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name").Value,
-                    Role = jwtSecurityToken.Claims.FirstOrDefault(claim => claim.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role").Value,
+                    Id = jwtSecurityToken.Claims.First(claim => claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value,
+                    Email = jwtSecurityToken.Claims.First(claim => claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name").Value,
+                    Role = jwtSecurityToken.Claims.First(claim => claim.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role").Value,
                     Token = token,
                     ValidTo = jwtSecurityToken.ValidTo
                 };
@@ -91,6 +85,39 @@ namespace WebApp.Services
             }
         }
 
+        public async Task<IEnumerable<Role>> GetAllRoles(string accessToken)
+        {
+            try
+            {
+                var data = Enumerable.Empty<Role>();
+
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(_configuration.GetConnectionString("DefaultConnection"));
+                    client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
+                    var result = await client.GetAsync("Account/Roles");
+
+                    if (result.IsSuccessStatusCode)
+                    {
+                        var json = await result.Content.ReadAsStringAsync();
+
+                        if (!string.IsNullOrEmpty(json))
+                        {
+                            return (await result.Content.ReadFromJsonAsync<IList<Role>>())!;
+                        }
+                    }
+                }
+
+                return data;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(Message.ERROR, ex.Message);
+
+                throw;
+            }
+        }
+
         public async Task<HttpResponseMessage> RegisterAsync(RegisterVM dto, string accessToken)
         {
             try
@@ -108,6 +135,14 @@ namespace WebApp.Services
 
                 throw;
             }
+        }
+
+        public async Task<NewUserDropdownsVM> GetNewUserDropdownsVM(string accessToken)
+        {
+            return new NewUserDropdownsVM()
+            {
+                Roles = (await GetAllRoles(accessToken)).OrderBy(a => a.Name).ToList(),
+            };
         }
 
         private async Task<HttpResponseMessage?> GetToken(LoginDto dto)

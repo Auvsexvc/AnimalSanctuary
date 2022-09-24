@@ -3,56 +3,55 @@
 @model RegisterVM
 
 @{
-    ViewData["Title"] = "Sign up for a new account";
+    ViewData["Title"] = "Register new user";
 }
 
-<div class="row">
-    <div class="col-md-6 offset-3">
-        <p>
-            <h4>
-                Sign up for a new account
-            </h4>
-        </p>
-        @if (TempData["Error"] != null)
-        {
-            <div class="col-md-12 alert alert-danger">
+<div class="card border-dark mb-3 mt-3 col-md-4 offset-4 w-30">
+    <div class="card-header bg-success text-light">
+        <h3 class="card-title">Register new user</h3>
+    </div>
+    @if (TempData["Error"] != null)
+    {
+        <div class="col-md-12 alert alert-danger">
             <span><b>@TempData["Error"]</b></span>
-            </div>
-        }
-        <div class="row">
-            <div class="col-md-8 offset-2">
-                <form asp-action="Register">
-                    @Html.AntiForgeryToken()
-                    <div asp-validation-summary="ModelOnly" class="text-danger">
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Email" class="control-label"></label>
-                        <input asp-for="Email" class="form-control" />
-                        <span asp-validation-for="Email" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Password" class="control-label"></label>
-                        <input asp-for="Password" class="form-control" />
-                        <span asp-validation-for="Password" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="ConfirmPassword" class="control-label"></label>
-                        <input asp-for="ConfirmPassword" class="form-control" />
-                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="RoleId" class="control-label"></label>
-                        <input asp-for="RoleId" class="form-control" />
-                        <span asp-validation-for="RoleId" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" class="btn btn-success float-end" value="Register" />
-                        <a class="btn btn-outline-secondary" asp-controller="Account" asp-action="Users">Cancel</a>
-                    </div>
-                </form>
-            </div>
+        </div>
+    }
+    <form asp-action="Register">
+    <div class="card-body">
+        <div class="col-8 offset-2">
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="ModelOnly" class="text-danger">
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ConfirmPassword" class="control-label"></label>
+                    <input asp-for="ConfirmPassword" class="form-control" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="RoleId" class="control-label"></label>
+                    <select asp-for="RoleId" class="form-select" asp-items="ViewBag.Roles">
+                        <option value="">--Pick a role--</option>
+                    </select>
+                    <span asp-validation-for="RoleId" class="text-danger"></span>
+                </div>
         </div>
     </div>
+    <div class="card-footer form-group mt-4">
+        <input type="submit" class="btn btn-success float-end" value="Register" />
+        <a class="btn btn-outline-secondary" asp-controller="Account" asp-action="Users">Cancel</a>
+    </div>
+    </form>
+
 </div>
 
 

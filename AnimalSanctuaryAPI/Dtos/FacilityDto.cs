@@ -5,6 +5,7 @@ namespace AnimalSanctuaryAPI.Dtos
     public class FacilityDto
     {
         [Required]
+        [MinLength(2)]
         public string Name { get; set; } = String.Empty;
 
         public string? Description { get; set; }
@@ -20,9 +21,11 @@ namespace AnimalSanctuaryAPI.Dtos
         public string PhoneNumber { get; set; } = string.Empty;
 
         [Required]
+        [MinLength(2)]
         public string City { get; set; } = string.Empty;
 
         [Required]
+        [Range(1, int.MaxValue, ErrorMessage = "Must be greater than or equal to {1}")]
         public int MaxCapacity { get; set; }
     }
 }

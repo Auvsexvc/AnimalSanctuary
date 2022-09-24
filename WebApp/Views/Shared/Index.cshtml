@@ -1,7 +1,8 @@
-﻿@model IEnumerable<FacilityViewModel>
+﻿@using WebApp.Models.Base
+@model IEnumerable<IModelBase>
 
 @{
-    ViewData["Title"] = "Facilities";
+    ViewData["Title"] = $"{ViewContext.RouteData.Values["controller"]} browser";
 }
 
 <div class="mt-4 d-flex container-fluid w-100  justify-content-center">
@@ -26,34 +27,23 @@
                             </div>
                         </div>
                         <div class="card-body bg-light text-dark">
-                            <div class="row">
-                                <div class="float-end">
-                                    <p class="card-text mb-1"><b>Name: </b>@item.Name</p>
-                                    <p class="card-text mb-1">
-                                        <b>Description: </b>@(
-                                    string.IsNullOrEmpty(item.Description) ? "..." : item.Description.Length > 100 ? item.Description.Substring(0, 100) + "..." : item.Description
-                                    )
-                                    </p>
-                                    <p class="card-text mb-1"><b>Address: </b>@(string.Join(", ", new List<string?>() { @item.StreetName, @item.BuildingNumber, @item.ApartmentNumber, @item.City }.Where(x => !string.IsNullOrEmpty(x))))</p>
-                                    <p class="card-text mb-1"><b>Max. Capacity: </b>@item.MaxCapacity</p>
-                                    <p class="card-text mb-1"><b>Free space: </b>@item.FreeSpace</p>
-                                    <p class="card-text mb-1"><b>Contact number: </b>@item.PhoneNumber</p>
-                                </div>
-                            </div>
+                            @await Html.PartialAsync("_IDX", item)
                         </div>
                         <div class="card-footer ">
                             <div class="col-md-12">
                                 <p class="card-text">
-                                    <a class="btn btn-sm btn-info float-end" asp-action="Details" asp-route-id="@item.Id">
+                                    <button type="button" class="btn btn-sm btn-info icon-float-end" data-bs-toggle="modal" data-bs-target="#Modal_Details_@item.Id">
                                         <i class="bi bi-eye-fill"></i> Show Details
-                                    </a>
+                                    </button>
                                 </p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            @await Html.PartialAsync("_ModalDetails", item)
         }
     </div>
 </div>
-@await Html.PartialAsync("_AddButton", "Facilities")
+
+@await Html.PartialAsync("_AddButton", ViewContext.RouteData.Values["controller"])

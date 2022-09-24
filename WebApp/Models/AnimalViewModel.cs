@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using WebApp.Enums;
+using WebApp.Models.Base;
 
 namespace WebApp.Models
 {
-    public class AnimalViewModel
+    public class AnimalViewModel : IModelBase
     {
         [DisplayName("ID")]
         public Guid Id { get; set; }

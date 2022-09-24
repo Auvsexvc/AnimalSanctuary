@@ -28,12 +28,12 @@ namespace AnimalSanctuaryAPI.Services
             _authenticationSettings = authenticationSettings;
         }
 
-        public string GenereateJWT(LoginDto dto)
+        public async Task<string> GenereateJWT(LoginDto dto)
         {
-            var user = _dbContext
+            var user = await _dbContext
                 .Users
                 .Include(u => u.Role)
-                .FirstOrDefault(u => u.Email == dto.Email);
+                .FirstOrDefaultAsync(u => u.Email == dto.Email);
 
             if (user == null)
             {
@@ -67,17 +67,33 @@ namespace AnimalSanctuaryAPI.Services
             return tokenHandler.WriteToken(token);
         }
 
-        public IEnumerable<UserDto> GetAll()
+        public async Task<IEnumerable<UserDto>> GetAll()
         {
-            return _dbContext
+            return await _dbContext
                 .Users
                 .Include(r => r.Role)
                 .Select(u => ToDto(u))
-                .ToList();
+                .ToListAsync();
         }
 
-        public void RegisterUser(RegisterUserDto dto)
+        public async Task<IEnumerable<Role>> GetRoles()
         {
+            return await _dbContext
+                .Roles
+                .ToListAsync();
+        }
+
+        public async Task RegisterUser(RegisterUserDto dto)
+        {
+            var users = await _dbContext
+                .Users
+                .ToListAsync();
+
+            if (users.Any(x => string.Equals(x.Email, dto.Email, StringComparison.OrdinalIgnoreCase)))
+            {
+                throw new BadRequestException("User with specified email address already exists");
+            }
+
             User newUser = new()
             {
                 Email = dto.Email,
@@ -85,8 +101,8 @@ namespace AnimalSanctuaryAPI.Services
             };
 
             newUser.PasswordHash = _passwordHasher.HashPassword(newUser, dto.Password);
-            _dbContext.Users.Add(newUser);
-            _dbContext.SaveChanges();
+            await _dbContext.Users.AddAsync(newUser);
+            await _dbContext.SaveChangesAsync();
 
             _logger.LogInformation($"User with ID: {newUser.Id} created");
         }

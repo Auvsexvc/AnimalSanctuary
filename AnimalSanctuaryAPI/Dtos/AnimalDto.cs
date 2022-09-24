@@ -1,4 +1,5 @@
 ﻿using AnimalSanctuaryAPI.Enums;
+using AnimalSanctuaryAPI.Validators;
 using System.ComponentModel.DataAnnotations;
 
 namespace AnimalSanctuaryAPI.Dtos
@@ -6,9 +7,12 @@ namespace AnimalSanctuaryAPI.Dtos
     public class AnimalDto
     {
         [Required]
+        [MinLength(2)]
         public string Name { get; set; } = string.Empty;
 
         public string? Description { get; set; }
+
+        [DateMustNotBeFuture]
         public DateTime? DateOfBirth { get; set; }
         public Sex? Sex { get; set; }
         public string? HealthState { get; set; }
@@ -16,9 +20,11 @@ namespace AnimalSanctuaryAPI.Dtos
         public DateTime DateCreated { get; } = DateTime.Now;
 
         [Required]
+        [RequiredGuid]
         public Guid SpecieId { get; set; }
 
         [Required]
+        [RequiredGuid]
         public Guid FacilityId { get; set; }
     }
 }

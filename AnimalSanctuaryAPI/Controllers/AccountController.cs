@@ -1,13 +1,12 @@
 ﻿using AnimalSanctuaryAPI.Dtos;
 using AnimalSanctuaryAPI.Interfaces;
-using AnimalSanctuaryAPI.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace RestaurantAPI.Controllers
 {
     [Authorize(Roles = "Administrator")]
-    [Route("api/account")]
+    [Route("api/Account")]
     [ApiController]
     public class AccountController : ControllerBase
     {
@@ -19,26 +18,34 @@ namespace RestaurantAPI.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var userDtos = _accountService.GetAll();
+            var userDtos = await _accountService.GetAll();
 
             return Ok(userDtos);
         }
 
-        [HttpPost("register")]
-        public ActionResult RegisterUser([FromBody] RegisterUserDto dto)
+        [HttpGet("Roles")]
+        public async Task<IActionResult> GetRoles()
         {
-            _accountService.RegisterUser(dto);
+            var roles = await _accountService.GetRoles();
+
+            return Ok(roles);
+        }
+
+        [HttpPost("Register")]
+        public async Task<IActionResult> RegisterUser([FromBody] RegisterUserDto dto)
+        {
+            await _accountService.RegisterUser(dto);
 
             return Ok();
         }
 
         [AllowAnonymous]
-        [HttpPost("login")]
-        public ActionResult Login([FromBody] LoginDto dto)
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login([FromBody] LoginDto dto)
         {
-            string token = _accountService.GenereateJWT(dto);
+            string token = await _accountService.GenereateJWT(dto);
 
             return Ok(token);
         }

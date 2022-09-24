@@ -1,6 +1,7 @@
-﻿@model IEnumerable<AnimalViewModel>
+﻿@using WebApp.Models.Base
+@model IEnumerable<IModelBase>
 @{
-    ViewData["Title"] = "List of Animals";
+    ViewData["Title"] = $"List of {ViewContext.RouteData.Values["controller"]}";
 }
 <div class="card border-dark mb-3 mt-3 col-md-12">
     <div class="card-header bg-info text-light">
@@ -32,21 +33,22 @@
                                     <i class="bi bi-trash-fill"></i>
                                 </button>
                             </div>
+                            @await Html.PartialAsync("_ModalDetails", obj)
+                            @*@await Html.PartialAsync("_ModalEdit", (UpdateAnimalViewModel)ViewData[$"{obj.Id}"])*@
+                            @await Html.PartialAsync("_ModalDelete", obj)
                         </td>
                     </tr>
-                    @await Html.PartialAsync("_ModalDetails", obj)
-                    @await Html.PartialAsync("_ModalEdit", (UpdateAnimalViewModel)ViewData[$"{obj.Id}"])
-                    @await Html.PartialAsync("_ModalDelete", obj)
                 }
             </tbody>
         </table>
     </div>
     <div class="btn-group-sm card-footer mt-4">
-        @await Html.PartialAsync("_AddButton", "Animals")
+        @await Html.PartialAsync("_AddButton", @ViewContext.RouteData.Values["controller"])
     </div>
 </div>
-@await Html.PartialAsync("_ModalCreate", new AnimalDto())
+@*@await Html.PartialAsync("_ModalCreate", new AnimalDto())*@
 @await Html.PartialAsync("_ModalAddSpecie", new AnimalSpecieDto())
+@await Html.PartialAsync("_ModalAddType", new AnimalTypeDto())
 @await Html.PartialAsync("_ModalAddFacility", new FacilityDto())
 @section Scripts{
     @{

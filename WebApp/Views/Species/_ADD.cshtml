@@ -1,0 +1,28 @@
+﻿@model WebApp.Dtos.AnimalSpecieDto
+
+<div class="col-md-11 d-flex">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="col-md-5 offset-1">
+        <div class="form-group">
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description" class="control-label"></label>
+            <textarea asp-for="Description" class="form-control"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md-5 offset-1">
+        <div class="form-group">
+            <label asp-for="TypeId" class="control-label"></label>
+            <div class="form-group d-flex">
+                <select asp-for="TypeId" class="form-select" asp-items="ViewBag.Types"></select>
+                <button type="button" class="btn btn-sm btn-outline-success icon-float-end" data-bs-toggle="modal" data-bs-target="#AddTypeModal"><i class="bi bi-plus-circle t-2"></i></button>
+            </div>
+            <span asp-validation-for="TypeId" class="text-danger"></span>
+        </div>
+    </div>
+    @await Html.PartialAsync("_ModalAddType", new AnimalTypeDto())
+</div>

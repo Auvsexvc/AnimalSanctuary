@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel;
-using WebApp.Data;
+using WebApp.Models.Base;
 
 namespace WebApp.Models
 {
-    public class UpdateSpecieViewModel
+    public class UpdateSpecieViewModel : IModelBase
     {
         [DisplayName("ID")]
         public Guid Id { get; set; }

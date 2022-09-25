@@ -20,9 +20,29 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
-//builder.Services.AddAuthentication(options => options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme);
+builder.Services.AddAuthentication(options => options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+{
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+    options.SlidingExpiration = true;
+    options.AccessDeniedPath = "/Errors/Error401";
+});
 
 var app = builder.Build();
+app.Use(async (context, next) =>
+{
+    await next();
+    if (context.Response.StatusCode == 401)
+    {
+        context.Request.Path = "/Errors/Error401";
+        await next();
+    }
+    if (context.Response.StatusCode == 404)
+    {
+        context.Request.Path = "/Errors/Error404";
+        await next();
+    }
+});
+
 
 if (!app.Environment.IsDevelopment())
 {

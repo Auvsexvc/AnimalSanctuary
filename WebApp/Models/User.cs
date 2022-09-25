@@ -14,6 +14,7 @@ namespace WebApp.Models
 
         [Display(Name = "Token")]
         public string Token { get; set; } = string.Empty;
+
         [Display(Name = "Token valid to")]
         public DateTime? ValidTo { get; set; }
 

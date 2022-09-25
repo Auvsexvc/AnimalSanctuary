@@ -9,14 +9,14 @@
     <div class="card-header bg-success text-light">
         <h3 class="card-title">Add new</h3>
     </div>
-    <form asp-action="Create">
+    <form id="Create_@ViewContext.RouteData.Values["Controller"]!.ToString()" asp-action="Create">
         <div class="card-body">
             @await Html.PartialAsync("_ADD", Model, ViewBag.Dropdowns)
         </div>
         <div class="card-footer form-group mt-4">
             @if (userManager.GetUser(HttpContextAccessor.HttpContext!.Session.GetString("Id")) != null)
             {
-                <button type="submit" class="btn btn-sm btn-success"><i class="bi bi-plus-circle"></i> Create</button>
+                <button form="Create_@ViewContext.RouteData.Values["Controller"]!.ToString()" type="submit" class="btn btn-sm btn-success"><i class="bi bi-plus-circle"></i> Create</button>
             }
             @if (ViewBag.Session != null && ViewBag.Session == "false")
             {
@@ -29,6 +29,9 @@
         </div>
     </form>
 </div>
+@await Html.PartialAsync("_ModalAddType", new AnimalTypeDto())
+@await Html.PartialAsync("_ModalAddSpecie", new AnimalSpecieDto())
+@await Html.PartialAsync("_ModalAddFacility", new FacilityDto())
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

@@ -22,10 +22,12 @@ namespace WebApp.Services
         {
             return await _baseService.CreateAsync<AnimalSpecieDto>(dto, accessToken);
         }
+
         public async Task<HttpResponseMessage?> DeleteAsync(Guid id, string accessToken)
         {
             return await _baseService.DeleteAsync<AnimalSpecie>(id, accessToken);
         }
+
         public async Task<HttpResponseMessage?> EditAsync(Guid id, UpdateSpecieViewModel vm, string accessToken)
         {
             try
@@ -46,6 +48,7 @@ namespace WebApp.Services
                 return null;
             }
         }
+
         public async Task<IEnumerable<AnimalSpecieViewModel?>?> GetAllAsync(string? sortingField, string? sortingOrder, string? filteringString)
         {
             try
@@ -73,6 +76,7 @@ namespace WebApp.Services
                 return null;
             }
         }
+
         public async Task<AnimalSpecieViewModel?> GetByIdAsync(Guid id)
         {
             try
@@ -106,6 +110,28 @@ namespace WebApp.Services
         public SortingDropdowns GetSortingDropdownsVM()
         {
             return _baseService.GetSortingDropdownsVM(new AnimalSpecieViewModel());
+        }
+
+        public async Task<UpdateSpecieViewModel?> GetByIdUpdateModelAsync(Guid id)
+        {
+            try
+            {
+                var obj = await _baseService.GetByIdAsync<AnimalSpecie>(id);
+                if (obj == null)
+                {
+                    return null;
+                }
+
+                UpdateSpecieViewModel? data = await ToUpdateViewModel(obj);
+
+                return data;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(Message.ERROR, ex.Message);
+
+                return null;
+            }
         }
 
         private async Task<AnimalSpecieViewModel?> ToViewModel(AnimalSpecie obj)
@@ -143,28 +169,6 @@ namespace WebApp.Services
                 TypeId = obj.TypeId,
                 Type = type
             };
-        }
-
-        public async Task<UpdateSpecieViewModel?> GetByIdUpdateModelAsync(Guid id)
-        {
-            try
-            {
-                var obj = await _baseService.GetByIdAsync<AnimalSpecie>(id);
-                if (obj == null)
-                {
-                    return null;
-                }
-
-                UpdateSpecieViewModel? data = await ToUpdateViewModel(obj);
-
-                return data;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(Message.ERROR, ex.Message);
-
-                return null;
-            }
         }
     }
 }

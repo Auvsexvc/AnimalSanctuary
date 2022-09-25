@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using WebApp.Data;
 using WebApp.Models.Base;
 
 namespace WebApp.Models

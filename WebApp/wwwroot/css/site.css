@@ -34,6 +34,7 @@ table thead tr .headerSortUp {
 table thead tr .headerSortDown {
     background-image: url(../gfx/desc.gif) !important;
 }
+
 table thead tr th.headerSort {
     background-image: url(../gfx/bg.gif);
     background-repeat: no-repeat;

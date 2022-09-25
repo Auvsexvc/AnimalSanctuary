@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Security.Claims;
+using WebApp.Data;
 using WebApp.Dtos;
 using WebApp.Interfaces;
 using WebApp.Models;
@@ -9,7 +13,7 @@ using WebApp.ViewModels;
 
 namespace WebApp.Controllers
 {
-    //[Authorize(Roles = UserRoles.Admin)]
+    [Authorize(Roles = UserRoles.Admin)]
     public class AccountController : Controller
     {
         private readonly IAccountService _service;
@@ -27,7 +31,7 @@ namespace WebApp.Controllers
 
             if (accessToken == null)
             {
-                return RedirectToAction("AccessDenied", "Account");
+                return View("AccessDenied");
             }
 
             var accounts = await _service.GetAllAccounts(accessToken);
@@ -55,6 +59,7 @@ namespace WebApp.Controllers
 
             if (user == null)
             {
+                //ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                 TempData["error"] = "Wrong credential. Please try again.";
 
                 return View(loginVM);
@@ -63,6 +68,24 @@ namespace WebApp.Controllers
             var sessionId = Guid.NewGuid().ToString();
             HttpContext.Session.SetString("Id", sessionId);
             _userManagerService.AddUser(sessionId, user);
+
+            ///
+
+            var claims = new List<Claim>()
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim(ClaimTypes.Name, user.Email),
+                new Claim(ClaimTypes.Role, user.Role),
+            };
+
+            var claimsIdentity = new ClaimsIdentity(
+            claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignInAsync(
+            CookieAuthenticationDefaults.AuthenticationScheme,
+            new ClaimsPrincipal(claimsIdentity));
+
+            ///
+
             TempData["success"] = $"Successfully logged in as {user.Email}";
 
             return RedirectToAction("Index", "Animals");
@@ -74,7 +97,7 @@ namespace WebApp.Controllers
 
             if (accessToken == null)
             {
-                return RedirectToAction("AccessDenied", "Account");
+                return View("AccessDenied");
             }
 
             var dropdowns = await _service.GetNewUserDropdownsVM(accessToken);
@@ -92,7 +115,7 @@ namespace WebApp.Controllers
 
             if (accessToken == null)
             {
-                return RedirectToAction("AccessDenied", "Account");
+                return View("AccessDenied");
             }
 
             var dropdowns = await _service.GetNewUserDropdownsVM(accessToken);
@@ -128,7 +151,7 @@ namespace WebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
             var sessionId = HttpContext.Session.GetString("Id");
 
@@ -141,6 +164,9 @@ namespace WebApp.Controllers
 
             _userManagerService.DeleteUser(sessionId);
             HttpContext.Session.Remove("Id");
+
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
             TempData["warning"] = $"{user.Email} logged out";
 
             return RedirectToAction("Index", "Animals");

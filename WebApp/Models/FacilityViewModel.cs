@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using WebApp.Data;
 using WebApp.Models.Base;
 
 namespace WebApp.Models

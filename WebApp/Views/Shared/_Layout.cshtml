@@ -27,7 +27,7 @@
                         <ul class="d-inline-flex mt-2  flex-row text-dark flex-grow-1 collapse d-sm-inline-flex justify-content-between text-dark list-unstyled">
                             <li class="nav-item  me-2 dropdown text-dark ">
                                 <a a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-controls="dropdown-target" data-bs-target="#dropdown-target" aria-haspopup="true" aria-expanded="false">
-                                    <i class="bi bi-grid-3x3-gap"></i> @ViewContext.RouteData.Values["Controller"]!.ToString()
+                                    <i class="bi bi-grid-3x3-gap"></i> @(ViewContext.RouteData.Values["Controller"]!.ToString() != "Errors" ? @ViewContext.RouteData.Values["Controller"]!.ToString() : "Animals")
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown" id="dropdown-target">
                                     <a class="dropdown-item text-dark" asp-controller="Animals" asp-action="Index"><i class="bi bi-grid-3x3-gap"></i> Animals</a>

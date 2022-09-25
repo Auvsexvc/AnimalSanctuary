@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using WebApp.Data;
 using WebApp.Dtos;
 using WebApp.Interfaces;
 using WebApp.Models;
@@ -7,6 +9,7 @@ using WebApp.Services;
 
 namespace WebApp.Controllers
 {
+    [Authorize(Roles = UserRoles.Admin)]
     public class FacilitiesController : Controller
     {
         private readonly IFacilityService _service;
@@ -18,6 +21,7 @@ namespace WebApp.Controllers
             _userManagerService = userManagerService;
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Index(string? sortingField, string? sortingOrder, string? filteringString = "")
         {
             HttpContext.Session.SetString("browser", "true");
@@ -25,6 +29,7 @@ namespace WebApp.Controllers
             return await GetAllSortedAndFiltered(sortingField, sortingOrder, filteringString);
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Details(Guid id)
         {
             HttpContext.Session.SetString("return", "Details");
@@ -38,7 +43,7 @@ namespace WebApp.Controllers
 
             if (accessToken == null)
             {
-                return RedirectToAction("AccessDenied","Account");
+                return View("AccessDenied");
             }
 
             var dropdowns = await _service.GetNewFacilityDropdownsVM();
@@ -58,7 +63,7 @@ namespace WebApp.Controllers
 
             if (accessToken == null)
             {
-                return RedirectToAction("AccessDenied","Account");
+                return View("AccessDenied");
             }
 
             if (!ModelState.IsValid)
@@ -96,7 +101,7 @@ namespace WebApp.Controllers
 
             if (accessToken == null)
             {
-                return RedirectToAction("AccessDenied", "Account");
+                return View("AccessDenied");
             }
 
             if (!ModelState.IsValid)
@@ -124,7 +129,7 @@ namespace WebApp.Controllers
 
             if (accessToken == null)
             {
-                return RedirectToAction("AccessDenied","Account");
+                return View("AccessDenied");
             }
 
             return await GetByIdAsync(id);
@@ -138,7 +143,7 @@ namespace WebApp.Controllers
 
             if (accessToken == null)
             {
-                return RedirectToAction("AccessDenied","Account");
+                return View("AccessDenied");
             }
 
             var data = await _service.GetByIdAsync(id);
@@ -176,7 +181,7 @@ namespace WebApp.Controllers
 
             if (accessToken == null)
             {
-                return RedirectToAction("AccessDenied","Account");
+                return View("AccessDenied");
             }
 
             var dropdowns = await _service.GetNewFacilityDropdownsVM();
@@ -205,7 +210,7 @@ namespace WebApp.Controllers
 
             if (accessToken == null)
             {
-                return RedirectToAction("AccessDenied","Account");
+                return View("AccessDenied");
             }
 
             if (!ModelState.IsValid)

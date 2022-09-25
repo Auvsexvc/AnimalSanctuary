@@ -11,6 +11,7 @@ namespace WebApp.Interfaces
         Task<HttpResponseMessage?> EditAsync<T>(Guid id, T dto, string accessToken);
 
         Task<IEnumerable<T>?> GetAllAsync<T>(string? sortingField, string? sortingOrder, string? filteringString);
+
         Task<IEnumerable<T>?> GetAllAsync<T>();
 
         Task<T?> GetByIdAsync<T>(Guid id);

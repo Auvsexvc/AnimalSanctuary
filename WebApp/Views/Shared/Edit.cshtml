@@ -7,14 +7,14 @@
     <div class="card-header bg-warning text-light">
         <h3 class="card-title">Edit @Model.Name</h3>
     </div>
-    <form asp-action="Edit">
+    <form id="Edit_@Model.Id" asp-action="Edit">
         <div class="card-body">
             @await Html.PartialAsync("_RW", Model)
         </div>
         <div class="card-footer form-group mt-4">
             @if (userManager.GetUser(HttpContextAccessor.HttpContext!.Session.GetString("Id")) != null)
             {
-                <button type="submit" class="btn btn-sm btn-warning"><i class="bi bi-save"></i> Save</button>
+                <button form="Edit_@Model.Id" type="submit" class="btn btn-sm btn-warning"><i class="bi bi-save"></i> Save</button>
             }
             @if (ViewBag.SessionReturn == "Details")
             {
@@ -34,6 +34,9 @@
         </div>
     </form>
 </div>
+@await Html.PartialAsync("_ModalAddType", new AnimalTypeDto())
+@await Html.PartialAsync("_ModalAddSpecie", new AnimalSpecieDto())
+@await Html.PartialAsync("_ModalAddFacility", new FacilityDto())
 @section Scripts{
     @{
         <partial name="_ValidationScriptsPartial" />

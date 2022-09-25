@@ -23,10 +23,7 @@
                 return Enumerable.Empty<T>();
             }
 
-            if (field == null)
-            {
-                field = "Name";
-            }
+            field ??= "Name";
 
             var prop = Array.Find(data.First()!.GetType().GetProperties(), p => string.Equals(p.Name, field, StringComparison.CurrentCultureIgnoreCase));
 
@@ -35,13 +32,11 @@
                 return data;
             }
 
-            data = order switch
+            return order switch
             {
                 "desc" => data.OrderByDescending(p => prop.GetValue(p)),
                 _ => data.OrderBy(p => prop.GetValue(p))
             };
-
-            return data;
         }
     }
 }

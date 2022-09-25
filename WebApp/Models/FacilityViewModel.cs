@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using WebApp.Data;
 using WebApp.Models.Base;
 
 namespace WebApp.Models
@@ -40,6 +41,6 @@ namespace WebApp.Models
         public int FreeSpace { get; set; }
 
         [DisplayName("Animals")]
-        public string? Animals { get; set; }
+        public IEnumerable<Animal>? Animals { get; set; }
     }
 }

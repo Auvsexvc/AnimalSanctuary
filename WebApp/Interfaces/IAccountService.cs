@@ -10,7 +10,7 @@ namespace WebApp.Interfaces
 
         Task<IEnumerable<Account>> GetAllAccounts(string accessToken);
 
-        Task<HttpResponseMessage> RegisterAsync(RegisterVM dto, string accessToken);
+        Task<HttpResponseMessage?> RegisterAsync(RegisterVM dto, string accessToken);
 
         Task<NewUserDropdownsVM> GetNewUserDropdownsVM(string accessToken);
     }

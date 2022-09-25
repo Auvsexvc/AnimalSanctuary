@@ -81,7 +81,7 @@ namespace WebApp.Services
             {
                 _logger.LogError(Message.ERROR, ex.Message);
 
-                throw;
+                return Enumerable.Empty<Account>();
             }
         }
 
@@ -114,11 +114,11 @@ namespace WebApp.Services
             {
                 _logger.LogError(Message.ERROR, ex.Message);
 
-                throw;
+                return Enumerable.Empty<Role>();
             }
         }
 
-        public async Task<HttpResponseMessage> RegisterAsync(RegisterVM dto, string accessToken)
+        public async Task<HttpResponseMessage?> RegisterAsync(RegisterVM dto, string accessToken)
         {
             try
             {
@@ -133,17 +133,14 @@ namespace WebApp.Services
             {
                 _logger.LogError(Message.ERROR, ex.Message);
 
-                throw;
+                return null;
             }
         }
 
-        public async Task<NewUserDropdownsVM> GetNewUserDropdownsVM(string accessToken)
+        public async Task<NewUserDropdownsVM> GetNewUserDropdownsVM(string accessToken) => new NewUserDropdownsVM()
         {
-            return new NewUserDropdownsVM()
-            {
-                Roles = (await GetAllRoles(accessToken)).OrderBy(a => a.Name).ToList(),
-            };
-        }
+            Roles = (await GetAllRoles(accessToken)).OrderBy(a => a.Name).ToList(),
+        };
 
         private async Task<HttpResponseMessage?> GetToken(LoginDto dto)
         {

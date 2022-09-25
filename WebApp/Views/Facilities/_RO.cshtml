@@ -59,9 +59,9 @@
                 <label asp-for="Animals" class="control-label"></label>
                 <div class="card container-fluid">
                     <ul class="d-flex mt-2 row-cols-auto flex-column justify-content-between text-dark list-unstyled">
-                        @foreach (var item in Model.Animals.Split(", "))
+                        @foreach (var item in Model.Animals)
                         {
-                            <li class="row ms-2">@item</li>
+                            <li class="row ms-2">@item.Name</li>
                         }
                     </ul>
                 </div>

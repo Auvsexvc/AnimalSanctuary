@@ -55,11 +55,10 @@ namespace WebApp.Controllers
                 return View(loginVM);
             }
 
-            var user = await _service.GetAccount(loginVM);
+            var account = await _service.GetAccount(loginVM);
 
-            if (user == null)
+            if (account == null)
             {
-                //ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                 TempData["error"] = "Wrong credential. Please try again.";
 
                 return View(loginVM);
@@ -67,26 +66,14 @@ namespace WebApp.Controllers
 
             var sessionId = Guid.NewGuid().ToString();
             HttpContext.Session.SetString("Id", sessionId);
-            _userManagerService.AddUser(sessionId, user);
 
-            ///
+            var user = _userManagerService.AddUser(sessionId, account);
 
-            var claims = new List<Claim>()
-            {
-                new Claim(ClaimTypes.NameIdentifier, user.Id),
-                new Claim(ClaimTypes.Name, user.Email),
-                new Claim(ClaimTypes.Role, user.Role),
-            };
+            var identity = _userManagerService.GetUserIdentity(user);
 
-            var claimsIdentity = new ClaimsIdentity(
-            claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            await HttpContext.SignInAsync(
-            CookieAuthenticationDefaults.AuthenticationScheme,
-            new ClaimsPrincipal(claimsIdentity));
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, identity);
 
-            ///
-
-            TempData["success"] = $"Successfully logged in as {user.Email}";
+            TempData["success"] = $"Successfully logged in as {account.Email}";
 
             return RedirectToAction("Index", "Animals");
         }
@@ -127,10 +114,10 @@ namespace WebApp.Controllers
                 return View(registerVM);
             }
 
-            var users = await _service.GetAllAccounts(accessToken);
-            var user = users.FirstOrDefault(x => x.Email == registerVM.Email);
+            var accounts = await _service.GetAllAccounts(accessToken);
+            var account = accounts.FirstOrDefault(x => x.Email == registerVM.Email);
 
-            if (user != null)
+            if (account != null)
             {
                 TempData["Error"] = $"{registerVM.Email} is already in use.";
 
@@ -139,7 +126,7 @@ namespace WebApp.Controllers
 
             using var newUserResult = await _service.RegisterAsync(registerVM, accessToken);
 
-            if (!newUserResult.IsSuccessStatusCode)
+            if (newUserResult?.IsSuccessStatusCode != true)
             {
                 TempData["Error"] = $"{registerVM.Email} couldn't be registered this time.";
 
@@ -164,7 +151,6 @@ namespace WebApp.Controllers
 
             _userManagerService.DeleteUser(sessionId);
             HttpContext.Session.Remove("Id");
-
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             TempData["warning"] = $"{user.Email} logged out";

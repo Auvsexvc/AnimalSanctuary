@@ -25,6 +25,13 @@ namespace WebApp.Services
 
         public async Task<HttpResponseMessage?> DeleteAsync(Guid id, string accessToken)
         {
+            var data = await GetByIdAsync(id);
+
+            if (data?.Animals?.Any() == true)
+            {
+                return null;
+            }
+
             return await _baseService.DeleteAsync<Facility>(id, accessToken);
         }
 
@@ -160,7 +167,8 @@ namespace WebApp.Services
                 PhoneNumber = obj.PhoneNumber,
                 MaxCapacity = obj.MaxCapacity,
                 FreeSpace = obj.FreeSpace,
-                Animals = string.Join(", ", animals.Select(x => x.Name))
+                Animals = animals
+                //Animals = string.Join(", ", animals.Select(x => x.Name))
             };
         }
 

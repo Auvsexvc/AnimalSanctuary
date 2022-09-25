@@ -103,7 +103,7 @@ namespace WebApp.Services
         {
             return new NewSpecieDropdownsVM()
             {
-                Types = (await _baseService.GetAllAsync<Data.AnimalType>(null, null, null))?.OrderBy(a => a.Name).ToList()
+                Types = (await _baseService.GetAllAsync<AnimalType>(null, null, null))?.OrderBy(a => a.Name).ToList()
             };
         }
 
@@ -136,7 +136,7 @@ namespace WebApp.Services
 
         private async Task<AnimalSpecieViewModel?> ToViewModel(AnimalSpecie obj)
         {
-            var type = await _baseService.GetByIdAsync<Data.AnimalType>(obj.TypeId);
+            var type = await _baseService.GetByIdAsync<AnimalType>(obj.TypeId);
 
             if (type == null)
             {
@@ -148,13 +148,13 @@ namespace WebApp.Services
                 Id = obj.Id,
                 Name = obj.Name,
                 Description = obj.Description,
-                TypeName = obj.TypeName
+                TypeName = type.Name
             };
         }
 
         private async Task<UpdateSpecieViewModel?> ToUpdateViewModel(AnimalSpecie obj)
         {
-            var type = await _baseService.GetByIdAsync<Data.AnimalType>(obj.TypeId);
+            var type = await _baseService.GetByIdAsync<AnimalType>(obj.TypeId);
 
             if (type == null)
             {

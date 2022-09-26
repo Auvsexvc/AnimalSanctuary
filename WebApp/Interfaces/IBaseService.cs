@@ -1,4 +1,4 @@
-﻿using WebApp.Models;
+﻿using WebApp.ViewModels;
 
 namespace WebApp.Interfaces
 {
@@ -16,6 +16,6 @@ namespace WebApp.Interfaces
 
         Task<T?> GetByIdAsync<T>(Guid id);
 
-        SortingDropdowns GetSortingDropdownsVM<T>(T obj);
+        SortingDropdownsViewModel GetSortingDropdownsVM<T>(T obj);
     }
 }

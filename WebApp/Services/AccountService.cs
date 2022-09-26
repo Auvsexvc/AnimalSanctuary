@@ -118,7 +118,7 @@ namespace WebApp.Services
             }
         }
 
-        public async Task<HttpResponseMessage?> RegisterAsync(RegisterVM dto, string accessToken)
+        public async Task<HttpResponseMessage?> RegisterAsync(RegisterViewModel dto, string accessToken)
         {
             try
             {

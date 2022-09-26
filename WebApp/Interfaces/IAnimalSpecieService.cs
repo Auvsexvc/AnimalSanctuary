@@ -1,5 +1,4 @@
 ﻿using WebApp.Dtos;
-using WebApp.Models;
 using WebApp.ViewModels;
 
 namespace WebApp.Interfaces
@@ -18,7 +17,7 @@ namespace WebApp.Interfaces
 
         Task<UpdateSpecieViewModel?> GetByIdUpdateModelAsync(Guid id);
 
-        SortingDropdowns GetSortingDropdownsVM();
+        SortingDropdownsViewModel GetSortingDropdownsVM();
 
         Task<NewSpecieDropdownsVM> GetNewSpecieDropdownsVM();
     }

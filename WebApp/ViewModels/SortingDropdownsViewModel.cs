@@ -1,12 +1,12 @@
-﻿namespace WebApp.Models
+﻿namespace WebApp.ViewModels
 {
-    public class SortingDropdowns
+    public class SortingDropdownsViewModel
     {
         public List<string> Fields { get; set; }
         public Dictionary<string, string> DisplayNames { get; set; }
         public List<string> Order { get; set; }
 
-        public SortingDropdowns()
+        public SortingDropdownsViewModel()
         {
             Fields = new();
             DisplayNames = new();

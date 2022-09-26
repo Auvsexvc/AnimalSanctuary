@@ -11,7 +11,7 @@ builder.Services.AddScoped<ITypeService, AnimalTypeService>();
 builder.Services.AddScoped<IAnimalSpecieService, AnimalSpecieService>();
 builder.Services.AddScoped<IFacilityService, FacilityService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
-builder.Services.AddSingleton<UserManagerService>();
+builder.Services.AddSingleton<AccountManagerService>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddMemoryCache();
 builder.Services.AddSession(options =>

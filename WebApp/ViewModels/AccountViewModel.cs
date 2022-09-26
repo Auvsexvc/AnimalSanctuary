@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebApp.Models
+namespace WebApp.ViewModels
 {
-    public class User
+    public class AccountViewModel
     {
         public string Id { get; set; } = string.Empty;
 

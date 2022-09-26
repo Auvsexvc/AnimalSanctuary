@@ -3,41 +3,38 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Security.Claims;
-using WebApp.Data;
 using WebApp.Dtos;
+using WebApp.Helpers;
 using WebApp.Interfaces;
-using WebApp.Models;
 using WebApp.Services;
 using WebApp.ViewModels;
 
 namespace WebApp.Controllers
 {
-    [Authorize(Roles = UserRoles.Admin)]
+    [Authorize(Roles = AccountRoles.Admin)]
     public class AccountController : Controller
     {
-        private readonly IAccountService _service;
-        private readonly UserManagerService _userManagerService;
+        private readonly IAccountService _accountService;
+        private readonly AccountManagerService _userManagerService;
 
-        public AccountController(IAccountService service, UserManagerService userManagerService)
+        public AccountController(IAccountService accountService, AccountManagerService userManagerService)
         {
-            _service = service;
+            _accountService = accountService;
             _userManagerService = userManagerService;
         }
 
         public async Task<IActionResult> Users()
         {
-            var accessToken = _userManagerService.GetUserToken(HttpContext.Session.GetString("Id"));
+            var accessToken = _userManagerService.GetTokenBySessionId(HttpContext.Session.GetString("Id"));
 
             if (accessToken == null)
             {
                 return View("AccessDenied");
             }
 
-            var accounts = await _service.GetAllAccounts(accessToken);
+            var accounts = await _accountService.GetAllAccounts(accessToken);
 
-            var loggedInUsers = _userManagerService.Users;
-            var users = accounts.Where(x => !loggedInUsers.Select(x => x.Email).Contains(x.Email)).Select(x => new User() { Email = x.Email, Id = x.Id, Role = x.Role }).Concat(loggedInUsers).OrderByDescending(x => x.ValidTo);
+            var users = _userManagerService.GetAccounts(accounts);
 
             return View(users);
         }
@@ -55,7 +52,7 @@ namespace WebApp.Controllers
                 return View(loginVM);
             }
 
-            var account = await _service.GetAccount(loginVM);
+            var account = await _accountService.GetAccount(loginVM);
 
             if (account == null)
             {
@@ -67,9 +64,9 @@ namespace WebApp.Controllers
             var sessionId = Guid.NewGuid().ToString();
             HttpContext.Session.SetString("Id", sessionId);
 
-            var user = _userManagerService.AddUser(sessionId, account);
+            var user = _userManagerService.SignIn(sessionId, account);
 
-            var identity = _userManagerService.GetUserIdentity(user);
+            var identity = _userManagerService.GetIdentity(user);
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, identity);
 
@@ -80,32 +77,32 @@ namespace WebApp.Controllers
 
         public async Task<IActionResult> Register()
         {
-            var accessToken = _userManagerService.GetUserToken(HttpContext.Session.GetString("Id"));
+            var accessToken = _userManagerService.GetTokenBySessionId(HttpContext.Session.GetString("Id"));
 
             if (accessToken == null)
             {
                 return View("AccessDenied");
             }
 
-            var dropdowns = await _service.GetNewUserDropdownsVM(accessToken);
+            var dropdowns = await _accountService.GetNewUserDropdownsVM(accessToken);
 
             ViewBag.Roles = new SelectList(dropdowns.Roles, "Id", "Name");
 
-            return View(new RegisterVM());
+            return View(new RegisterViewModel());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RegisterAsync(RegisterVM registerVM)
+        public async Task<IActionResult> RegisterAsync(RegisterViewModel registerVM)
         {
-            var accessToken = _userManagerService.GetUserToken(HttpContext.Session.GetString("Id"));
+            var accessToken = _userManagerService.GetTokenBySessionId(HttpContext.Session.GetString("Id"));
 
             if (accessToken == null)
             {
                 return View("AccessDenied");
             }
 
-            var dropdowns = await _service.GetNewUserDropdownsVM(accessToken);
+            var dropdowns = await _accountService.GetNewUserDropdownsVM(accessToken);
 
             ViewBag.Roles = new SelectList(dropdowns.Roles, "Id", "Name");
 
@@ -114,7 +111,7 @@ namespace WebApp.Controllers
                 return View(registerVM);
             }
 
-            var accounts = await _service.GetAllAccounts(accessToken);
+            var accounts = await _accountService.GetAllAccounts(accessToken);
             var account = accounts.FirstOrDefault(x => x.Email == registerVM.Email);
 
             if (account != null)
@@ -124,7 +121,7 @@ namespace WebApp.Controllers
                 return View(registerVM);
             }
 
-            using var newUserResult = await _service.RegisterAsync(registerVM, accessToken);
+            using var newUserResult = await _accountService.RegisterAsync(registerVM, accessToken);
 
             if (newUserResult?.IsSuccessStatusCode != true)
             {
@@ -142,25 +139,20 @@ namespace WebApp.Controllers
         {
             var sessionId = HttpContext.Session.GetString("Id");
 
-            var user = _userManagerService.GetUser(sessionId);
+            var user = _userManagerService.GetAccount(sessionId);
 
             if (string.IsNullOrEmpty(sessionId) || user == null)
             {
                 return View();
             }
 
-            _userManagerService.DeleteUser(sessionId);
+            _userManagerService.SignOut(sessionId);
             HttpContext.Session.Remove("Id");
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             TempData["warning"] = $"{user.Email} logged out";
 
             return RedirectToAction("Index", "Animals");
-        }
-
-        public IActionResult AccessDenied()
-        {
-            return View();
         }
     }
 }

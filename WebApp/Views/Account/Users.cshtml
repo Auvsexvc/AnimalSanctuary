@@ -1,4 +1,4 @@
-﻿@model IEnumerable<User>
+﻿@model IEnumerable<AccountViewModel>
 
 @{
     ViewData["Title"] = "List of Users";
@@ -17,7 +17,7 @@
                     <th>@Html.DisplayNameFor(model=>model.Token)</th>
                     <th>@Html.DisplayNameFor(model=>model.ValidTo)</th>
                     <th>@Html.DisplayNameFor(model=>model.SessionId)</th>
-                    @if (userManager.GetUser(HttpContextAccessor.HttpContext!.Session.GetString("Id")) != null && userManager.GetUser(HttpContextAccessor.HttpContext!.Session.GetString("Id"))!.Role == "Administrator")
+                    @if (userManager.GetAccount(HttpContextAccessor.HttpContext!.Session.GetString("Id")) != null && userManager.GetAccount(HttpContextAccessor.HttpContext!.Session.GetString("Id"))!.Role == "Administrator")
                     {
                         <th>Actions</th>
                     }
@@ -45,7 +45,7 @@
                         <td class="align-middle">
                             @Html.DisplayFor(modelItem=>item.SessionId)
                         </td>
-                        @if (userManager.GetUser(HttpContextAccessor.HttpContext!.Session.GetString("Id")) != null && userManager.GetUser(HttpContextAccessor.HttpContext!.Session.GetString("Id"))!.Role == "Administrator")
+                        @if (userManager.GetAccount(HttpContextAccessor.HttpContext!.Session.GetString("Id")) != null && userManager.GetAccount(HttpContextAccessor.HttpContext!.Session.GetString("Id"))!.Role == "Administrator")
                         {
                             <td class="align-middle" role="group">
                                 <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-eye"></i></a>

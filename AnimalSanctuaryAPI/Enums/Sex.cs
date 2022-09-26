@@ -5,8 +5,8 @@ namespace AnimalSanctuaryAPI.Enums
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum Sex
     {
-        Male,
+        Female,
 
-        Female
+        Male
     }
 }

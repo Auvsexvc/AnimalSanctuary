@@ -1,6 +1,6 @@
-﻿namespace WebApp.Data
+﻿namespace WebApp.Helpers
 {
-    public static class UserRoles
+    public static class AccountRoles
     {
         public const string Admin = "Administrator";
         public const string Manager = "Manager";

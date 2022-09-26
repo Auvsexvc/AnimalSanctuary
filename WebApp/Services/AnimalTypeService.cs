@@ -1,7 +1,9 @@
-﻿using WebApp.Dtos;
+﻿using WebApp.Data;
+using WebApp.Dtos;
+using WebApp.Extensions;
 using WebApp.Helpers;
 using WebApp.Interfaces;
-using WebApp.Models;
+using WebApp.ViewModels;
 
 namespace WebApp.Services
 {
@@ -23,7 +25,7 @@ namespace WebApp.Services
 
         public async Task<HttpResponseMessage?> DeleteAsync(Guid id, string accessToken)
         {
-            return await _baseService.DeleteAsync<Data.AnimalType>(id, accessToken);
+            return await _baseService.DeleteAsync<AnimalType>(id, accessToken);
         }
 
         public async Task<HttpResponseMessage?> EditAsync(Guid id, AnimalTypeViewModel vm, string accessToken)
@@ -50,14 +52,16 @@ namespace WebApp.Services
         {
             try
             {
-                var data = await _baseService.GetAllAsync<Data.AnimalType>(sortingField, sortingOrder, filteringString);
+                var data = await _baseService.GetAllAsync<AnimalType>();
 
                 if (data == null)
                 {
                     return Enumerable.Empty<AnimalTypeViewModel>();
                 }
 
-                var result = data.Select(obj => ToViewModel(obj));
+                var vms = data.Select(obj => ToViewModel(obj));
+
+                var result = vms.FilterBy(filteringString).SortBy(sortingField, sortingOrder).ToList();
 
                 if (result == null)
                 {
@@ -78,7 +82,7 @@ namespace WebApp.Services
         {
             try
             {
-                var obj = await _baseService.GetByIdAsync<Data.AnimalType>(id);
+                var obj = await _baseService.GetByIdAsync<AnimalType>(id);
                 if (obj == null)
                 {
                     return null;
@@ -96,12 +100,12 @@ namespace WebApp.Services
             }
         }
 
-        public SortingDropdowns GetSortingDropdownsVM()
+        public SortingDropdownsViewModel GetSortingDropdownsVM()
         {
             return _baseService.GetSortingDropdownsVM(new AnimalTypeViewModel());
         }
 
-        private static AnimalTypeViewModel? ToViewModel(Data.AnimalType obj)
+        private static AnimalTypeViewModel? ToViewModel(AnimalType obj)
         {
             if (obj == null)
             {

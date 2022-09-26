@@ -1,6 +1,6 @@
-﻿namespace WebApp.Models.Base
+﻿namespace WebApp.ViewModels.Base
 {
-    public interface IModelBase
+    public interface IBaseViewModel
     {
         Guid Id { get; set; }
         string Name { get; set; }

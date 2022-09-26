@@ -1,4 +1,4 @@
-﻿@if(userManager.GetUser(HttpContextAccessor.HttpContext!.Session.GetString("Id")) == null)
+﻿@if(userManager.GetAccount(HttpContextAccessor.HttpContext!.Session.GetString("Id")) == null)
 {
     <div class="text-dark">
         <a class="btn btn-sm btn-outline-success my-2 my-sm-0" asp-controller="Account" asp-action="Login">
@@ -11,10 +11,10 @@ else
 {
     <div class="dropdown">
         <button class="btn btn-sm btn-success dropdown-toggle" type="button" id="profile-btn" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="bi bi-person-badge"></i> Hello @userManager.GetUser(HttpContextAccessor.HttpContext!.Session.GetString("Id"))!.Email
+            <i class="bi bi-person-badge"></i> Hello @userManager.GetAccount(HttpContextAccessor.HttpContext!.Session.GetString("Id"))!.Email
         </button>
         <ul class="dropdown-menu" aria-labelledby="profile-btn">
-            @if (userManager.GetUser(HttpContextAccessor.HttpContext!.Session.GetString("Id"))!.Role == "Administrator")
+            @if (userManager.GetAccount(HttpContextAccessor.HttpContext!.Session.GetString("Id"))!.Role == "Administrator")
             {
 
                 <li>

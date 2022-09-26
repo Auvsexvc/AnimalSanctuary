@@ -1,5 +1,5 @@
 ﻿using WebApp.Dtos;
-using WebApp.Models;
+using WebApp.ViewModels;
 
 namespace WebApp.Interfaces
 {
@@ -15,6 +15,6 @@ namespace WebApp.Interfaces
 
         Task<AnimalTypeViewModel?> GetByIdAsync(Guid id);
 
-        SortingDropdowns GetSortingDropdownsVM();
+        SortingDropdownsViewModel GetSortingDropdownsVM();
     }
 }

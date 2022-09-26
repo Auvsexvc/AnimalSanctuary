@@ -1,5 +1,5 @@
-﻿@using WebApp.Models.Base
-@model IEnumerable<IModelBase>
+﻿@using WebApp.ViewModels.Base
+@model IEnumerable<IBaseViewModel>
 @{
     ViewData["Title"] = $"List of {ViewContext.RouteData.Values["controller"]}";
 }
@@ -11,7 +11,7 @@
         <table class="table table-striped bg-light" style="width: 100%">
             <thead>
                 <tr>
-                    @await Html.PartialAsync("_ListHeaders", (SortingDropdowns)ViewBag.Sorting)
+                    @await Html.PartialAsync("_ListHeaders", (SortingDropdownsViewModel)ViewBag.Sorting)
                     <th>Actions</th>
                 </tr>
             </thead>

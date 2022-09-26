@@ -1,20 +1,20 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WebApp.Data;
 using WebApp.Dtos;
+using WebApp.Helpers;
 using WebApp.Interfaces;
-using WebApp.Models;
 using WebApp.Services;
+using WebApp.ViewModels;
 
 namespace WebApp.Controllers
 {
-    [Authorize(Roles = UserRoles.Admin)]
+    [Authorize(Roles = AccountRoles.Admin)]
     public class TypesController : Controller
     {
         private readonly ITypeService _service;
-        private readonly UserManagerService _userManagerService;
+        private readonly AccountManagerService _userManagerService;
 
-        public TypesController(ITypeService service, UserManagerService userManagerService)
+        public TypesController(ITypeService service, AccountManagerService userManagerService)
         {
             _service = service;
             _userManagerService = userManagerService;
@@ -38,7 +38,7 @@ namespace WebApp.Controllers
 
         public IActionResult Create()
         {
-            var accessToken = _userManagerService.GetUserToken(HttpContext.Session.GetString("Id"));
+            var accessToken = _userManagerService.GetTokenBySessionId(HttpContext.Session.GetString("Id"));
 
             if (accessToken == null)
             {
@@ -54,7 +54,7 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(AnimalTypeDto dto)
         {
-            var accessToken = _userManagerService.GetUserToken(HttpContext.Session.GetString("Id"));
+            var accessToken = _userManagerService.GetTokenBySessionId(HttpContext.Session.GetString("Id"));
 
             if (accessToken == null)
             {
@@ -92,7 +92,7 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateMod(AnimalTypeDto dto)
         {
-            var accessToken = _userManagerService.GetUserToken(HttpContext.Session.GetString("Id"));
+            var accessToken = _userManagerService.GetTokenBySessionId(HttpContext.Session.GetString("Id"));
 
             if (accessToken == null)
             {
@@ -120,7 +120,7 @@ namespace WebApp.Controllers
 
         public async Task<IActionResult> Delete(Guid id)
         {
-            var accessToken = _userManagerService.GetUserToken(HttpContext.Session.GetString("Id"));
+            var accessToken = _userManagerService.GetTokenBySessionId(HttpContext.Session.GetString("Id"));
 
             if (accessToken == null)
             {
@@ -134,7 +134,7 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeletePOST(Guid id)
         {
-            var accessToken = _userManagerService.GetUserToken(HttpContext.Session.GetString("Id"));
+            var accessToken = _userManagerService.GetTokenBySessionId(HttpContext.Session.GetString("Id"));
 
             if (accessToken == null)
             {
@@ -172,7 +172,7 @@ namespace WebApp.Controllers
 
         public async Task<IActionResult> Edit(Guid id)
         {
-            var accessToken = _userManagerService.GetUserToken(HttpContext.Session.GetString("Id"));
+            var accessToken = _userManagerService.GetTokenBySessionId(HttpContext.Session.GetString("Id"));
 
             if (accessToken == null)
             {
@@ -186,7 +186,7 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, AnimalTypeViewModel data)
         {
-            var accessToken = _userManagerService.GetUserToken(HttpContext.Session.GetString("Id"));
+            var accessToken = _userManagerService.GetTokenBySessionId(HttpContext.Session.GetString("Id"));
 
             if (accessToken == null)
             {

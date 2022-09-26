@@ -1,4 +1,4 @@
-﻿@model WebApp.Models.Base.IModelBase
+﻿@model             IBaseViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -11,7 +11,7 @@
         @await Html.PartialAsync("_RO", Model)
     </div>
     <div class="btn-group-sm card-footer mt-4">
-        @if (userManager.GetUser(HttpContextAccessor.HttpContext!.Session.GetString("Id")) != null)
+        @if (userManager.GetAccount(HttpContextAccessor.HttpContext!.Session.GetString("Id")) != null)
         {
             <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i> Edit</a>
             <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger btn-sm"><i class="bi bi-trash-fill"></i> Delete</a>

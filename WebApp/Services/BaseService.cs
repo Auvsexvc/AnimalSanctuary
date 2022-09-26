@@ -2,7 +2,7 @@
 using WebApp.Extensions;
 using WebApp.Helpers;
 using WebApp.Interfaces;
-using WebApp.Models;
+using WebApp.ViewModels;
 
 namespace WebApp.Services
 {
@@ -168,9 +168,9 @@ namespace WebApp.Services
             }
         }
 
-        public SortingDropdowns GetSortingDropdownsVM<T>(T obj)
+        public SortingDropdownsViewModel GetSortingDropdownsVM<T>(T obj)
         {
-            return new SortingDropdowns()
+            return new SortingDropdownsViewModel()
             {
                 Fields = obj!.GetType().GetProperties().Select(p => p.Name).ToList(),
                 DisplayNames = obj!.GetType().GetProperties().ToDictionary(p => p.Name, p => p.GetAttribute<DisplayNameAttribute>(false) != null ? p.GetAttribute<DisplayNameAttribute>(false)!.DisplayName : p.Name),

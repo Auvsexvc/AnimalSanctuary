@@ -14,7 +14,7 @@
             @await Html.PartialAsync("_ADD", Model, ViewBag.Dropdowns)
         </div>
         <div class="card-footer form-group mt-4">
-            @if (userManager.GetUser(HttpContextAccessor.HttpContext!.Session.GetString("Id")) != null)
+            @if (userManager.GetAccount(HttpContextAccessor.HttpContext!.Session.GetString("Id")) != null)
             {
                 <button form="Create_@ViewContext.RouteData.Values["Controller"]!.ToString()" type="submit" class="btn btn-sm btn-success"><i class="bi bi-plus-circle"></i> Create</button>
             }

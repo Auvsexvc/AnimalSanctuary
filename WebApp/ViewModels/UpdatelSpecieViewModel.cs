@@ -1,14 +1,14 @@
 ﻿using System.ComponentModel;
-using WebApp.Models.Base;
+using WebApp.ViewModels.Base;
 
-namespace WebApp.Models
+namespace WebApp.ViewModels
 {
-    public class UpdateSpecieViewModel : IModelBase
+    public class UpdateSpecieViewModel : IBaseViewModel
     {
         [DisplayName("ID")]
         public Guid Id { get; set; }
 
-        public string Name { get; set; } = String.Empty;
+        public string Name { get; set; } = string.Empty;
 
         public string? Description { get; set; }
 

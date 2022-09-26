@@ -1,8 +1,8 @@
 ﻿using WebApp.Data;
 using WebApp.Dtos;
+using WebApp.Extensions;
 using WebApp.Helpers;
 using WebApp.Interfaces;
-using WebApp.Models;
 using WebApp.ViewModels;
 
 namespace WebApp.Services
@@ -65,14 +65,16 @@ namespace WebApp.Services
         {
             try
             {
-                var data = await _baseService.GetAllAsync<Facility>(sortingField, sortingOrder, filteringString);
+                var data = await _baseService.GetAllAsync<Facility>();
 
                 if (data == null)
                 {
                     return Enumerable.Empty<FacilityViewModel>();
                 }
 
-                var result = (await Task.WhenAll(data.Select(obj => Task.Run(async () => await ToViewModel(obj))))).ToList();
+                var vms = (await Task.WhenAll(data.Select(obj => Task.Run(async () => await ToViewModel(obj))))).ToList();
+
+                var result = vms.FilterBy(filteringString).SortBy(sortingField, sortingOrder).ToList();
 
                 if (result == null)
                 {
@@ -119,7 +121,7 @@ namespace WebApp.Services
             };
         }
 
-        public SortingDropdowns GetSortingDropdownsVM()
+        public SortingDropdownsViewModel GetSortingDropdownsVM()
         {
             return _baseService.GetSortingDropdownsVM(new FacilityViewModel());
         }

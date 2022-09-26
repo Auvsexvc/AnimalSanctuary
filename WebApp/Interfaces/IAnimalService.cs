@@ -1,5 +1,4 @@
 ﻿using WebApp.Dtos;
-using WebApp.Models;
 using WebApp.ViewModels;
 
 namespace WebApp.Interfaces
@@ -20,6 +19,6 @@ namespace WebApp.Interfaces
 
         Task<NewAnimalDropdownsVM> GetNewUserDropdownsVM();
 
-        SortingDropdowns GetSortingDropdownsVM();
+        SortingDropdownsViewModel GetSortingDropdownsVM();
     }
 }

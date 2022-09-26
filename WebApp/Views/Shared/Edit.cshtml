@@ -1,4 +1,4 @@
-﻿@model WebApp.Models.Base.IModelBase
+﻿@model             IBaseViewModel
 
 @{
     ViewData["Title"] = $"Edit {Model.Name}";
@@ -12,7 +12,7 @@
             @await Html.PartialAsync("_RW", Model)
         </div>
         <div class="card-footer form-group mt-4">
-            @if (userManager.GetUser(HttpContextAccessor.HttpContext!.Session.GetString("Id")) != null)
+            @if (userManager.GetAccount(HttpContextAccessor.HttpContext!.Session.GetString("Id")) != null)
             {
                 <button form="Edit_@Model.Id" type="submit" class="btn btn-sm btn-warning"><i class="bi bi-save"></i> Save</button>
             }

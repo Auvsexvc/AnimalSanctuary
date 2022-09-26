@@ -1,50 +1,44 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using WebApp.Data;
-using WebApp.Models.Base;
+using WebApp.ViewModels.Base;
 
-namespace WebApp.Models
+namespace WebApp.ViewModels
 {
-    public class UpdateFacilityViewModel : IModelBase
+    public class FacilityViewModel : IBaseViewModel
     {
         [DisplayName("Facility ID")]
         public Guid Id { get; set; }
 
-        [DisplayName("Facility")]
+        [DisplayName("Name")]
         [Required]
-        [MinLength(2)]
-        public string Name { get; set; } = String.Empty;
+        [MinLength(3)]
+        public string Name { get; set; } = string.Empty;
 
         public string? Description { get; set; }
 
         [DisplayName("Building number")]
         public string? BuildingNumber { get; set; }
 
-        [DisplayName("Apartment number(optional)")]
+        [DisplayName("apartment number(optional)")]
         public string? ApartmentNumber { get; set; }
 
-        [DisplayName("Street")]
+        [DisplayName("Street name")]
         public string? StreetName { get; set; }
 
-        [Required]
         [DisplayName("City")]
-        [MinLength(2)]
-        public string City { get; set; } = String.Empty;
+        public string City { get; set; } = string.Empty;
 
         [Phone]
         [DisplayName("Contact number")]
-        public string PhoneNumber { get; set; } = String.Empty;
+        public string? PhoneNumber { get; set; }
 
-        [Required]
         [DisplayName("Max. capacity")]
-        [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than {1}")]
+        [Required]
         public int MaxCapacity { get; set; }
 
-        [DisplayName("Free. space")]
+        [DisplayName("Free space")]
         public int FreeSpace { get; set; }
-
-        [DisplayName("Animals IDs")]
-        public List<Guid>? AnimalsIds { get; set; }
 
         [DisplayName("Animals")]
         public IEnumerable<Animal>? Animals { get; set; }

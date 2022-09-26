@@ -2,19 +2,19 @@
 using System.ComponentModel.DataAnnotations;
 using WebApp.Data;
 using WebApp.Enums;
-using WebApp.Models.Base;
 using WebApp.Validators;
+using WebApp.ViewModels.Base;
 
-namespace WebApp.Models
+namespace WebApp.ViewModels
 {
-    public class UpdateAnimalViewModel : IModelBase
+    public class UpdateAnimalViewModel : IBaseViewModel
     {
         [DisplayName("ID")]
         public Guid Id { get; set; }
 
         [Required]
         [MinLength(2)]
-        public string Name { get; set; } = String.Empty;
+        public string Name { get; set; } = string.Empty;
 
         public string? Description { get; set; }
 
@@ -36,7 +36,7 @@ namespace WebApp.Models
         public AnimalSpecie Specie { get; set; } = new AnimalSpecie();
 
         [DisplayName("Type")]
-        public Data.AnimalType Type { get; set; } = new AnimalType();
+        public AnimalType Type { get; set; } = new AnimalType();
 
         [DisplayName("Facility")]
         public Facility Facility { get; set; } = new Facility();

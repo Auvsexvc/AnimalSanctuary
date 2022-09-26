@@ -1,16 +1,16 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using WebApp.Enums;
-using WebApp.Models.Base;
+using WebApp.ViewModels.Base;
 
-namespace WebApp.Models
+namespace WebApp.ViewModels
 {
-    public class AnimalViewModel : IModelBase
+    public class AnimalViewModel : IBaseViewModel
     {
         [DisplayName("ID")]
         public Guid Id { get; set; }
 
-        public string Name { get; set; } = String.Empty;
+        public string Name { get; set; } = string.Empty;
 
         public string? Description { get; set; }
 
@@ -30,12 +30,12 @@ namespace WebApp.Models
         public DateTime DateCreated { get; set; }
 
         [DisplayName("Specie")]
-        public string Specie { get; set; } = String.Empty;
+        public string Specie { get; set; } = string.Empty;
 
         [DisplayName("Type")]
-        public string Type { get; set; } = String.Empty;
+        public string Type { get; set; } = string.Empty;
 
         [DisplayName("Facility")]
-        public string Facility { get; set; } = String.Empty;
+        public string Facility { get; set; } = string.Empty;
     }
 }

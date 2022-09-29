@@ -9,7 +9,7 @@
     <div class="card-header bg-success text-light">
         <h3 class="card-title">Add new</h3>
     </div>
-    <form id="Create_@ViewContext.RouteData.Values["Controller"]!.ToString()" asp-action="Create">
+    <form id="Create_@ViewContext.RouteData.Values["Controller"]!.ToString()" asp-action="Create" enctype="multipart/form-data">
         <div class="card-body">
             @await Html.PartialAsync("_ADD", Model, ViewBag.Dropdowns)
         </div>
@@ -37,10 +37,8 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
     <script>
-        $(':input').change(
-            function () {
-                $("#Cancel").prop("class", "btn btn-outline-danger float-end");
-            }
-        );
+        function preview() {
+            ProfileImgPreview.src = URL.createObjectURL(event.target.files[0]);
+        }
     </script>
 }

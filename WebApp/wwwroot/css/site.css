@@ -63,3 +63,9 @@ table thead tr th a {
     border-left-style: none;
     background-color: lightgray;
 }
+
+.rounded-circle {
+    border-radius: 50% !important;
+    aspect-ratio: 1 !important;
+    object-fit: cover;
+}

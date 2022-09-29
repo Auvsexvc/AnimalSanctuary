@@ -7,7 +7,7 @@
     <div class="card-header bg-warning text-light">
         <h3 class="card-title">Edit @Model.Name</h3>
     </div>
-    <form id="Edit_@Model.Id" asp-action="Edit">
+    <form id="Edit_@Model.Id" asp-action="Edit" enctype="multipart/form-data">
         <div class="card-body">
             @await Html.PartialAsync("_RW", Model)
         </div>
@@ -41,4 +41,9 @@
     @{
         <partial name="_ValidationScriptsPartial" />
     }
+    <script>
+        function preview() {
+            ProfileImgPreview.src = URL.createObjectURL(event.target.files[0]);
+        }
+    </script>
 }

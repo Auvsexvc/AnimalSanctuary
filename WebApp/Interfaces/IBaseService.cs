@@ -1,9 +1,12 @@
-﻿using WebApp.ViewModels;
+﻿using WebApp.Dtos;
+using WebApp.ViewModels;
 
 namespace WebApp.Interfaces
 {
     public interface IBaseService
     {
+        string ApiUri { get; }
+
         Task<HttpResponseMessage?> CreateAsync<T>(T dto, string accessToken);
 
         Task<HttpResponseMessage?> DeleteAsync<T>(Guid id, string accessToken);
@@ -17,5 +20,7 @@ namespace WebApp.Interfaces
         Task<T?> GetByIdAsync<T>(Guid id);
 
         SortingDropdownsViewModel GetSortingDropdownsVM<T>(T obj);
+
+        Task<HttpResponseMessage?> PostImageAsync(ImageDto dto/*, string accessToken*/);
     }
 }

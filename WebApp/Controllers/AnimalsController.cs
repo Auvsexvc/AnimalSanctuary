@@ -208,7 +208,14 @@ namespace WebApp.Controllers
 
             if (string.IsNullOrEmpty(HttpContext.Session.GetString("return")))
             {
-                return RedirectToAction("List");
+                if (HttpContext.Session.GetString("browser") == "false")
+                {
+                    return RedirectToAction("List");
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
             }
 
             return RedirectToAction("Details", new { id });

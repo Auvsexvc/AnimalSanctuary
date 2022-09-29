@@ -34,5 +34,7 @@ namespace WebApp.Dtos
         [Required]
         [DisplayName("Facility")]
         public Guid FacilityId { get; set; }
+
+        public IFormFile? ProfileImg { get; set; }
     }
 }

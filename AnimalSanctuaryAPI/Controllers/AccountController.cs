@@ -3,7 +3,7 @@ using AnimalSanctuaryAPI.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace RestaurantAPI.Controllers
+namespace AnimalSanctuaryAPI.Controllers
 {
     [Authorize(Roles = "Administrator")]
     [Route("api/Account")]

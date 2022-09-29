@@ -37,5 +37,7 @@ namespace WebApp.ViewModels
 
         [DisplayName("Facility")]
         public string Facility { get; set; } = string.Empty;
+
+        public string ProfileImgPath { get; set; } = string.Empty;
     }
 }

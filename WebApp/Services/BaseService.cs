@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel;
+using System.Net.Http.Headers;
+using WebApp.Dtos;
 using WebApp.Extensions;
 using WebApp.Helpers;
 using WebApp.Interfaces;
@@ -11,10 +13,13 @@ namespace WebApp.Services
         private readonly IConfiguration _configuration;
         private readonly ILogger<BaseService> _logger;
 
+        public string ApiUri { get; }
+
         public BaseService(IConfiguration configuration, ILogger<BaseService> logger)
         {
             _configuration = configuration;
             _logger = logger;
+            ApiUri = _configuration.GetConnectionString("DefaultConnection");
         }
 
         public async Task<IEnumerable<T>?> GetAllAsync<T>(string? sortingField, string? sortingOrder, string? filteringString)
@@ -117,6 +122,33 @@ namespace WebApp.Services
                 client.BaseAddress = new Uri(_configuration.GetConnectionString("DefaultConnection"));
                 client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
                 var result = await client.PostAsJsonAsync<T>($"{name}", dto);
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(Message.ERROR, ex.Message);
+
+                return null;
+            }
+        }
+
+        public async Task<HttpResponseMessage?> PostImageAsync(ImageDto dto)
+        {
+            try
+            {
+                using var multipartFormContent = new MultipartFormDataContent();
+                var file = dto.Image;
+
+                using var fileStream = file!.OpenReadStream();
+                var fileStreamContent = new StreamContent(fileStream);
+                fileStreamContent.Headers.ContentType = new MediaTypeHeaderValue("image/*");
+
+                multipartFormContent.Add(fileStreamContent, name: file.Name, fileName: file.FileName);
+
+                using var client = new HttpClient();
+                client.BaseAddress = new Uri(_configuration.GetConnectionString("DefaultConnection"));
+                var result = await client.PostAsync($"Image/{dto.ContextId}", multipartFormContent);
 
                 return result;
             }

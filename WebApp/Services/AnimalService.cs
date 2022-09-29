@@ -20,7 +20,20 @@ namespace WebApp.Services
 
         public async Task<HttpResponseMessage?> CreateAsync(AnimalDto dto, string accessToken)
         {
-            return await _baseService.CreateAsync<AnimalDto>(dto, accessToken);
+            var result = await _baseService.CreateAsync<AnimalDto>(dto, accessToken);
+
+            var guidOfNewAnimal = result.Headers.Location.Segments.LastOrDefault();
+            if (guidOfNewAnimal != null && dto.ProfileImg != null)
+            {
+                ImageDto imgDto = new()
+                {
+                    Image = dto.ProfileImg,
+                    ContextId = Guid.Parse(guidOfNewAnimal)
+                };
+                await _baseService.PostImageAsync(imgDto);
+            }
+
+            return result;
         }
 
         public async Task<HttpResponseMessage?> DeleteAsync(Guid id, string accessToken)
@@ -42,8 +55,19 @@ namespace WebApp.Services
                     Attitude = vm.Attitude,
                     DateCreated = vm.DateCreated,
                     SpecieId = vm.SpecieId,
-                    FacilityId = vm.FacilityId
+                    FacilityId = vm.FacilityId,
+                    ProfileImg = vm.ProfileImg
                 };
+
+                if (dto.ProfileImg != null)
+                {
+                    ImageDto imgDto = new()
+                    {
+                        Image = dto.ProfileImg,
+                        ContextId = id,
+                    };
+                    await _baseService.PostImageAsync(imgDto);
+                }
 
                 return await _baseService.EditAsync<AnimalDto>(id, dto, accessToken);
             }
@@ -135,7 +159,7 @@ namespace WebApp.Services
             {
                 Species = (await _baseService.GetAllAsync<AnimalSpecie>(null, null, null))?.OrderBy(a => a.Name).ToList(),
                 Facilities = (await _baseService.GetAllAsync<Facility>(null, null, null))?.OrderBy(a => a.Name).ToList(),
-                Types = (await _baseService.GetAllAsync<Data.AnimalType>(null, null, null))?.OrderBy(a => a.Name).ToList(),
+                Types = (await _baseService.GetAllAsync<AnimalType>(null, null, null))?.OrderBy(a => a.Name).ToList(),
             };
         }
 
@@ -149,6 +173,7 @@ namespace WebApp.Services
             var specie = await _baseService.GetByIdAsync<AnimalSpecie>(obj.SpecieId);
             var type = specie != null ? await _baseService.GetByIdAsync<AnimalType>(specie.TypeId) : null;
             var facility = await _baseService.GetByIdAsync<Facility>(obj.FacilityId);
+            var image = await _baseService.GetByIdAsync<Image>(obj.Id);
 
             if (specie == null || type == null || facility == null)
             {
@@ -171,6 +196,7 @@ namespace WebApp.Services
                 Facility = facility,
                 SpecieId = obj.SpecieId,
                 FacilityId = obj.FacilityId,
+                ProfileImgPath = image == null ? _baseService.ApiUri + "../Images/Default.png" : _baseService.ApiUri + ".." + image.Path
             };
         }
 
@@ -179,6 +205,7 @@ namespace WebApp.Services
             var specie = await _baseService.GetByIdAsync<AnimalSpecie>(obj.SpecieId);
             var type = specie != null ? await _baseService.GetByIdAsync<AnimalType>(specie.TypeId) : null;
             var facility = await _baseService.GetByIdAsync<Facility>(obj.FacilityId);
+            var image = await _baseService.GetByIdAsync<Image>(obj.Id);
 
             if (specie == null || type == null || facility == null)
             {
@@ -197,7 +224,8 @@ namespace WebApp.Services
                 DateCreated = obj.DateCreated,
                 Specie = specie.Name,
                 Type = type.Name,
-                Facility = facility.Name
+                Facility = facility.Name,
+                ProfileImgPath = image == null ? _baseService.ApiUri + "../Images/Default.png" : _baseService.ApiUri + ".." + image.Path
             };
         }
     }

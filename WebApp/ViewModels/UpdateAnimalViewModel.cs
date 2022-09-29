@@ -49,5 +49,9 @@ namespace WebApp.ViewModels
 
         [DisplayName("Facility ID")]
         public Guid FacilityId { get; set; }
+
+        public string ProfileImgPath { get; set; } = string.Empty;
+
+        public IFormFile? ProfileImg { get; set; }
     }
 }

@@ -37,7 +37,7 @@ namespace WebApp.Services
             var guidOfCreated = result.Headers.Location.Segments.LastOrDefault();
             if (guidOfCreated != null && dto.ProfileImg != null)
             {
-                await _imageService.UploadImageAsync(dto.ProfileImg, Guid.Parse(guidOfCreated));
+                await _imageService.UploadImageAsync(dto.ProfileImg, Guid.Parse(guidOfCreated), accessToken);
             }
 
             return result;
@@ -68,7 +68,7 @@ namespace WebApp.Services
 
                 if (dto.ProfileImg != null)
                 {
-                    await _imageService.UploadImageAsync(dto.ProfileImg, id);
+                    await _imageService.UploadImageAsync(dto.ProfileImg, id, accessToken);
                 }
 
                 return await _baseService.EditAsync<AnimalDto>(id, dto, accessToken);

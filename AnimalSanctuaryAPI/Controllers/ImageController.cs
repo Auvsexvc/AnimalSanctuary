@@ -1,5 +1,6 @@
 ﻿using AnimalSanctuaryAPI.Interfaces;
 using AnimalSanctuaryAPI.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AnimalSanctuaryAPI.Controllers
@@ -31,6 +32,7 @@ namespace AnimalSanctuaryAPI.Controllers
             return data == null ? NotFound() : Ok(data);
         }
 
+        [Authorize(Roles = "Administrator, Manager, User")]
         [HttpPost("{id}")]
         public async Task<ActionResult> PostImage([FromRoute] Guid id)
         {

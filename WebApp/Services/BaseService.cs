@@ -133,7 +133,7 @@ namespace WebApp.Services
             }
         }
 
-        public async Task<HttpResponseMessage?> PostImageAsync(ImageDto dto)
+        public async Task<HttpResponseMessage?> PostImageAsync(ImageDto dto, string accessToken)
         {
             try
             {
@@ -148,6 +148,7 @@ namespace WebApp.Services
 
                 using var client = new HttpClient();
                 client.BaseAddress = new Uri(_configuration.GetConnectionString("DefaultConnection"));
+                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
                 var result = await client.PostAsync($"Image/{dto.ContextId}", multipartFormContent);
 
                 return result;

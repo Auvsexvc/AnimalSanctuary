@@ -5,10 +5,8 @@
     <div class="col-md-5 offset-1">
         <div class="form-group text-center">
             <img id="ProfileImgPreview" class="w-50 border-info rounded-circle" style="width:50%" />
-        </div>
-        <div class="form-group">
-            <label asp-for="ProfileImg" class="control-label"></label>
-            <input id="ProfileImg" asp-for="ProfileImg" type="file" class="form-control" onchange="preview()" />
+            <input id="ProfileImg" asp-for="ProfileImg" type="file" class="form-control" onchange="preview()" style="display: none;" />
+            <input type="button" class="btn btn-sm btn-warning float-end" value="Browse..." onclick="document.getElementById('ProfileImg').click();" />
             <span asp-validation-for="ProfileImg" class="text-danger"></span>
         </div>
         <div class="form-group">

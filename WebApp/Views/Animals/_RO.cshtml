@@ -1,9 +1,11 @@
-﻿@model             AnimalViewModel
+﻿@model AnimalViewModel
 
 <div class="col-md-11 d-flex">
     <div class="col-md-5 offset-1">
         <div class="form-group  text-center">
-            <img src="@Model.ProfileImgPath" class="w-50 border-info rounded-circle" style="width:50%" />
+            <button type="button" class="border-0 bg-transparent p-0" data-bs-toggle="modal" data-bs-target="#Modal_ShowPicture_@Model.Id">
+                <img src="@Model.ProfileImgPath" class="w-50 border-info rounded-circle" alt="@Model.Name" />
+            </button>
         </div>
         <div class="form-group">
             <label asp-for="Id" class="control-label"></label>

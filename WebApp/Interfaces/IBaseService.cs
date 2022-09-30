@@ -21,6 +21,6 @@ namespace WebApp.Interfaces
 
         SortingDropdownsViewModel GetSortingDropdownsVM<T>(T obj);
 
-        Task<HttpResponseMessage?> PostImageAsync(ImageDto dto/*, string accessToken*/);
+        Task<HttpResponseMessage?> PostImageAsync(ImageDto dto, string accessToken);
     }
 }

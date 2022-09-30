@@ -32,9 +32,11 @@
                                     <i class="bi bi-trash-fill"></i>
                                 </button>
                             </div>
+
                             @await Html.PartialAsync("_ModalDetails", obj)
                             @*@await Html.PartialAsync("_ModalEdit", (UpdateAnimalViewModel)ViewData[$"{obj.Id}"])*@
                             @await Html.PartialAsync("_ModalDelete", obj)
+                            @await Html.PartialAsync("_ModalShowPicture", obj)
                         </td>
                     </tr>
                 }

@@ -46,7 +46,7 @@ namespace WebApp.Services
             }
         }
 
-        public async Task UploadImageAsync(IFormFile file, Guid id)
+        public async Task UploadImageAsync(IFormFile file, Guid id, string accessToken)
         {
             ImageDto imgDto = new()
             {
@@ -54,7 +54,7 @@ namespace WebApp.Services
                 ContextId = id,
             };
 
-            await _baseService.PostImageAsync(imgDto);
+            await _baseService.PostImageAsync(imgDto, accessToken);
         }
     }
 }

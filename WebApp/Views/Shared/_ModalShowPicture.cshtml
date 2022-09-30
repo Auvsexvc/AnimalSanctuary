@@ -1,0 +1,18 @@
+﻿@model IBaseWithPictureViewModel
+
+<div class="modal fade" id="Modal_ShowPicture_@Model.Id" tabindex="-1" aria-labelledby="ShowPicture_Title_@Model.Id" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content card border-dark mb-3 mt-3 col-12 w-100">
+            <div class="modal-header card-header bg-info text-light">
+                <h5 class="modal-title card-title" id="ShowPicture_Title_@Model.Id">@Model.Name big picture</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body card-body">
+                <img src="@Model.ProfileImgPath" class="w-100" alt="@Model.Name" />
+            </div>
+            <div class="modal-footer card-footer btn-group-sm mt-4">
+                <button type="button" class="btn btn-sm btn-secondary float-end" data-bs-dismiss="modal"><i class="bi bi-x"></i> Close</button>
+            </div>
+        </div>
+    </div>
+</div>

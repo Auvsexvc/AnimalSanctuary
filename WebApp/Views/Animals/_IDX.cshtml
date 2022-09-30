@@ -3,7 +3,9 @@
 <div class="card-body bg-light text-dark">
     <div class="row">
         <div class="col-md-4 float-start p-2  text-center">
-            <img src="@Model.ProfileImgPath" class="w-100 border-info rounded-circle" alt="@Model.Name" />
+            <button type="button" class="text-center d-grid border-0 bg-transparent p-0" data-bs-toggle="modal" data-bs-target="#Modal_ShowPicture_@Model.Id">
+                <img src="@Model.ProfileImgPath" class="w-100 border-info rounded-circle" alt="@Model.Name" />
+            </button>
         </div>
         <div class="col-md-8 float-end">
             <p class="card-text mb-1"><b>Name: </b>@Model.Name</p>
@@ -34,3 +36,4 @@
         }
     </div>
 </div>
+@await Html.PartialAsync("_ModalShowPicture", Model)

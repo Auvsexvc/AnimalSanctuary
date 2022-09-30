@@ -26,7 +26,7 @@ namespace AnimalSanctuaryAPI.Services
             try
             {
                 var isAlreadyProfiled = await _appDbContext.Images.AnyAsync(x => x.ContextId == id);
-                if(isAlreadyProfiled)
+                if (isAlreadyProfiled)
                 {
                     return await Replace(file, id);
                 }
@@ -47,7 +47,7 @@ namespace AnimalSanctuaryAPI.Services
                 };
                 _appDbContext.Images.Add(data);
                 await _appDbContext.SaveChangesAsync();
-                _logger.LogInformation(string.Format(Message.MSG_CREATED, data.Id), data.Id);
+                _logger.LogInformation(Message.MSG_CREATED, data.Id);
 
                 return data.ToViewModel();
             }
@@ -75,11 +75,17 @@ namespace AnimalSanctuaryAPI.Services
             return datas;
         }
 
-        public async Task<ImageViewModel?> Replace(IFormFile file, Guid id)
+        private async Task<ImageViewModel?> Replace(IFormFile file, Guid id)
         {
             try
             {
                 var data = await _appDbContext.Images.FirstOrDefaultAsync(x => x.ContextId == id);
+
+                if (data is null)
+                {
+                    return null;
+                }
+
                 var existingId = data.Id;
                 FileInfo fi = new(file.FileName);
                 var newfilename = "Image_" + existingId + fi.Extension;
@@ -88,14 +94,13 @@ namespace AnimalSanctuaryAPI.Services
                 {
                     file.CopyTo(stream);
                 }
-                var oldPath = 
 
                 data.Path = _webHostEnvironment.WebRootPath + "/Images/" + newfilename;
 
                 _appDbContext.Update(data);
 
                 await _appDbContext.SaveChangesAsync();
-                _logger.LogInformation(string.Format(Message.MSG_UPDATED, data.Id), data.Id);
+                _logger.LogInformation(Message.MSG_UPDATED, data.Id);
 
                 return data.ToViewModel();
             }

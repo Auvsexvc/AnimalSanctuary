@@ -9,6 +9,5 @@ namespace AnimalSanctuaryAPI.Interfaces
         Task<ImageViewModel?> GetByIdAsync(Guid id);
 
         Task<IEnumerable<ImageViewModel>> GetAllAsync();
-        Task<ImageViewModel?> Replace(IFormFile file, Guid id);
     }
 }

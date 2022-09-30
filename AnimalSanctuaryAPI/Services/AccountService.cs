@@ -3,6 +3,7 @@ using AnimalSanctuaryAPI.Data;
 using AnimalSanctuaryAPI.Dtos;
 using AnimalSanctuaryAPI.Entities;
 using AnimalSanctuaryAPI.Exceptions;
+using AnimalSanctuaryAPI.Helpers;
 using AnimalSanctuaryAPI.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -104,7 +105,7 @@ namespace AnimalSanctuaryAPI.Services
             await _dbContext.Users.AddAsync(newUser);
             await _dbContext.SaveChangesAsync();
 
-            _logger.LogInformation($"User with ID: {newUser.Id} created");
+            _logger.LogInformation(Message.MSG_CREATED, newUser.Id);
         }
 
         private static UserDto ToDto(User u)

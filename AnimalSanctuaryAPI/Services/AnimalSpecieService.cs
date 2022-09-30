@@ -81,7 +81,7 @@ namespace AnimalSanctuaryAPI.Services
 
                 await _appDbContext.Species.AddAsync(data);
                 await _appDbContext.SaveChangesAsync();
-                _logger.LogInformation(string.Format(Message.MSG_CREATED, data.Id), data.Id);
+                _logger.LogInformation(Message.MSG_CREATED, data.Id);
 
                 return data.ToViewModel();
             }
@@ -121,7 +121,7 @@ namespace AnimalSanctuaryAPI.Services
                 _appDbContext.Entry(data).State = EntityState.Modified;
 
                 await _appDbContext.SaveChangesAsync();
-                _logger.LogInformation(string.Format(Message.MSG_UPDATED, data.Id), data.Id);
+                _logger.LogInformation(Message.MSG_UPDATED, data.Id);
 
                 return data.ToViewModel();
             }
@@ -152,7 +152,7 @@ namespace AnimalSanctuaryAPI.Services
 
                 _appDbContext.Species.Remove(data);
                 await _appDbContext.SaveChangesAsync();
-                _logger.LogInformation(string.Format(Message.MSG_DELETED, data.Id), data.Id);
+                _logger.LogInformation(Message.MSG_DELETED, data.Id);
 
                 return id;
             }

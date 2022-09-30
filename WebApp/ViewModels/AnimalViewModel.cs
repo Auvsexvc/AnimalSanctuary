@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using WebApp.Enums;
-using WebApp.Models;
+using WebApp.Interfaces;
 using WebApp.ViewModels.Base;
 
 namespace WebApp.ViewModels
 {
-    public class AnimalViewModel : ProfileImage, IBaseViewModel
+    public class AnimalViewModel : ProfileImagePathBase, IBaseViewModel
     {
         [DisplayName("ID")]
         public Guid Id { get; set; }

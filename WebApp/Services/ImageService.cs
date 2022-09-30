@@ -1,11 +1,12 @@
 ﻿using WebApp.Data;
+using WebApp.Dtos;
 using WebApp.Helpers;
 using WebApp.Interfaces;
-using WebApp.Models;
+using WebApp.ViewModels;
 
 namespace WebApp.Services
 {
-    public class ImageService
+    public class ImageService : IImageService
     {
         private readonly IConfiguration _configuration;
         private readonly IBaseService _baseService;
@@ -18,7 +19,7 @@ namespace WebApp.Services
             _logger = logger;
         }
 
-        public async Task<ImageModel?> GetByIdAsync(Guid id)
+        public async Task<ImageViewModel?> GetByIdAsync(Guid id)
         {
             try
             {
@@ -28,7 +29,7 @@ namespace WebApp.Services
                     return null;
                 }
 
-                ImageModel? data = new()
+                ImageViewModel? data = new()
                 {
                     Id = obj.Id,
                     ContextId = obj.ContextId,
@@ -43,6 +44,17 @@ namespace WebApp.Services
 
                 return null;
             }
+        }
+
+        public async Task UploadImageAsync(IFormFile file, Guid id)
+        {
+            ImageDto imgDto = new()
+            {
+                Image = file,
+                ContextId = id,
+            };
+
+            await _baseService.PostImageAsync(imgDto);
         }
     }
 }

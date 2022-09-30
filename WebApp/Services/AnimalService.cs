@@ -10,12 +10,14 @@ namespace WebApp.Services
     public class AnimalService : IAnimalService
     {
         private readonly IBaseService _baseService;
+        private readonly IImageService _imageService;
         private readonly ILogger<AnimalService> _logger;
 
-        public AnimalService(IBaseService baseService, ILogger<AnimalService> logger)
+        public AnimalService(IBaseService baseService, ILogger<AnimalService> logger, IImageService imageService)
         {
             _baseService = baseService;
             _logger = logger;
+            _imageService = imageService;
         }
 
         public async Task<HttpResponseMessage?> CreateAsync(AnimalDto dto, string accessToken)
@@ -35,12 +37,7 @@ namespace WebApp.Services
             var guidOfCreated = result.Headers.Location.Segments.LastOrDefault();
             if (guidOfCreated != null && dto.ProfileImg != null)
             {
-                ImageDto imgDto = new()
-                {
-                    Image = dto.ProfileImg,
-                    ContextId = Guid.Parse(guidOfCreated)
-                };
-                await _baseService.PostImageAsync(imgDto);
+                await _imageService.UploadImageAsync(dto.ProfileImg, Guid.Parse(guidOfCreated));
             }
 
             return result;
@@ -71,12 +68,7 @@ namespace WebApp.Services
 
                 if (dto.ProfileImg != null)
                 {
-                    ImageDto imgDto = new()
-                    {
-                        Image = dto.ProfileImg,
-                        ContextId = id,
-                    };
-                    await _baseService.PostImageAsync(imgDto);
+                    await _imageService.UploadImageAsync(dto.ProfileImg, id);
                 }
 
                 return await _baseService.EditAsync<AnimalDto>(id, dto, accessToken);

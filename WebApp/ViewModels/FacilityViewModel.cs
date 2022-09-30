@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using WebApp.Data;
-using WebApp.Models;
+using WebApp.Interfaces;
 using WebApp.ViewModels.Base;
 
 namespace WebApp.ViewModels
 {
-    public class FacilityViewModel : ProfileImage, IBaseViewModel
+    public class FacilityViewModel : ProfileImagePathBase, IBaseViewModel
     {
         [DisplayName("Facility ID")]
         public Guid Id { get; set; }
@@ -42,7 +42,6 @@ namespace WebApp.ViewModels
         [DisplayName("Free space")]
         public int FreeSpace { get; set; }
 
-        [DisplayName("Animals")]
         public IEnumerable<Animal>? Animals { get; set; }
     }
 }

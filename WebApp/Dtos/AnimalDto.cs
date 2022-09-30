@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using WebApp.Enums;
-using WebApp.Models;
 using WebApp.Validators;
+using WebApp.ViewModels.Base;
 
 namespace WebApp.Dtos
 {
-    public class AnimalDto : NewProfileImage
+    public class AnimalDto : ProfileImageFormFileBase
     {
         [Required]
         [MinLength(2)]

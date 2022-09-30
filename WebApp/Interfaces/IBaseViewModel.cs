@@ -1,4 +1,4 @@
-﻿namespace WebApp.ViewModels.Base
+﻿namespace WebApp.Interfaces
 {
     public interface IBaseViewModel
     {

@@ -10,17 +10,19 @@ namespace WebApp.Services
     public class FacilityService : IFacilityService
     {
         private readonly IBaseService _baseService;
+        private readonly IImageService _imageService;
         private readonly ILogger<FacilityService> _logger;
 
-        public FacilityService(IBaseService baseService, ILogger<FacilityService> logger)
+        public FacilityService(IBaseService baseService, ILogger<FacilityService> logger, IImageService imageService)
         {
             _baseService = baseService;
             _logger = logger;
+            _imageService = imageService;
         }
 
         public async Task<HttpResponseMessage?> CreateAsync(FacilityDto dto, string accessToken)
         {
-            var result =  await _baseService.CreateAsync<FacilityDto>(dto, accessToken);
+            var result = await _baseService.CreateAsync<FacilityDto>(dto, accessToken);
 
             if (result == null)
             {
@@ -35,12 +37,7 @@ namespace WebApp.Services
             var guidOfCreated = result.Headers.Location.Segments.LastOrDefault();
             if (guidOfCreated != null && dto.ProfileImg != null)
             {
-                ImageDto imgDto = new()
-                {
-                    Image = dto.ProfileImg,
-                    ContextId = Guid.Parse(guidOfCreated)
-                };
-                await _baseService.PostImageAsync(imgDto);
+                await _imageService.UploadImageAsync(dto.ProfileImg, Guid.Parse(guidOfCreated));
             }
 
             return result;
@@ -71,17 +68,13 @@ namespace WebApp.Services
                     StreetName = vm.StreetName,
                     PhoneNumber = vm.PhoneNumber,
                     City = vm.City,
-                    MaxCapacity = vm.MaxCapacity
+                    MaxCapacity = vm.MaxCapacity,
+                    ProfileImg = vm.ProfileImg
                 };
 
                 if (dto.ProfileImg != null)
                 {
-                    ImageDto imgDto = new()
-                    {
-                        Image = dto.ProfileImg,
-                        ContextId = id,
-                    };
-                    await _baseService.PostImageAsync(imgDto);
+                    await _imageService.UploadImageAsync(dto.ProfileImg, id);
                 }
 
                 return await _baseService.EditAsync<FacilityDto>(id, dto, accessToken);
@@ -211,6 +204,7 @@ namespace WebApp.Services
         private async Task<UpdateFacilityViewModel?> ToUpdateViewModel(Facility obj)
         {
             var animals = await _baseService.GetAllAsync<Animal>(null, null, obj.Id.ToString());
+            var image = await _baseService.GetByIdAsync<Image>(obj.Id);
 
             if (animals == null)
             {
@@ -230,7 +224,8 @@ namespace WebApp.Services
                 MaxCapacity = obj.MaxCapacity,
                 FreeSpace = obj.FreeSpace,
                 AnimalsIds = obj.Animals,
-                Animals = animals
+                Animals = animals,
+                ProfileImgPath = image == null ? _baseService.ApiUri + "../Images/Default.png" : _baseService.ApiUri + ".." + image.Path
             };
         }
     }

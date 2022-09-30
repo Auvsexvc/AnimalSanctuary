@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel;
+using WebApp.Interfaces;
 
-namespace WebApp.Models
+namespace WebApp.ViewModels.Base
 {
-    public abstract class UpdateProfileImage
+    public abstract class ProfileImageBase : IProfileImageFormFileBase, IProfileImagePathBase
     {
         [DisplayName("Profile image path")]
         public string ProfileImgPath { get; set; } = string.Empty;

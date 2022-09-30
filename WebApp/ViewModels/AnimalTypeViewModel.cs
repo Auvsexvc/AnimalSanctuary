@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel;
-using WebApp.ViewModels.Base;
+using WebApp.Interfaces;
 
 namespace WebApp.ViewModels
 {

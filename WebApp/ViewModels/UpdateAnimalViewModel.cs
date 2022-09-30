@@ -2,13 +2,13 @@
 using System.ComponentModel.DataAnnotations;
 using WebApp.Data;
 using WebApp.Enums;
-using WebApp.Models;
+using WebApp.Interfaces;
 using WebApp.Validators;
 using WebApp.ViewModels.Base;
 
 namespace WebApp.ViewModels
 {
-    public class UpdateAnimalViewModel : UpdateProfileImage, IBaseViewModel
+    public class UpdateAnimalViewModel : ProfileImageBase, IBaseViewModel
     {
         [DisplayName("ID")]
         public Guid Id { get; set; }

@@ -252,14 +252,6 @@ namespace WebApp.Controllers
                 ViewData[prop + "Field"] = prop;
             }
 
-            //if (data != null)
-            //{
-            //    foreach (var animalViewModel in data)
-            //    {
-            //        ViewData[$"{animalViewModel.Id}"] = await _service.GetByIdUpdateModelAsync(animalViewModel.Id);
-            //    }
-            //}
-
             ViewBag.Sorting = sortingDropdown;
             ViewBag.Field = sortingField;
             ViewBag.FieldDisplayName = sortingDropdown.DisplayNames.FirstOrDefault(x => x.Key == sortingField).Value;

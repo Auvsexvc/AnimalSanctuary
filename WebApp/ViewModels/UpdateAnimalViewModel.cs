@@ -2,20 +2,23 @@
 using System.ComponentModel.DataAnnotations;
 using WebApp.Data;
 using WebApp.Enums;
+using WebApp.Models;
 using WebApp.Validators;
 using WebApp.ViewModels.Base;
 
 namespace WebApp.ViewModels
 {
-    public class UpdateAnimalViewModel : IBaseViewModel
+    public class UpdateAnimalViewModel : UpdateProfileImage, IBaseViewModel
     {
         [DisplayName("ID")]
         public Guid Id { get; set; }
 
         [Required]
         [MinLength(2)]
+        [DisplayName("Name")]
         public string Name { get; set; } = string.Empty;
 
+        [DisplayName("Description")]
         public string? Description { get; set; }
 
         [DisplayName("Date of birth")]
@@ -49,9 +52,5 @@ namespace WebApp.ViewModels
 
         [DisplayName("Facility ID")]
         public Guid FacilityId { get; set; }
-
-        public string ProfileImgPath { get; set; } = string.Empty;
-
-        public IFormFile? ProfileImg { get; set; }
     }
 }

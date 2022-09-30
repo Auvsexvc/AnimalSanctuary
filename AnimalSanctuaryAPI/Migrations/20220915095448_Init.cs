@@ -21,10 +21,7 @@ namespace AnimalSanctuaryAPI.Migrations
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MaxCapacity = table.Column<int>(type: "int", nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Facilities", x => x.Id);
-                });
+                constraints: table => table.PrimaryKey("PK_Facilities", x => x.Id));
 
             migrationBuilder.CreateTable(
                 name: "Types",
@@ -34,10 +31,7 @@ namespace AnimalSanctuaryAPI.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Types", x => x.Id);
-                });
+                constraints: table => table.PrimaryKey("PK_Types", x => x.Id));
 
             migrationBuilder.CreateTable(
                 name: "Species",

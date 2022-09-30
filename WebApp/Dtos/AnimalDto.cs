@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using WebApp.Enums;
+using WebApp.Models;
 using WebApp.Validators;
 
 namespace WebApp.Dtos
 {
-    public class AnimalDto
+    public class AnimalDto : NewProfileImage
     {
         [Required]
         [MinLength(2)]
@@ -34,7 +35,5 @@ namespace WebApp.Dtos
         [Required]
         [DisplayName("Facility")]
         public Guid FacilityId { get; set; }
-
-        public IFormFile? ProfileImg { get; set; }
     }
 }

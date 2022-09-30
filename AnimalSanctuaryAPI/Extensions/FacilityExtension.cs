@@ -19,7 +19,7 @@ namespace AnimalSanctuaryAPI.Extensions
                 City = data.City,
                 PhoneNumber = data.PhoneNumber,
                 MaxCapacity = data.MaxCapacity,
-                FreeSpace = data.MaxCapacity - (data.Animals != null ? data.Animals.Count : 0),
+                FreeSpace = data.MaxCapacity - ((data.Animals?.Count) ?? 0),
                 Animals = data.Animals?.ConvertAll(x => x.Id)
             };
         }

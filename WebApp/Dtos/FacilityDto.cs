@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using WebApp.Models;
 
 namespace WebApp.Dtos
 {
-    public class FacilityDto
+    public class FacilityDto : NewProfileImage
     {
         [Required]
         [MinLength(2)]

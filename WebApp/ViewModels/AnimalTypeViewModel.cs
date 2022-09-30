@@ -11,6 +11,7 @@ namespace WebApp.ViewModels
         [DisplayName("Type")]
         public string Name { get; set; } = string.Empty;
 
+        [DisplayName("Description")]
         public string? Description { get; set; }
     }
 }

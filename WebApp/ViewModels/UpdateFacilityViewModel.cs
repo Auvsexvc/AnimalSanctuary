@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using WebApp.Data;
+using WebApp.Models;
 using WebApp.ViewModels.Base;
 
 namespace WebApp.ViewModels
 {
-    public class UpdateFacilityViewModel : IBaseViewModel
+    public class UpdateFacilityViewModel : UpdateProfileImage, IBaseViewModel
     {
         [DisplayName("Facility ID")]
         public Guid Id { get; set; }

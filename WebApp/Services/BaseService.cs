@@ -202,12 +202,14 @@ namespace WebApp.Services
 
         public SortingDropdownsViewModel GetSortingDropdownsVM<T>(T obj)
         {
-            return new SortingDropdownsViewModel()
+            var result =  new SortingDropdownsViewModel()
             {
-                Fields = obj!.GetType().GetProperties().Select(p => p.Name).ToList(),
-                DisplayNames = obj!.GetType().GetProperties().ToDictionary(p => p.Name, p => p.GetAttribute<DisplayNameAttribute>(false) != null ? p.GetAttribute<DisplayNameAttribute>(false)!.DisplayName : p.Name),
+                Fields = obj!.GetType().GetProperties().Where(p => Attribute.IsDefined(p, typeof(DisplayNameAttribute))).Select(p => p.Name).ToList(),
+                DisplayNames = obj!.GetType().GetProperties().Where(p => Attribute.IsDefined(p, typeof(DisplayNameAttribute))).ToDictionary(p => p.Name, p => p.GetAttribute<DisplayNameAttribute>(false) != null ? p.GetAttribute<DisplayNameAttribute>(false)!.DisplayName : p.Name),
                 Order = new List<string>() { "asc", "desc" }
             };
+
+            return result;
         }
     }
 }

@@ -1,7 +1,15 @@
-﻿@model             UpdateFacilityViewModel
+﻿@model UpdateFacilityViewModel
 
 <div class="col-md-11 d-flex">
     <div class="col-md-5 offset-1">
+        <div class="form-group text-center">
+            <img src="@Model.ProfileImgPath" id="ProfileImgPreview" class="w-50 border-info rounded-circle" style="width:50%" />
+        </div>
+        <div class="form-group">
+            <label asp-for="ProfileImg" class="control-label"></label>
+            <input id="ProfileImg" asp-for="ProfileImg" type="file" class="form-control" onchange="preview()" />
+            <span asp-validation-for="ProfileImg" class="text-danger"></span>
+        </div>
         <div class="form-group">
             <label asp-for="Id" class="control-label"></label>
             <input asp-for="Id" class="form-control" readonly />

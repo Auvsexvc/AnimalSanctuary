@@ -25,9 +25,6 @@
                 @foreach (var similarRecentAnimal in ((IEnumerable<AnimalViewModel>)ViewBag.All).Where(a => a.Specie == Model.Specie && a.Id != Model.Id).OrderByDescending(a => a.DateCreated).Take(3))
                 {
                     <div class="text-center" style="padding:2px;">
-                        @*<a class="text-center d-grid" asp-controller="Animals" asp-action="Details" asp-route-id="@similarRecentAnimal.Id">
-                            <img class="border-info rounded-circle avatar w-100" src="@similarRecentAnimal.ProfileImgPath" style="width: 50px !important; height: 50px !important;" />
-                        </a>*@
                         <button type="button" class="text-center d-grid border-0 bg-transparent p-0" data-bs-toggle="modal" data-bs-target="#Modal_Details_@similarRecentAnimal.Id">
                             <img class="border-info rounded-circle avatar w-100" src="@similarRecentAnimal.ProfileImgPath" style="width: 50px !important; height: 50px !important;" />
                         </button>

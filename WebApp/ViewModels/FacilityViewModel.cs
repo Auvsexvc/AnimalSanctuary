@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using WebApp.Data;
+using WebApp.Models;
 using WebApp.ViewModels.Base;
 
 namespace WebApp.ViewModels
 {
-    public class FacilityViewModel : IBaseViewModel
+    public class FacilityViewModel : ProfileImage, IBaseViewModel
     {
         [DisplayName("Facility ID")]
         public Guid Id { get; set; }
@@ -15,6 +16,7 @@ namespace WebApp.ViewModels
         [MinLength(3)]
         public string Name { get; set; } = string.Empty;
 
+        [DisplayName("Description")]
         public string? Description { get; set; }
 
         [DisplayName("Building number")]

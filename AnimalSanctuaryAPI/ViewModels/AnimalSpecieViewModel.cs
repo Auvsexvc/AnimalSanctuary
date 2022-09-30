@@ -8,8 +8,6 @@
 
         public string? Description { get; set; }
 
-        //public string? TypeName { get; set; }
-
         public Guid TypeId { get; set; }
     }
 }

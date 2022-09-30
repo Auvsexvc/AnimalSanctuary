@@ -14,6 +14,7 @@ namespace AnimalSanctuaryAPI.Dtos
 
         [DateMustNotBeFuture]
         public DateTime? DateOfBirth { get; set; }
+
         public Sex? Sex { get; set; }
         public string? HealthState { get; set; }
         public Attitude? Attitude { get; set; }

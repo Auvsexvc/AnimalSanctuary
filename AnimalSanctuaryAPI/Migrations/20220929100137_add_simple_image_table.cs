@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -17,10 +16,7 @@ namespace AnimalSanctuaryAPI.Migrations
                     Path = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ContextId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Images", x => x.Id);
-                });
+                constraints: table => table.PrimaryKey("PK_Images", x => x.Id));
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

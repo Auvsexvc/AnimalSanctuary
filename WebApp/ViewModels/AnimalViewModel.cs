@@ -1,28 +1,33 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using WebApp.Enums;
+using WebApp.Models;
 using WebApp.ViewModels.Base;
 
 namespace WebApp.ViewModels
 {
-    public class AnimalViewModel : IBaseViewModel
+    public class AnimalViewModel : ProfileImage, IBaseViewModel
     {
         [DisplayName("ID")]
         public Guid Id { get; set; }
 
+        [DisplayName("Name")]
         public string Name { get; set; } = string.Empty;
 
+        [DisplayName("Description")]
         public string? Description { get; set; }
 
         [DisplayName("Date of birth")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? DateOfBirth { get; set; }
 
+        [DisplayName("Sex")]
         public Sex? Sex { get; set; }
 
         [DisplayName("Health state")]
         public string? HealthState { get; set; }
 
+        [DisplayName("Attitude")]
         public Attitude? Attitude { get; set; }
 
         [DisplayName("Registration date")]
@@ -37,7 +42,5 @@ namespace WebApp.ViewModels
 
         [DisplayName("Facility")]
         public string Facility { get; set; } = string.Empty;
-
-        public string ProfileImgPath { get; set; } = string.Empty;
     }
 }

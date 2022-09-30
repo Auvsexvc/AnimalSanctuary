@@ -22,13 +22,23 @@ namespace WebApp.Services
         {
             var result = await _baseService.CreateAsync<AnimalDto>(dto, accessToken);
 
-            var guidOfNewAnimal = result.Headers.Location.Segments.LastOrDefault();
-            if (guidOfNewAnimal != null && dto.ProfileImg != null)
+            if (result == null)
+            {
+                return null;
+            }
+
+            if (result.Headers.Location == null)
+            {
+                return null;
+            }
+
+            var guidOfCreated = result.Headers.Location.Segments.LastOrDefault();
+            if (guidOfCreated != null && dto.ProfileImg != null)
             {
                 ImageDto imgDto = new()
                 {
                     Image = dto.ProfileImg,
-                    ContextId = Guid.Parse(guidOfNewAnimal)
+                    ContextId = Guid.Parse(guidOfCreated)
                 };
                 await _baseService.PostImageAsync(imgDto);
             }

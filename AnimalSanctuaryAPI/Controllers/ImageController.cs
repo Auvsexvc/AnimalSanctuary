@@ -1,9 +1,6 @@
-﻿using AnimalSanctuaryAPI.Dtos;
-using AnimalSanctuaryAPI.Entities;
-using AnimalSanctuaryAPI.Interfaces;
+﻿using AnimalSanctuaryAPI.Interfaces;
 using AnimalSanctuaryAPI.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace AnimalSanctuaryAPI.Controllers
 {

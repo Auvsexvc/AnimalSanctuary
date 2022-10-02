@@ -45,7 +45,7 @@ namespace AnimalSanctuaryAPI.Controllers
 
             foreach (var file in files)
             {
-                await _service.Upload(file, id);
+                await _service.UploadAsync(file, id);
             }
 
             return Ok();

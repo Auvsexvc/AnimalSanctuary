@@ -17,7 +17,7 @@ namespace WebApp.Interfaces
 
         Task<UpdateAnimalViewModel?> GetByIdUpdateModelAsync(Guid id);
 
-        Task<NewAnimalDropdownsVM> GetNewUserDropdownsVM();
+        Task<NewAnimalDropdownsVM> GetNewUserDropdownsVMAsync();
 
         SortingDropdownsViewModel GetSortingDropdownsVM();
     }

@@ -7,7 +7,7 @@ using WebApp.ViewModels;
 
 namespace WebApp.Services
 {
-    public class AnimalTypeService : ITypeService
+    public sealed class AnimalTypeService : ITypeService
     {
         private readonly IBaseService _baseService;
         private readonly ILogger<AnimalTypeService> _logger;

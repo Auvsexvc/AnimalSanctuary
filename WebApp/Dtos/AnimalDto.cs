@@ -6,7 +6,7 @@ using WebApp.ViewModels.Base;
 
 namespace WebApp.Dtos
 {
-    public class AnimalDto : ProfileImageFormFileBase
+    public sealed class AnimalDto : ProfileImageFormFileBase
     {
         [Required]
         [MinLength(2)]

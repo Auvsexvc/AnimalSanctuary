@@ -5,14 +5,14 @@ namespace AnimalSanctuaryAPI.Interfaces
 {
     public interface IAnimalSpecieService
     {
-        Task<AnimalSpecieViewModel?> Add(AnimalSpecieDto dto);
+        Task<AnimalSpecieViewModel?> AddAsync(AnimalSpecieDto dto);
 
-        Task<Guid?> Delete(Guid id);
+        Task<Guid?> DeleteAsync(Guid id);
 
-        Task<AnimalSpecieViewModel?> GetViewModel(Guid id);
+        Task<AnimalSpecieViewModel?> GetByIdAsync(Guid id);
 
-        Task<IEnumerable<AnimalSpecieViewModel>?> GetViewModels(string? sortingField, string? sortingOrder, string? filteringString);
+        Task<IEnumerable<AnimalSpecieViewModel>?> GetAllAsync(string? sortingField, string? sortingOrder, string? filteringString);
 
-        Task<AnimalSpecieViewModel?> Update(Guid id, AnimalSpecieDto dto);
+        Task<AnimalSpecieViewModel?> UpdateAsync(Guid id, AnimalSpecieDto dto);
     }
 }

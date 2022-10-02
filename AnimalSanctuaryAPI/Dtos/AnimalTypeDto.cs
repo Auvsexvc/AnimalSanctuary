@@ -2,7 +2,7 @@
 
 namespace AnimalSanctuaryAPI.Dtos
 {
-    public class AnimalTypeDto
+    public sealed class AnimalTypeDto
     {
         [Required]
         [MinLength(2)]

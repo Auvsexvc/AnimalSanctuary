@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using WebApp.Dtos;
 using WebApp.Helpers;
 using WebApp.Interfaces;
-using WebApp.Services;
 using WebApp.ViewModels;
 
 namespace WebApp.Controllers
@@ -13,9 +12,9 @@ namespace WebApp.Controllers
     public class AnimalsController : Controller
     {
         private readonly IAnimalService _service;
-        private readonly AccountManagerService _userManagerService;
+        private readonly IAccountManagerService _userManagerService;
 
-        public AnimalsController(IAnimalService service, AccountManagerService userManagerService)
+        public AnimalsController(IAnimalService service, IAccountManagerService userManagerService)
         {
             _service = service;
             _userManagerService = userManagerService;
@@ -46,7 +45,7 @@ namespace WebApp.Controllers
                 return View("AccessDenied");
             }
 
-            var dropdowns = await _service.GetNewUserDropdownsVM();
+            var dropdowns = await _service.GetNewUserDropdownsVMAsync();
 
             ViewBag.Species = new SelectList(dropdowns.Species, "Id", "Name");
             ViewBag.Facilities = new SelectList(dropdowns.Facilities, "Id", "Name");
@@ -156,7 +155,7 @@ namespace WebApp.Controllers
                 return View("AccessDenied");
             }
 
-            var dropdowns = await _service.GetNewUserDropdownsVM();
+            var dropdowns = await _service.GetNewUserDropdownsVMAsync();
             var data = await _service.GetByIdUpdateModelAsync(id);
 
             if (data == null)
@@ -225,7 +224,7 @@ namespace WebApp.Controllers
         {
             HttpContext.Session.SetString("browser", "false");
 
-            var dropdowns = await _service.GetNewUserDropdownsVM();
+            var dropdowns = await _service.GetNewUserDropdownsVMAsync();
             ViewBag.DropDowns = dropdowns;
             ViewBag.Species = new SelectList(dropdowns.Species, "Id", "Name");
             ViewBag.Facilities = new SelectList(dropdowns.Facilities, "Id", "Name");

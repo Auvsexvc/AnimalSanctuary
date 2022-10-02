@@ -7,7 +7,7 @@ using WebApp.ViewModels;
 
 namespace WebApp.Services
 {
-    public class AccountService : IAccountService
+    public sealed class AccountService : IAccountService
     {
         private readonly IConfiguration _configuration;
         private readonly ILogger<AccountService> _logger;
@@ -18,7 +18,7 @@ namespace WebApp.Services
             _logger = logger;
         }
 
-        public async Task<Account?> GetAccount(LoginDto dto)
+        public async Task<Account?> GetByLoginAsync(LoginDto dto)
         {
             try
             {
@@ -52,7 +52,7 @@ namespace WebApp.Services
             }
         }
 
-        public async Task<IEnumerable<Account>> GetAllAccounts(string accessToken)
+        public async Task<IEnumerable<Account>> GetAllAsync(string accessToken)
         {
             try
             {
@@ -137,7 +137,7 @@ namespace WebApp.Services
             }
         }
 
-        public async Task<NewUserDropdownsVM> GetNewUserDropdownsVM(string accessToken) => new NewUserDropdownsVM()
+        public async Task<NewUserDropdownsVM> GetNewUserDropdownsVMAsync(string accessToken) => new NewUserDropdownsVM()
         {
             Roles = (await GetAllRoles(accessToken)).OrderBy(a => a.Name).ToList(),
         };

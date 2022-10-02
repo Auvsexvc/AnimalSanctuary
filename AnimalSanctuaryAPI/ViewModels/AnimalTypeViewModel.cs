@@ -1,6 +1,6 @@
 ﻿namespace AnimalSanctuaryAPI.ViewModels
 {
-    public class AnimalTypeViewModel
+    public sealed class AnimalTypeViewModel
     {
         public Guid Id { get; set; }
 

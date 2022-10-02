@@ -2,7 +2,7 @@
 
 namespace WebApp.Data
 {
-    public class Facility
+    public sealed class Facility
     {
         public Guid Id { get; set; }
 

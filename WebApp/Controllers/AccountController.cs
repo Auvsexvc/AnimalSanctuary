@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using WebApp.Dtos;
 using WebApp.Helpers;
 using WebApp.Interfaces;
-using WebApp.Services;
 using WebApp.ViewModels;
 
 namespace WebApp.Controllers
@@ -15,9 +14,9 @@ namespace WebApp.Controllers
     public class AccountController : Controller
     {
         private readonly IAccountService _accountService;
-        private readonly AccountManagerService _userManagerService;
+        private readonly IAccountManagerService _userManagerService;
 
-        public AccountController(IAccountService accountService, AccountManagerService userManagerService)
+        public AccountController(IAccountService accountService, IAccountManagerService userManagerService)
         {
             _accountService = accountService;
             _userManagerService = userManagerService;
@@ -32,7 +31,7 @@ namespace WebApp.Controllers
                 return View("AccessDenied");
             }
 
-            var accounts = await _accountService.GetAllAccounts(accessToken);
+            var accounts = await _accountService.GetAllAsync(accessToken);
 
             var users = _userManagerService.GetAccounts(accounts);
 
@@ -52,7 +51,7 @@ namespace WebApp.Controllers
                 return View(loginVM);
             }
 
-            var account = await _accountService.GetAccount(loginVM);
+            var account = await _accountService.GetByLoginAsync(loginVM);
 
             if (account == null)
             {
@@ -84,7 +83,7 @@ namespace WebApp.Controllers
                 return View("AccessDenied");
             }
 
-            var dropdowns = await _accountService.GetNewUserDropdownsVM(accessToken);
+            var dropdowns = await _accountService.GetNewUserDropdownsVMAsync(accessToken);
 
             ViewBag.Roles = new SelectList(dropdowns.Roles, "Id", "Name");
 
@@ -102,7 +101,7 @@ namespace WebApp.Controllers
                 return View("AccessDenied");
             }
 
-            var dropdowns = await _accountService.GetNewUserDropdownsVM(accessToken);
+            var dropdowns = await _accountService.GetNewUserDropdownsVMAsync(accessToken);
 
             ViewBag.Roles = new SelectList(dropdowns.Roles, "Id", "Name");
 
@@ -111,7 +110,7 @@ namespace WebApp.Controllers
                 return View(registerVM);
             }
 
-            var accounts = await _accountService.GetAllAccounts(accessToken);
+            var accounts = await _accountService.GetAllAsync(accessToken);
             var account = accounts.FirstOrDefault(x => x.Email == registerVM.Email);
 
             if (account != null)

@@ -19,6 +19,6 @@ namespace WebApp.Interfaces
 
         SortingDropdownsViewModel GetSortingDropdownsVM();
 
-        Task<NewSpecieDropdownsVM> GetNewSpecieDropdownsVM();
+        Task<NewSpecieDropdownsVM> GetNewSpecieDropdownsVMAsync();
     }
 }

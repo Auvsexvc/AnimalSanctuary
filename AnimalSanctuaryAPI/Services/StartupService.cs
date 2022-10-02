@@ -2,7 +2,7 @@
 
 namespace AnimalSanctuaryAPI.Services
 {
-    public class StartupService : IHostedService
+    public sealed class StartupService : IHostedService
     {
         private readonly IServiceProvider _serviceScopeFactory;
 
@@ -19,7 +19,7 @@ namespace AnimalSanctuaryAPI.Services
 
             if (_appDbInitializer != null)
             {
-                await _appDbInitializer.EnsureDbCreatedIfPossible();
+                await _appDbInitializer.EnsureDbCreatedIfPossibleAsync();
             }
 
             if (_appDbRoleSeeder != null)

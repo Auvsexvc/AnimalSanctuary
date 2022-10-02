@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AnimalSanctuaryAPI.Entities
 {
-    public class User
+    public sealed class User
     {
         [Key]
         public Guid Id { get; set; }
@@ -23,7 +23,7 @@ namespace AnimalSanctuaryAPI.Entities
         public string PasswordHash { get; set; } = string.Empty;
 
         [ForeignKey("RoleId")]
-        public virtual Role Role { get; set; } = null!;
+        public Role Role { get; set; } = null!;
 
         public int RoleId { get; set; }
     }

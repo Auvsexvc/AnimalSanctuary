@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AnimalSanctuaryAPI.Services
 {
-    public class ImageService : IImageService
+    public sealed class ImageService : IImageService
     {
         private readonly AppDbContext _appDbContext;
         private readonly IWebHostEnvironment _webHostEnvironment;
@@ -21,14 +21,14 @@ namespace AnimalSanctuaryAPI.Services
             _logger = logger;
         }
 
-        public async Task<ImageViewModel?> Upload(IFormFile file, Guid id)
+        public async Task<ImageViewModel?> UploadAsync(IFormFile file, Guid id)
         {
             try
             {
                 var isAlreadyProfiled = await _appDbContext.Images.AnyAsync(x => x.ContextId == id);
                 if (isAlreadyProfiled)
                 {
-                    return await Replace(file, id);
+                    return await ReplaceAsync(file, id);
                 }
 
                 var tempId = Guid.NewGuid();
@@ -75,7 +75,7 @@ namespace AnimalSanctuaryAPI.Services
             return datas;
         }
 
-        private async Task<ImageViewModel?> Replace(IFormFile file, Guid id)
+        private async Task<ImageViewModel?> ReplaceAsync(IFormFile file, Guid id)
         {
             try
             {

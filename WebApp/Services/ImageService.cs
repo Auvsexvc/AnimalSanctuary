@@ -6,7 +6,7 @@ using WebApp.ViewModels;
 
 namespace WebApp.Services
 {
-    public class ImageService : IImageService
+    public sealed class ImageService : IImageService
     {
         private readonly IConfiguration _configuration;
         private readonly IBaseService _baseService;

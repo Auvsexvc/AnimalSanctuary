@@ -17,7 +17,7 @@ namespace WebApp.Interfaces
 
         Task<UpdateFacilityViewModel?> GetByIdUpdateModelAsync(Guid id);
 
-        Task<NewFacilityDropdownsVM> GetNewFacilityDropdownsVM();
+        Task<NewFacilityDropdownsVM> GetNewFacilityDropdownsVMAsync();
 
         SortingDropdownsViewModel GetSortingDropdownsVM();
     }

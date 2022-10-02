@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using WebApp.Dtos;
 using WebApp.Helpers;
 using WebApp.Interfaces;
-using WebApp.Services;
 using WebApp.ViewModels;
 
 namespace WebApp.Controllers
@@ -12,9 +11,9 @@ namespace WebApp.Controllers
     public class TypesController : Controller
     {
         private readonly ITypeService _service;
-        private readonly AccountManagerService _userManagerService;
+        private readonly IAccountManagerService _userManagerService;
 
-        public TypesController(ITypeService service, AccountManagerService userManagerService)
+        public TypesController(ITypeService service, IAccountManagerService userManagerService)
         {
             _service = service;
             _userManagerService = userManagerService;

@@ -1,6 +1,6 @@
 ﻿namespace AnimalSanctuaryAPI.ViewModels
 {
-    public class LoginViewModel
+    public sealed class LoginViewModel
     {
         public string Token { get; set; } = string.Empty;
     }

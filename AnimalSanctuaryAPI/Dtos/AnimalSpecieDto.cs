@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AnimalSanctuaryAPI.Dtos
 {
-    public class AnimalSpecieDto
+    public sealed class AnimalSpecieDto
     {
         [Required]
         [MinLength(2)]

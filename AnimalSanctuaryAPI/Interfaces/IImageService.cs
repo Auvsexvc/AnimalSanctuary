@@ -4,7 +4,7 @@ namespace AnimalSanctuaryAPI.Interfaces
 {
     public interface IImageService
     {
-        Task<ImageViewModel?> Upload(IFormFile file, Guid id);
+        Task<ImageViewModel?> UploadAsync(IFormFile file, Guid id);
 
         Task<ImageViewModel?> GetByIdAsync(Guid id);
 

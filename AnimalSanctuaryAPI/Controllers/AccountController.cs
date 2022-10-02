@@ -20,7 +20,7 @@ namespace AnimalSanctuaryAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var userDtos = await _accountService.GetAll();
+            var userDtos = await _accountService.GetAllAccountsAsync();
 
             return Ok(userDtos);
         }
@@ -28,7 +28,7 @@ namespace AnimalSanctuaryAPI.Controllers
         [HttpGet("Roles")]
         public async Task<IActionResult> GetRoles()
         {
-            var roles = await _accountService.GetRoles();
+            var roles = await _accountService.GetRolesAsync();
 
             return Ok(roles);
         }
@@ -36,7 +36,7 @@ namespace AnimalSanctuaryAPI.Controllers
         [HttpPost("Register")]
         public async Task<IActionResult> RegisterUser([FromBody] RegisterUserDto dto)
         {
-            await _accountService.RegisterUser(dto);
+            await _accountService.RegisterAccountAsync(dto);
 
             return Ok();
         }
@@ -45,7 +45,7 @@ namespace AnimalSanctuaryAPI.Controllers
         [HttpPost("Login")]
         public async Task<IActionResult> Login([FromBody] LoginDto dto)
         {
-            string token = await _accountService.GenereateJWT(dto);
+            string token = await _accountService.GenereateJWTAsync(dto);
 
             return Ok(token);
         }

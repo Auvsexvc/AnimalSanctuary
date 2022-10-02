@@ -8,7 +8,7 @@ using WebApp.ViewModels.Base;
 
 namespace WebApp.ViewModels
 {
-    public class UpdateAnimalViewModel : ProfileImageBase, IBaseViewModel
+    public sealed class UpdateAnimalViewModel : ProfileImageBase, IBaseViewModel
     {
         [DisplayName("ID")]
         public Guid Id { get; set; }

@@ -2,7 +2,7 @@
 
 namespace AnimalSanctuaryAPI.Dtos
 {
-    public class RegisterUserDto
+    public sealed class RegisterUserDto
     {
         [EmailAddress]
         [Required]

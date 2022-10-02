@@ -1,6 +1,6 @@
 ﻿namespace WebApp.Data
 {
-    public class Image
+    public sealed class Image
     {
         public Guid Id { get; set; }
 

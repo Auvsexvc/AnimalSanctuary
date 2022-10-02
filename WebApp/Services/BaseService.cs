@@ -203,14 +203,29 @@ namespace WebApp.Services
 
         public SortingDropdownsViewModel GetSortingDropdownsVM<T>(T obj)
         {
-            var result =  new SortingDropdownsViewModel()
-            {
-                Fields = obj!.GetType().GetProperties().Where(p => Attribute.IsDefined(p, typeof(DisplayNameAttribute))).Select(p => p.Name).ToList(),
-                DisplayNames = obj!.GetType().GetProperties().Where(p => Attribute.IsDefined(p, typeof(DisplayNameAttribute))).ToDictionary(p => p.Name, p => p.GetAttribute<DisplayNameAttribute>(false) != null ? p.GetAttribute<DisplayNameAttribute>(false)!.DisplayName : p.Name),
-                Order = new List<string>() { "asc", "desc" }
-            };
+            var fields = obj!
+                .GetType()
+                .GetProperties()
+                .Where(p => Attribute.IsDefined(p, typeof(DisplayNameAttribute)))
+                .Select(p => p.Name)
+                .ToList();
 
-            return result;
+            var displayNames = obj!
+                .GetType()
+                .GetProperties()
+                .Where(p => Attribute.IsDefined(p, typeof(DisplayNameAttribute)))
+                .ToDictionary(p => p.Name, p => p.GetAttribute<DisplayNameAttribute>(false) != null
+                    ? p.GetAttribute<DisplayNameAttribute>(false)!.DisplayName
+                    : p.Name);
+
+            var order = new List<string>() { "asc", "desc" };
+
+            return new SortingDropdownsViewModel()
+            {
+                Fields = fields,
+                DisplayNames = displayNames,
+                Order = order
+            };
         }
     }
 }

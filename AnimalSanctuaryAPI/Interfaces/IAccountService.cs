@@ -5,12 +5,12 @@ namespace AnimalSanctuaryAPI.Interfaces
 {
     public interface IAccountService
     {
-        Task<string> GenereateJWT(LoginDto dto);
+        Task<string> GenereateJWTAsync(LoginDto dto);
 
-        Task<IEnumerable<UserDto>> GetAll();
+        Task<IEnumerable<UserDto>> GetAllAccountsAsync();
 
-        Task<IEnumerable<Role>> GetRoles();
+        Task<IEnumerable<Role>> GetRolesAsync();
 
-        Task RegisterUser(RegisterUserDto dto);
+        Task RegisterAccountAsync(RegisterUserDto dto);
     }
 }

@@ -3,12 +3,13 @@ using System.Security.Claims;
 using WebApp.Data;
 using WebApp.Extensions;
 using WebApp.Helpers;
+using WebApp.Interfaces;
 using WebApp.Models;
 using WebApp.ViewModels;
 
 namespace WebApp.Services
 {
-    public class AccountManagerService
+    public sealed class AccountManagerService : IAccountManagerService
     {
         private readonly ILogger<AccountManagerService> _logger;
 

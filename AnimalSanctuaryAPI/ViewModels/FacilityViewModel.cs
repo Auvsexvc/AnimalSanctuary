@@ -2,7 +2,7 @@
 
 namespace AnimalSanctuaryAPI.ViewModels
 {
-    public class FacilityViewModel
+    public sealed class FacilityViewModel
     {
         public Guid Id { get; set; }
 

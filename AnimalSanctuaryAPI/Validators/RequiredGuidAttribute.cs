@@ -3,7 +3,7 @@
 namespace AnimalSanctuaryAPI.Validators
 {
     [AttributeUsage(AttributeTargets.All, AllowMultiple = false)]
-    public class RequiredGuidAttribute : ValidationAttribute
+    public sealed class RequiredGuidAttribute : ValidationAttribute
     {
         public RequiredGuidAttribute() => ErrorMessage = "{0} is required.";
 

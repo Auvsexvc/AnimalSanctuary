@@ -3,7 +3,7 @@ using WebApp.Enums;
 
 namespace WebApp.Data
 {
-    public class Animal
+    public sealed class Animal
     {
         public Guid Id { get; set; }
 

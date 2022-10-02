@@ -2,6 +2,6 @@
 {
     public interface IDbInitializer
     {
-        Task EnsureDbCreatedIfPossible();
+        Task EnsureDbCreatedIfPossibleAsync();
     }
 }

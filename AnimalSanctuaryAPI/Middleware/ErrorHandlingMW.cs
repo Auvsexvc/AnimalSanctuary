@@ -2,7 +2,7 @@
 
 namespace AnimalSanctuaryAPI.Middleware
 {
-    public class ErrorHandlingMiddleware : IMiddleware
+    public sealed class ErrorHandlingMiddleware : IMiddleware
     {
         private readonly ILogger _logger;
 

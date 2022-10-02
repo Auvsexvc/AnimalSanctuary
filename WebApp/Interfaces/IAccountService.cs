@@ -6,12 +6,12 @@ namespace WebApp.Interfaces
 {
     public interface IAccountService
     {
-        Task<Account?> GetAccount(LoginDto dto);
+        Task<Account?> GetByLoginAsync(LoginDto dto);
 
-        Task<IEnumerable<Account>> GetAllAccounts(string accessToken);
+        Task<IEnumerable<Account>> GetAllAsync(string accessToken);
 
         Task<HttpResponseMessage?> RegisterAsync(RegisterViewModel dto, string accessToken);
 
-        Task<NewUserDropdownsVM> GetNewUserDropdownsVM(string accessToken);
+        Task<NewUserDropdownsVM> GetNewUserDropdownsVMAsync(string accessToken);
     }
 }

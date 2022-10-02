@@ -14,7 +14,7 @@ using System.Text;
 
 namespace AnimalSanctuaryAPI.Services
 {
-    public class AccountService : IAccountService
+    public sealed class AccountService : IAccountService
     {
         private readonly AppDbContext _dbContext;
         private readonly IPasswordHasher<User> _passwordHasher;
@@ -29,7 +29,7 @@ namespace AnimalSanctuaryAPI.Services
             _authenticationSettings = authenticationSettings;
         }
 
-        public async Task<string> GenereateJWT(LoginDto dto)
+        public async Task<string> GenereateJWTAsync(LoginDto dto)
         {
             var user = await _dbContext
                 .Users
@@ -68,7 +68,7 @@ namespace AnimalSanctuaryAPI.Services
             return tokenHandler.WriteToken(token);
         }
 
-        public async Task<IEnumerable<UserDto>> GetAll()
+        public async Task<IEnumerable<UserDto>> GetAllAccountsAsync()
         {
             return await _dbContext
                 .Users
@@ -77,14 +77,14 @@ namespace AnimalSanctuaryAPI.Services
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Role>> GetRoles()
+        public async Task<IEnumerable<Role>> GetRolesAsync()
         {
             return await _dbContext
                 .Roles
                 .ToListAsync();
         }
 
-        public async Task RegisterUser(RegisterUserDto dto)
+        public async Task RegisterAccountAsync(RegisterUserDto dto)
         {
             var users = await _dbContext
                 .Users

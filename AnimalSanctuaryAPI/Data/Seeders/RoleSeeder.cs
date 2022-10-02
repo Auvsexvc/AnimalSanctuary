@@ -3,7 +3,7 @@ using AnimalSanctuaryAPI.Interfaces;
 
 namespace AnimalSanctuaryAPI.Data.Seeders
 {
-    public class RoleSeeder : IRoleSeeder
+    public sealed class RoleSeeder : IRoleSeeder
     {
         private readonly AppDbContext _dbContext;
 

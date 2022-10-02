@@ -2,7 +2,7 @@
 
 namespace WebApp.ViewModels
 {
-    public class ImageViewModel
+    public sealed class ImageViewModel
     {
         [DisplayName("Image ID")]
         public Guid Id { get; set; }

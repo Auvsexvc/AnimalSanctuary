@@ -13,8 +13,7 @@ namespace AnimalSanctuaryAPI.Extensions
                 Id = animalSpecie.Id,
                 Name = animalSpecie.Name,
                 Description = animalSpecie.Description,
-                TypeId = animalSpecie.TypeId,
-                //TypeName = animalSpecie.Type.Name
+                TypeId = animalSpecie.TypeId
             };
         }
 

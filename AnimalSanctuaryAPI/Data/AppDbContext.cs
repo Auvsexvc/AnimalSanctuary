@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AnimalSanctuaryAPI.Data
 {
-    public class AppDbContext : DbContext
+    public sealed class AppDbContext : DbContext
     {
         public DbSet<Animal> Animals => Set<Animal>();
         public DbSet<AnimalType> Types => Set<AnimalType>();

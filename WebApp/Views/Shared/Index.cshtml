@@ -31,6 +31,11 @@
                         <div class="card-footer ">
                             <div class="col-md-12">
                                 <p class="card-text">
+                                    @if(ViewContext.RouteData.Values["controller"] as string != "Animals"){
+                                        <a class="btn btn-sm btn-success float-start" alt="Show all of @item.Name" asp-controller="Animals" asp-action="Index" asp-route-filteringString="@item.Name">
+                                                <i class="bi bi-pencil-square"></i> Show all of @item.Name
+                                        </a>
+                                    }
                                     <button type="button" class="btn btn-sm btn-info icon-float-end" data-bs-toggle="modal" data-bs-target="#Modal_Details_@item.Id">
                                         <i class="bi bi-eye-fill"></i> Show Details
                                     </button>

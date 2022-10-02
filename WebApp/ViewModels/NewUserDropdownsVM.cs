@@ -2,7 +2,7 @@
 
 namespace WebApp.ViewModels
 {
-    public class NewUserDropdownsVM
+    public sealed class NewUserDropdownsVM
     {
         public List<Role> Roles { get; set; }
 

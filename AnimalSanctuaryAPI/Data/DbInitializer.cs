@@ -11,7 +11,7 @@ namespace AnimalSanctuaryAPI.Data
             _appDbContext = appDbContext;
         }
 
-        public async Task EnsureDbCreatedIfPossible()
+        public async Task EnsureDbCreatedIfPossibleAsync()
         {
             try
             {

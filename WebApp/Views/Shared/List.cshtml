@@ -36,7 +36,10 @@
                             @await Html.PartialAsync("_ModalDetails", obj)
                             @*@await Html.PartialAsync("_ModalEdit", (UpdateAnimalViewModel)ViewData[$"{obj.Id}"])*@
                             @await Html.PartialAsync("_ModalDelete", obj)
-                            @await Html.PartialAsync("_ModalShowPicture", obj)
+                            @if (typeof(IBaseWithPictureViewModel).IsAssignableFrom(obj.GetType()))
+                            {
+                                @await Html.PartialAsync("_ModalShowPicture", obj);
+                            }
                         </td>
                     </tr>
                 }

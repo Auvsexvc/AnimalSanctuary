@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AnimalSanctuaryAPI.Services
 {
-    public class AnimalSpecieService : IAnimalSpecieService
+    public sealed class AnimalSpecieService : IAnimalSpecieService
     {
         private readonly AppDbContext _appDbContext;
         private readonly ILogger<AnimalSpecieService> _logger;
@@ -20,7 +20,7 @@ namespace AnimalSanctuaryAPI.Services
             _logger = logger;
         }
 
-        public async Task<IEnumerable<AnimalSpecieViewModel>?> GetViewModels(string? sortingField, string? sortingOrder, string? filteringString)
+        public async Task<IEnumerable<AnimalSpecieViewModel>?> GetAllAsync(string? sortingField, string? sortingOrder, string? filteringString)
         {
             try
             {
@@ -39,7 +39,7 @@ namespace AnimalSanctuaryAPI.Services
             }
         }
 
-        public async Task<AnimalSpecieViewModel?> GetViewModel(Guid id)
+        public async Task<AnimalSpecieViewModel?> GetByIdAsync(Guid id)
         {
             try
             {
@@ -59,7 +59,7 @@ namespace AnimalSanctuaryAPI.Services
             }
         }
 
-        public async Task<AnimalSpecieViewModel?> Add(AnimalSpecieDto dto)
+        public async Task<AnimalSpecieViewModel?> AddAsync(AnimalSpecieDto dto)
         {
             try
             {
@@ -92,7 +92,7 @@ namespace AnimalSanctuaryAPI.Services
             }
         }
 
-        public async Task<AnimalSpecieViewModel?> Update(Guid id, AnimalSpecieDto dto)
+        public async Task<AnimalSpecieViewModel?> UpdateAsync(Guid id, AnimalSpecieDto dto)
         {
             try
             {
@@ -132,7 +132,7 @@ namespace AnimalSanctuaryAPI.Services
             }
         }
 
-        public async Task<Guid?> Delete(Guid id)
+        public async Task<Guid?> DeleteAsync(Guid id)
         {
             try
             {

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AnimalSanctuaryAPI.Services
 {
-    public class FacilityService : IFacilityService
+    public sealed class FacilityService : IFacilityService
     {
         private readonly AppDbContext _appDbContext;
         private readonly ILogger<FacilityService> _logger;
@@ -20,7 +20,7 @@ namespace AnimalSanctuaryAPI.Services
             _logger = logger;
         }
 
-        public async Task<IEnumerable<FacilityViewModel>?> GetViewModels(string? sortingField, string? sortingOrder, string? filteringString)
+        public async Task<IEnumerable<FacilityViewModel>?> GetAllAsync(string? sortingField, string? sortingOrder, string? filteringString)
         {
             try
             {
@@ -39,7 +39,7 @@ namespace AnimalSanctuaryAPI.Services
             }
         }
 
-        public async Task<FacilityViewModel?> GetViewModel(Guid id)
+        public async Task<FacilityViewModel?> GetByIdAsync(Guid id)
         {
             try
             {
@@ -59,7 +59,7 @@ namespace AnimalSanctuaryAPI.Services
             }
         }
 
-        public async Task<FacilityViewModel?> Add(FacilityDto dto)
+        public async Task<FacilityViewModel?> AddAsync(FacilityDto dto)
         {
             try
             {
@@ -85,7 +85,7 @@ namespace AnimalSanctuaryAPI.Services
             }
         }
 
-        public async Task<FacilityViewModel?> Update(Guid id, FacilityDto dto)
+        public async Task<FacilityViewModel?> UpdateAsync(Guid id, FacilityDto dto)
         {
             try
             {
@@ -124,7 +124,7 @@ namespace AnimalSanctuaryAPI.Services
             }
         }
 
-        public async Task<Guid?> Delete(Guid id)
+        public async Task<Guid?> DeleteAsync(Guid id)
         {
             try
             {

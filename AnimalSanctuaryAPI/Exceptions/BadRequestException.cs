@@ -1,6 +1,6 @@
 ﻿namespace AnimalSanctuaryAPI.Exceptions
 {
-    public class BadRequestException : Exception
+    public sealed class BadRequestException : Exception
     {
         public BadRequestException() : base()
         {

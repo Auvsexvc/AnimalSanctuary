@@ -7,7 +7,7 @@ using WebApp.ViewModels;
 
 namespace WebApp.Services
 {
-    public class FacilityService : IFacilityService
+    public sealed class FacilityService : IFacilityService
     {
         private readonly IBaseService _baseService;
         private readonly IImageService _imageService;
@@ -139,7 +139,7 @@ namespace WebApp.Services
             }
         }
 
-        public async Task<NewFacilityDropdownsVM> GetNewFacilityDropdownsVM()
+        public async Task<NewFacilityDropdownsVM> GetNewFacilityDropdownsVMAsync()
         {
             return new NewFacilityDropdownsVM()
             {

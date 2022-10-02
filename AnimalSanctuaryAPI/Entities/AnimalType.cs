@@ -2,7 +2,7 @@
 
 namespace AnimalSanctuaryAPI.Entities
 {
-    public class AnimalType
+    public sealed class AnimalType
     {
         public Guid Id { get; set; }
 

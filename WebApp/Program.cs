@@ -12,7 +12,7 @@ builder.Services.AddScoped<IAnimalSpecieService, AnimalSpecieService>();
 builder.Services.AddScoped<IFacilityService, FacilityService>();
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
-builder.Services.AddSingleton<AccountManagerService>();
+builder.Services.AddSingleton<IAccountManagerService, AccountManagerService>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddMemoryCache();
 builder.Services.AddSession(options =>

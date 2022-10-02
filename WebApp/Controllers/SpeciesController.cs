@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using WebApp.Dtos;
 using WebApp.Helpers;
 using WebApp.Interfaces;
-using WebApp.Services;
 using WebApp.ViewModels;
 
 namespace WebApp.Controllers
@@ -13,9 +12,9 @@ namespace WebApp.Controllers
     public class SpeciesController : Controller
     {
         private readonly IAnimalSpecieService _service;
-        private readonly AccountManagerService _userManagerService;
+        private readonly IAccountManagerService _userManagerService;
 
-        public SpeciesController(IAnimalSpecieService service, AccountManagerService userManagerService)
+        public SpeciesController(IAnimalSpecieService service, IAccountManagerService userManagerService)
         {
             _service = service;
             _userManagerService = userManagerService;
@@ -46,7 +45,7 @@ namespace WebApp.Controllers
                 return View("AccessDenied");
             }
 
-            var dropdowns = await _service.GetNewSpecieDropdownsVM();
+            var dropdowns = await _service.GetNewSpecieDropdownsVMAsync();
 
             ViewBag.Types = new SelectList(dropdowns.Types, "Id", "Name");
 
@@ -184,7 +183,7 @@ namespace WebApp.Controllers
                 return View("AccessDenied");
             }
 
-            var dropdowns = await _service.GetNewSpecieDropdownsVM();
+            var dropdowns = await _service.GetNewSpecieDropdownsVMAsync();
             var data = await _service.GetByIdUpdateModelAsync(id);
 
             if (data == null)

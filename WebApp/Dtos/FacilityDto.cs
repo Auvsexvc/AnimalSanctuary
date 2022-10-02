@@ -4,7 +4,7 @@ using WebApp.ViewModels.Base;
 
 namespace WebApp.Dtos
 {
-    public class FacilityDto : ProfileImageFormFileBase
+    public sealed class FacilityDto : ProfileImageFormFileBase
     {
         [Required]
         [MinLength(2)]

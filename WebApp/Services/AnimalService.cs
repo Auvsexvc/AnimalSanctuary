@@ -7,7 +7,7 @@ using WebApp.ViewModels;
 
 namespace WebApp.Services
 {
-    public class AnimalService : IAnimalService
+    public sealed class AnimalService : IAnimalService
     {
         private readonly IBaseService _baseService;
         private readonly IImageService _imageService;
@@ -155,7 +155,7 @@ namespace WebApp.Services
             }
         }
 
-        public async Task<NewAnimalDropdownsVM> GetNewUserDropdownsVM()
+        public async Task<NewAnimalDropdownsVM> GetNewUserDropdownsVMAsync()
         {
             return new NewAnimalDropdownsVM()
             {

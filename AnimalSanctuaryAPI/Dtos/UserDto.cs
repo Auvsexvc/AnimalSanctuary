@@ -1,6 +1,6 @@
 ﻿namespace AnimalSanctuaryAPI.Dtos
 {
-    public class UserDto
+    public sealed class UserDto
     {
         public string Email { get; set; } = string.Empty;
 

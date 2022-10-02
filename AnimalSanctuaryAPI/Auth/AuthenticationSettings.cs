@@ -1,6 +1,6 @@
 ﻿namespace AnimalSanctuaryAPI.Auth
 {
-    public class AuthenticationSettings
+    public sealed class AuthenticationSettings
     {
         public string JwtKey { get; set; } = string.Empty;
         public int JwtExpireDays { get; set; }

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WebApp.ViewModels
 {
-    public class AccountViewModel
+    public sealed class AccountViewModel
     {
         [DisplayName("ID")]
         public string Id { get; set; } = string.Empty;

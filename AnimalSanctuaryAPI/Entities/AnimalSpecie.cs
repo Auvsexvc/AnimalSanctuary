@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace AnimalSanctuaryAPI.Entities
 {
-    public class AnimalSpecie
+    public sealed class AnimalSpecie
     {
         [Key]
         public Guid Id { get; set; }

@@ -1,6 +1,6 @@
 ﻿namespace WebApp.ViewModels
 {
-    public class SortingDropdownsViewModel
+    public sealed class SortingDropdownsViewModel
     {
         public List<string> Fields { get; set; }
         public Dictionary<string, string> DisplayNames { get; set; }

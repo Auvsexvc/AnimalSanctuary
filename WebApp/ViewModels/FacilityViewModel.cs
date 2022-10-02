@@ -6,7 +6,7 @@ using WebApp.ViewModels.Base;
 
 namespace WebApp.ViewModels
 {
-    public class FacilityViewModel : ProfileImagePathBase, IBaseWithPictureViewModel
+    public sealed class FacilityViewModel : ProfileImagePathBase, IBaseWithPictureViewModel
     {
         [DisplayName("Facility ID")]
         public Guid Id { get; set; }

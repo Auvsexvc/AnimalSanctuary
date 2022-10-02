@@ -19,11 +19,7 @@ namespace AnimalSanctuaryAPI.Extensions
                 Attitude = animal.Attitude,
                 DateCreated = animal.DateCreated,
                 FacilityId = animal.Facility.Id,
-                //Facility = animal.Facility.Name,
                 SpecieId = animal.Specie.Id,
-                //Specie = animal.Specie.Name,
-                //TypeId = animal.Specie.TypeId,
-                //Type = animal.Specie.Type.Name
             };
         }
 

@@ -3,7 +3,7 @@
 namespace AnimalSanctuaryAPI.Validators
 {
     [AttributeUsageAttribute(AttributeTargets.All, AllowMultiple = false)]
-    public class DateMustNotBeFutureAttribute : ValidationAttribute
+    public sealed class DateMustNotBeFutureAttribute : ValidationAttribute
     {
         public override bool IsValid(object? value)
         {

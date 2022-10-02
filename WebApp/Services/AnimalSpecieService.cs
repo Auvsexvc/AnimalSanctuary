@@ -7,7 +7,7 @@ using WebApp.ViewModels;
 
 namespace WebApp.Services
 {
-    public class AnimalSpecieService : IAnimalSpecieService
+    public sealed class AnimalSpecieService : IAnimalSpecieService
     {
         private readonly IBaseService _baseService;
         private readonly ILogger<AnimalSpecieService> _logger;
@@ -101,7 +101,7 @@ namespace WebApp.Services
             }
         }
 
-        public async Task<NewSpecieDropdownsVM> GetNewSpecieDropdownsVM()
+        public async Task<NewSpecieDropdownsVM> GetNewSpecieDropdownsVMAsync()
         {
             return new NewSpecieDropdownsVM()
             {

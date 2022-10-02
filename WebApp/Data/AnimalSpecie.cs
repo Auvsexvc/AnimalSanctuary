@@ -2,7 +2,7 @@
 
 namespace WebApp.Data
 {
-    public class AnimalSpecie
+    public sealed class AnimalSpecie
     {
         public Guid Id { get; set; }
 

@@ -1,6 +1,6 @@
 ﻿namespace WebApp.Models
 {
-    public class AccountModel
+    public sealed class AccountModel
     {
         public string Id { get; set; } = string.Empty;
 

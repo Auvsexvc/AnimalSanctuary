@@ -2,7 +2,7 @@
 
 namespace WebApp.ViewModels
 {
-    public class NewFacilityDropdownsVM
+    public sealed class NewFacilityDropdownsVM
     {
         public List<Animal>? Animals { get; set; }
 

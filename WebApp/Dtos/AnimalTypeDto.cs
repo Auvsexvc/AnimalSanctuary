@@ -2,7 +2,7 @@
 
 namespace WebApp.Dtos
 {
-    public class AnimalTypeDto
+    public sealed class AnimalTypeDto
     {
         [Required]
         public string Name { get; set; } = string.Empty;

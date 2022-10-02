@@ -3,7 +3,7 @@ using WebApp.Interfaces;
 
 namespace WebApp.ViewModels
 {
-    public class AnimalTypeViewModel : IBaseViewModel
+    public sealed class AnimalTypeViewModel : IBaseViewModel
     {
         [DisplayName("ID")]
         public Guid Id { get; set; }

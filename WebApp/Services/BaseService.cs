@@ -10,16 +10,16 @@ namespace WebClientApp.Services
 {
     public class BaseService : IBaseService
     {
-        private readonly IConfiguration _configuration;
+        private readonly HttpClient _httpClient;
         private readonly ILogger<BaseService> _logger;
 
         public string ApiUri { get; }
 
-        public BaseService(IConfiguration configuration, ILogger<BaseService> logger)
+        public BaseService(ILogger<BaseService> logger, HttpClient httpClient)
         {
-            _configuration = configuration;
             _logger = logger;
-            ApiUri = _configuration.GetConnectionString("DefaultConnection");
+            _httpClient = httpClient;
+            ApiUri = _httpClient.BaseAddress!.AbsoluteUri;
         }
 
         public async Task<IEnumerable<T>?> GetAllAsync<T>(string? sortingField, string? sortingOrder, string? filteringString)
@@ -28,19 +28,15 @@ namespace WebClientApp.Services
             {
                 IEnumerable<T> data = Enumerable.Empty<T>();
 
-                using (var client = new HttpClient())
+                using var result = await _httpClient.GetAsync($"{typeof(T).Name}?sortingField={sortingField}&sortingOrder={sortingOrder}&filteringString={filteringString}");
+
+                if (result.IsSuccessStatusCode)
                 {
-                    client.BaseAddress = new Uri(_configuration.GetConnectionString("DefaultConnection"));
-                    var result = await client.GetAsync($"{typeof(T).Name}?sortingField={sortingField}&sortingOrder={sortingOrder}&filteringString={filteringString}");
+                    var json = await result.Content.ReadAsStringAsync();
 
-                    if (result.IsSuccessStatusCode)
+                    if (!string.IsNullOrEmpty(json))
                     {
-                        var json = await result.Content.ReadAsStringAsync();
-
-                        if (!string.IsNullOrEmpty(json))
-                        {
-                            return (await result.Content.ReadFromJsonAsync<IList<T>>())!;
-                        }
+                        return (await result.Content.ReadFromJsonAsync<IList<T>>())!;
                     }
                 }
 
@@ -60,19 +56,15 @@ namespace WebClientApp.Services
             {
                 IEnumerable<T> data = Enumerable.Empty<T>();
 
-                using (var client = new HttpClient())
+                using var result = await _httpClient.GetAsync($"{typeof(T).Name}");
+
+                if (result.IsSuccessStatusCode)
                 {
-                    client.BaseAddress = new Uri(_configuration.GetConnectionString("DefaultConnection"));
-                    var result = await client.GetAsync($"{typeof(T).Name}");
+                    var json = await result.Content.ReadAsStringAsync();
 
-                    if (result.IsSuccessStatusCode)
+                    if (!string.IsNullOrEmpty(json))
                     {
-                        var json = await result.Content.ReadAsStringAsync();
-
-                        if (!string.IsNullOrEmpty(json))
-                        {
-                            return (await result.Content.ReadFromJsonAsync<IList<T>>())!;
-                        }
+                        return (await result.Content.ReadFromJsonAsync<IList<T>>())!;
                     }
                 }
 
@@ -92,15 +84,11 @@ namespace WebClientApp.Services
             {
                 T? data = default;
 
-                using (var client = new HttpClient())
-                {
-                    client.BaseAddress = new Uri(_configuration.GetConnectionString("DefaultConnection"));
-                    var result = await client.GetAsync($"{typeof(T).Name}/{id}");
+                using var result = await _httpClient.GetAsync($"{typeof(T).Name}/{id}");
 
-                    if (result.IsSuccessStatusCode)
-                    {
-                        data = await result.Content.ReadFromJsonAsync<T>();
-                    }
+                if (result.IsSuccessStatusCode)
+                {
+                    data = await result.Content.ReadFromJsonAsync<T>();
                 }
 
                 return data!;
@@ -118,10 +106,9 @@ namespace WebClientApp.Services
             try
             {
                 var name = string.Concat(typeof(T).Name.TakeLast(3)) == "Dto" ? string.Concat(typeof(T).Name.SkipLast(3)) : typeof(T).Name;
-                using var client = new HttpClient();
-                client.BaseAddress = new Uri(_configuration.GetConnectionString("DefaultConnection"));
-                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
-                var result = await client.PostAsJsonAsync($"{name}", dto);
+
+                _httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
+                var result = await _httpClient.PostAsJsonAsync($"{name}", dto);
 
                 return result;
             }
@@ -146,10 +133,8 @@ namespace WebClientApp.Services
 
                 multipartFormContent.Add(fileStreamContent, name: file.Name, fileName: file.FileName);
 
-                using var client = new HttpClient();
-                client.BaseAddress = new Uri(_configuration.GetConnectionString("DefaultConnection"));
-                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
-                var result = await client.PostAsync($"Image/{dto.ContextId}", multipartFormContent);
+                _httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
+                var result = await _httpClient.PostAsync($"Image/{dto.ContextId}", multipartFormContent);
 
                 return result;
             }
@@ -166,10 +151,9 @@ namespace WebClientApp.Services
             try
             {
                 var name = string.Concat(typeof(T).Name.TakeLast(3)) == "Dto" ? string.Concat(typeof(T).Name.SkipLast(3)) : typeof(T).Name;
-                using var client = new HttpClient();
-                client.BaseAddress = new Uri(_configuration.GetConnectionString("DefaultConnection"));
-                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
-                var result = await client.PutAsJsonAsync($"{name}/{id}", dto);
+
+                _httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
+                var result = await _httpClient.PutAsJsonAsync($"{name}/{id}", dto);
 
                 return result;
             }
@@ -186,10 +170,9 @@ namespace WebClientApp.Services
             try
             {
                 var name = string.Concat(typeof(T).Name.TakeLast(3)) == "Dto" ? string.Concat(typeof(T).Name.SkipLast(3)) : typeof(T).Name;
-                using var client = new HttpClient();
-                client.BaseAddress = new Uri(_configuration.GetConnectionString("DefaultConnection"));
-                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
-                var result = await client.DeleteAsync($"{name}/{id}");
+
+                _httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
+                var result = await _httpClient.DeleteAsync($"{name}/{id}");
 
                 return result;
             }

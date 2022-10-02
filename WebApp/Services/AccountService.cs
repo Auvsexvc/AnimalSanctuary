@@ -9,13 +9,13 @@ namespace WebClientApp.Services
 {
     public sealed class AccountService : IAccountService
     {
-        private readonly IConfiguration _configuration;
+        private readonly HttpClient _httpClient;
         private readonly ILogger<AccountService> _logger;
 
-        public AccountService(IConfiguration configuration, ILogger<AccountService> logger)
+        public AccountService(ILogger<AccountService> logger, HttpClient httpClient)
         {
-            _configuration = configuration;
             _logger = logger;
+            _httpClient = httpClient;
         }
 
         public async Task<Account?> GetByLoginAsync(LoginDto dto)
@@ -58,20 +58,16 @@ namespace WebClientApp.Services
             {
                 var data = Enumerable.Empty<Account>();
 
-                using (var client = new HttpClient())
+                _httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
+                using var result = await _httpClient.GetAsync("account");
+
+                if (result.IsSuccessStatusCode)
                 {
-                    client.BaseAddress = new Uri(_configuration.GetConnectionString("DefaultConnection"));
-                    client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
-                    var result = await client.GetAsync("account");
+                    var json = await result.Content.ReadAsStringAsync();
 
-                    if (result.IsSuccessStatusCode)
+                    if (!string.IsNullOrEmpty(json))
                     {
-                        var json = await result.Content.ReadAsStringAsync();
-
-                        if (!string.IsNullOrEmpty(json))
-                        {
-                            return (await result.Content.ReadFromJsonAsync<IList<Account>>())!;
-                        }
+                        return (await result.Content.ReadFromJsonAsync<IList<Account>>())!;
                     }
                 }
 
@@ -91,20 +87,16 @@ namespace WebClientApp.Services
             {
                 var data = Enumerable.Empty<Role>();
 
-                using (var client = new HttpClient())
+                _httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
+                var result = await _httpClient.GetAsync("Account/Roles");
+
+                if (result.IsSuccessStatusCode)
                 {
-                    client.BaseAddress = new Uri(_configuration.GetConnectionString("DefaultConnection"));
-                    client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
-                    var result = await client.GetAsync("Account/Roles");
+                    var json = await result.Content.ReadAsStringAsync();
 
-                    if (result.IsSuccessStatusCode)
+                    if (!string.IsNullOrEmpty(json))
                     {
-                        var json = await result.Content.ReadAsStringAsync();
-
-                        if (!string.IsNullOrEmpty(json))
-                        {
-                            return (await result.Content.ReadFromJsonAsync<IList<Role>>())!;
-                        }
+                        return (await result.Content.ReadFromJsonAsync<IList<Role>>())!;
                     }
                 }
 
@@ -122,10 +114,8 @@ namespace WebClientApp.Services
         {
             try
             {
-                using var client = new HttpClient();
-                client.BaseAddress = new Uri(_configuration.GetConnectionString("DefaultConnection"));
-                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
-                var result = await client.PostAsJsonAsync("account/register", dto);
+                _httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
+                var result = await _httpClient.PostAsJsonAsync("account/register", dto);
 
                 return result;
             }
@@ -146,9 +136,7 @@ namespace WebClientApp.Services
         {
             try
             {
-                using var client = new HttpClient();
-                client.BaseAddress = new Uri(_configuration.GetConnectionString("DefaultConnection"));
-                var result = await client.PostAsJsonAsync("account/login", dto);
+                var result = await _httpClient.PostAsJsonAsync("account/login", dto);
 
                 return result;
             }

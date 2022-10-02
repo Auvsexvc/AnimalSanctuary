@@ -4,14 +4,18 @@ using WebClientApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var baseAddress = new Uri(builder.Configuration.GetConnectionString("DefaultConnection"));
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IBaseService, BaseService>();
+builder.Services.AddHttpClient<IBaseService, BaseService>(options => options.BaseAddress = baseAddress);
 builder.Services.AddScoped<IAnimalService, AnimalService>();
 builder.Services.AddScoped<ITypeService, AnimalTypeService>();
 builder.Services.AddScoped<IAnimalSpecieService, AnimalSpecieService>();
 builder.Services.AddScoped<IFacilityService, FacilityService>();
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddHttpClient<IAccountService, AccountService>(options => options.BaseAddress = baseAddress);
 builder.Services.AddSingleton<IAccountManagerService, AccountManagerService>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddMemoryCache();

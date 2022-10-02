@@ -1,7 +1,7 @@
-﻿using WebApp.Models;
-using WebApp.ViewModels;
+﻿using WebClientApp.Models;
+using WebClientApp.ViewModels;
 
-namespace WebApp.Extensions
+namespace WebClientApp.Extensions
 {
     public static class AccountModelExtension
     {

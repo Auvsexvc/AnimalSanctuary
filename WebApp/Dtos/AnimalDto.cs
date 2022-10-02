@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using WebApp.Enums;
-using WebApp.Validators;
-using WebApp.ViewModels.Base;
+using WebClientApp.Enums;
+using WebClientApp.Validators;
+using WebClientApp.ViewModels.Base;
 
-namespace WebApp.Dtos
+namespace WebClientApp.Dtos
 {
     public sealed class AnimalDto : ProfileImageFormFileBase
     {

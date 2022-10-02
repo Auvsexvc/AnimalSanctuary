@@ -1,11 +1,11 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
-using WebApp.Data;
-using WebApp.Dtos;
-using WebApp.Helpers;
-using WebApp.Interfaces;
-using WebApp.ViewModels;
+using WebClientApp.Data;
+using WebClientApp.Dtos;
+using WebClientApp.Helpers;
+using WebClientApp.Interfaces;
+using WebClientApp.ViewModels;
 
-namespace WebApp.Services
+namespace WebClientApp.Services
 {
     public sealed class AccountService : IAccountService
     {
@@ -148,7 +148,7 @@ namespace WebApp.Services
             {
                 using var client = new HttpClient();
                 client.BaseAddress = new Uri(_configuration.GetConnectionString("DefaultConnection"));
-                var result = await client.PostAsJsonAsync<LoginDto>("account/login", dto);
+                var result = await client.PostAsJsonAsync("account/login", dto);
 
                 return result;
             }

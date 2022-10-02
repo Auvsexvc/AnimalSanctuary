@@ -1,6 +1,6 @@
-﻿using WebApp.Data;
+﻿using WebClientApp.Data;
 
-namespace WebApp.ViewModels
+namespace WebClientApp.ViewModels
 {
     public sealed class NewAnimalDropdownsVM
     {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace WebApp.ViewModels
+namespace WebClientApp.ViewModels
 {
     public sealed class ImageViewModel
     {

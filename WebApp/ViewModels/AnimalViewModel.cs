@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using WebApp.Enums;
-using WebApp.Interfaces;
-using WebApp.ViewModels.Base;
+using WebClientApp.Enums;
+using WebClientApp.Interfaces;
+using WebClientApp.ViewModels.Base;
 
-namespace WebApp.ViewModels
+namespace WebClientApp.ViewModels
 {
     public sealed class AnimalViewModel : ProfileImagePathBase, IBaseWithPictureViewModel
     {

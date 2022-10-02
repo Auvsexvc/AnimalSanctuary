@@ -1,4 +1,4 @@
-﻿namespace WebApp.Dtos
+﻿namespace WebClientApp.Dtos
 {
     public sealed class ImageDto
     {

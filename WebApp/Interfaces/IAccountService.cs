@@ -1,8 +1,8 @@
-﻿using WebApp.Data;
-using WebApp.Dtos;
-using WebApp.ViewModels;
+﻿using WebClientApp.Data;
+using WebClientApp.Dtos;
+using WebClientApp.ViewModels;
 
-namespace WebApp.Interfaces
+namespace WebClientApp.Interfaces
 {
     public interface IAccountService
     {

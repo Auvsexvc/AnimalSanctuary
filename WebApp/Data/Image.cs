@@ -1,4 +1,4 @@
-﻿namespace WebApp.Data
+﻿namespace WebClientApp.Data
 {
     public sealed class Image
     {

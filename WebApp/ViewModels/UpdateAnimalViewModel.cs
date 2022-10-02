@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using WebApp.Data;
-using WebApp.Enums;
-using WebApp.Interfaces;
-using WebApp.Validators;
-using WebApp.ViewModels.Base;
+using WebClientApp.Data;
+using WebClientApp.Enums;
+using WebClientApp.Interfaces;
+using WebClientApp.Validators;
+using WebClientApp.ViewModels.Base;
 
-namespace WebApp.ViewModels
+namespace WebClientApp.ViewModels
 {
     public sealed class UpdateAnimalViewModel : ProfileImageBase, IBaseViewModel
     {

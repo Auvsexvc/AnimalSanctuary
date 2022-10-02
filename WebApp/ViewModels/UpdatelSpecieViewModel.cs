@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
-using WebApp.Interfaces;
+using WebClientApp.Interfaces;
 
-namespace WebApp.ViewModels
+namespace WebClientApp.ViewModels
 {
     public sealed class UpdateSpecieViewModel : IBaseViewModel
     {

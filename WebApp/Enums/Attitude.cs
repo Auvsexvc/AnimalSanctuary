@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace WebApp.Enums
+namespace WebClientApp.Enums
 {
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum Attitude

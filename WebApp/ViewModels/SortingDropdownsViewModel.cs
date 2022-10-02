@@ -1,4 +1,4 @@
-﻿namespace WebApp.ViewModels
+﻿namespace WebClientApp.ViewModels
 {
     public sealed class SortingDropdownsViewModel
     {

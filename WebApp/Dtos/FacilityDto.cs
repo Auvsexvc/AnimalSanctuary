@@ -1,14 +1,14 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using WebApp.ViewModels.Base;
+using WebClientApp.ViewModels.Base;
 
-namespace WebApp.Dtos
+namespace WebClientApp.Dtos
 {
     public sealed class FacilityDto : ProfileImageFormFileBase
     {
         [Required]
         [MinLength(2)]
-        public string Name { get; set; } = String.Empty;
+        public string Name { get; set; } = string.Empty;
 
         public string? Description { get; set; }
 

@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
-using WebApp.Data;
-using WebApp.Extensions;
-using WebApp.Helpers;
-using WebApp.Interfaces;
-using WebApp.Models;
-using WebApp.ViewModels;
+using WebClientApp.Data;
+using WebClientApp.Extensions;
+using WebClientApp.Helpers;
+using WebClientApp.Interfaces;
+using WebClientApp.Models;
+using WebClientApp.ViewModels;
 
-namespace WebApp.Services
+namespace WebClientApp.Services
 {
     public sealed class AccountManagerService : IAccountManagerService
     {

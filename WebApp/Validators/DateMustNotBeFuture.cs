@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebApp.Validators
+namespace WebClientApp.Validators
 {
-    [AttributeUsageAttribute(AttributeTargets.All, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.All, AllowMultiple = false)]
     public sealed class DateMustNotBeFutureAttribute : ValidationAttribute
     {
         public override bool IsValid(object? value)

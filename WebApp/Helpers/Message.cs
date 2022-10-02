@@ -1,4 +1,4 @@
-﻿namespace WebApp.Helpers
+﻿namespace WebClientApp.Helpers
 {
     public static class Message
     {

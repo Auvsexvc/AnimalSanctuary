@@ -1,11 +1,11 @@
-﻿using WebApp.Data;
-using WebApp.Dtos;
-using WebApp.Extensions;
-using WebApp.Helpers;
-using WebApp.Interfaces;
-using WebApp.ViewModels;
+﻿using WebClientApp.Data;
+using WebClientApp.Dtos;
+using WebClientApp.Extensions;
+using WebClientApp.Helpers;
+using WebClientApp.Interfaces;
+using WebClientApp.ViewModels;
 
-namespace WebApp.Services
+namespace WebClientApp.Services
 {
     public sealed class AnimalService : IAnimalService
     {
@@ -22,7 +22,7 @@ namespace WebApp.Services
 
         public async Task<HttpResponseMessage?> CreateAsync(AnimalDto dto, string accessToken)
         {
-            var result = await _baseService.CreateAsync<AnimalDto>(dto, accessToken);
+            var result = await _baseService.CreateAsync(dto, accessToken);
 
             if (result == null)
             {
@@ -71,7 +71,7 @@ namespace WebApp.Services
                     await _imageService.UploadImageAsync(dto.ProfileImg, id, accessToken);
                 }
 
-                return await _baseService.EditAsync<AnimalDto>(id, dto, accessToken);
+                return await _baseService.EditAsync(id, dto, accessToken);
             }
             catch (Exception ex)
             {

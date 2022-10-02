@@ -1,11 +1,11 @@
-﻿using WebApp.Data;
-using WebApp.Dtos;
-using WebApp.Extensions;
-using WebApp.Helpers;
-using WebApp.Interfaces;
-using WebApp.ViewModels;
+﻿using WebClientApp.Data;
+using WebClientApp.Dtos;
+using WebClientApp.Extensions;
+using WebClientApp.Helpers;
+using WebClientApp.Interfaces;
+using WebClientApp.ViewModels;
 
-namespace WebApp.Services
+namespace WebClientApp.Services
 {
     public sealed class AnimalSpecieService : IAnimalSpecieService
     {
@@ -20,7 +20,7 @@ namespace WebApp.Services
 
         public async Task<HttpResponseMessage?> CreateAsync(AnimalSpecieDto dto, string accessToken)
         {
-            return await _baseService.CreateAsync<AnimalSpecieDto>(dto, accessToken);
+            return await _baseService.CreateAsync(dto, accessToken);
         }
 
         public async Task<HttpResponseMessage?> DeleteAsync(Guid id, string accessToken)
@@ -39,7 +39,7 @@ namespace WebApp.Services
                     TypeId = vm.TypeId
                 };
 
-                return await _baseService.EditAsync<AnimalSpecieDto>(id, dto, accessToken);
+                return await _baseService.EditAsync(id, dto, accessToken);
             }
             catch (Exception ex)
             {

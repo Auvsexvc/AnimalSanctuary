@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace WebApp.Extensions
+namespace WebClientApp.Extensions
 {
     public static class Utilities
     {

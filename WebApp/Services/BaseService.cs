@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel;
 using System.Net.Http.Headers;
-using WebApp.Dtos;
-using WebApp.Extensions;
-using WebApp.Helpers;
-using WebApp.Interfaces;
-using WebApp.ViewModels;
+using WebClientApp.Dtos;
+using WebClientApp.Extensions;
+using WebClientApp.Helpers;
+using WebClientApp.Interfaces;
+using WebClientApp.ViewModels;
 
-namespace WebApp.Services
+namespace WebClientApp.Services
 {
     public class BaseService : IBaseService
     {
@@ -121,7 +121,7 @@ namespace WebApp.Services
                 using var client = new HttpClient();
                 client.BaseAddress = new Uri(_configuration.GetConnectionString("DefaultConnection"));
                 client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
-                var result = await client.PostAsJsonAsync<T>($"{name}", dto);
+                var result = await client.PostAsJsonAsync($"{name}", dto);
 
                 return result;
             }
@@ -169,7 +169,7 @@ namespace WebApp.Services
                 using var client = new HttpClient();
                 client.BaseAddress = new Uri(_configuration.GetConnectionString("DefaultConnection"));
                 client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
-                var result = await client.PutAsJsonAsync<T>($"{name}/{id}", dto);
+                var result = await client.PutAsJsonAsync($"{name}/{id}", dto);
 
                 return result;
             }

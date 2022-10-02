@@ -1,7 +1,7 @@
-﻿using WebApp.Dtos;
-using WebApp.ViewModels;
+﻿using WebClientApp.Dtos;
+using WebClientApp.ViewModels;
 
-namespace WebApp.Interfaces
+namespace WebClientApp.Interfaces
 {
     public interface IBaseService
     {

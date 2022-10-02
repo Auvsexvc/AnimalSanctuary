@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WebApp.Dtos;
-using WebApp.Helpers;
-using WebApp.Interfaces;
-using WebApp.ViewModels;
+using WebClientApp.Dtos;
+using WebClientApp.Helpers;
+using WebClientApp.Interfaces;
+using WebClientApp.ViewModels;
 
-namespace WebApp.Controllers
+namespace WebClientApp.Controllers
 {
     [Authorize(Roles = AccountRoles.Admin)]
     public class TypesController : Controller
@@ -159,7 +159,7 @@ namespace WebApp.Controllers
                 return await Delete(id);
             }
 
-            HttpContext.Session.SetString("return", String.Empty);
+            HttpContext.Session.SetString("return", string.Empty);
 
             if (HttpContext.Session.GetString("browser") == "false")
             {
@@ -229,7 +229,7 @@ namespace WebApp.Controllers
 
         private async Task<IActionResult> GetAllSortedAndFiltered(string? sortingField, string? sortingOrder, string? filteringString = "")
         {
-            HttpContext.Session.SetString("return", String.Empty);
+            HttpContext.Session.SetString("return", string.Empty);
 
             filteringString = SessionHandlerForFiltering(filteringString);
 
@@ -265,7 +265,7 @@ namespace WebApp.Controllers
             }
 
             ViewBag.Session = HttpContext.Session.GetString("browser") ?? "true";
-            ViewBag.SessionReturn = HttpContext.Session.GetString("return") ?? String.Empty;
+            ViewBag.SessionReturn = HttpContext.Session.GetString("return") ?? string.Empty;
 
             return View(data);
         }
@@ -289,8 +289,8 @@ namespace WebApp.Controllers
                 }
                 else
                 {
-                    HttpContext.Session.SetString("searchString", String.Empty);
-                    filterString = String.Empty;
+                    HttpContext.Session.SetString("searchString", string.Empty);
+                    filterString = string.Empty;
                 }
             }
 

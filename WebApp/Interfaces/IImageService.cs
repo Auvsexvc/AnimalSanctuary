@@ -1,6 +1,6 @@
-﻿using WebApp.ViewModels;
+﻿using WebClientApp.ViewModels;
 
-namespace WebApp.Interfaces
+namespace WebClientApp.Interfaces
 {
     public interface IImageService
     {

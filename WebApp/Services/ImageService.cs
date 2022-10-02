@@ -1,10 +1,10 @@
-﻿using WebApp.Data;
-using WebApp.Dtos;
-using WebApp.Helpers;
-using WebApp.Interfaces;
-using WebApp.ViewModels;
+﻿using WebClientApp.Data;
+using WebClientApp.Dtos;
+using WebClientApp.Helpers;
+using WebClientApp.Interfaces;
+using WebClientApp.ViewModels;
 
-namespace WebApp.Services
+namespace WebClientApp.Services
 {
     public sealed class ImageService : IImageService
     {

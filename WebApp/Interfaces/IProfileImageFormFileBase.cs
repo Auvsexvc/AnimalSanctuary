@@ -1,4 +1,4 @@
-﻿namespace WebApp.Interfaces
+﻿namespace WebClientApp.Interfaces
 {
     public interface IProfileImageFormFileBase
     {

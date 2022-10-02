@@ -1,17 +1,17 @@
 ﻿using System.ComponentModel;
 
-namespace WebApp.Data
+namespace WebClientApp.Data
 {
     public sealed class AnimalSpecie
     {
         public Guid Id { get; set; }
 
         [DisplayName("Specie")]
-        public string Name { get; set; } = String.Empty;
+        public string Name { get; set; } = string.Empty;
 
         public string? Description { get; set; }
 
-        public string TypeName { get; set; } = String.Empty;
+        public string TypeName { get; set; } = string.Empty;
 
         public Guid TypeId { get; set; }
     }

@@ -1,9 +1,9 @@
 ﻿using System.Security.Claims;
-using WebApp.Data;
-using WebApp.Models;
-using WebApp.ViewModels;
+using WebClientApp.Data;
+using WebClientApp.Models;
+using WebClientApp.ViewModels;
 
-namespace WebApp.Interfaces
+namespace WebClientApp.Interfaces
 {
     public interface IAccountManagerService
     {

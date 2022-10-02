@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebApp.Dtos
+namespace WebClientApp.Dtos
 {
     public sealed class AnimalSpecieDto
     {

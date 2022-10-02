@@ -1,8 +1,10 @@
-﻿namespace WebApp.ViewModels
+﻿using WebClientApp.Data;
+
+namespace WebClientApp.ViewModels
 {
     public sealed class NewSpecieDropdownsVM
     {
-        public List<Data.AnimalType>? Types { get; set; }
+        public List<AnimalType>? Types { get; set; }
 
         public NewSpecieDropdownsVM()
         {

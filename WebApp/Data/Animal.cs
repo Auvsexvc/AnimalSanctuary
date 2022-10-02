@@ -1,14 +1,14 @@
 ﻿using System.ComponentModel;
-using WebApp.Enums;
+using WebClientApp.Enums;
 
-namespace WebApp.Data
+namespace WebClientApp.Data
 {
     public sealed class Animal
     {
         public Guid Id { get; set; }
 
         [DisplayName("Animal")]
-        public string Name { get; set; } = String.Empty;
+        public string Name { get; set; } = string.Empty;
 
         public string? Description { get; set; }
 
@@ -23,12 +23,12 @@ namespace WebApp.Data
         public DateTime DateCreated { get; set; }
 
         public Guid SpecieId { get; set; }
-        public string Specie { get; set; } = String.Empty;
+        public string Specie { get; set; } = string.Empty;
 
         public Guid TypeId { get; set; }
-        public string Type { get; set; } = String.Empty;
+        public string Type { get; set; } = string.Empty;
 
         public Guid FacilityId { get; set; }
-        public string Facility { get; set; } = String.Empty;
+        public string Facility { get; set; } = string.Empty;
     }
 }

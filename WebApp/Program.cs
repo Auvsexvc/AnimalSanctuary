@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
-using WebApp.Interfaces;
-using WebApp.Services;
+using WebClientApp.Interfaces;
+using WebClientApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using WebApp.Dtos;
-using WebApp.Helpers;
-using WebApp.Interfaces;
-using WebApp.ViewModels;
+using WebClientApp.Dtos;
+using WebClientApp.Helpers;
+using WebClientApp.Interfaces;
+using WebClientApp.ViewModels;
 
-namespace WebApp.Controllers
+namespace WebClientApp.Controllers
 {
     [Authorize(Roles = AccountRoles.Admin)]
     public class AccountController : Controller

@@ -1,6 +1,6 @@
-﻿using WebApp.Interfaces;
+﻿using WebClientApp.Interfaces;
 
-namespace WebApp.ViewModels.Base
+namespace WebClientApp.ViewModels.Base
 {
     public abstract class ProfileImageFormFileBase : IProfileImageFormFileBase
     {

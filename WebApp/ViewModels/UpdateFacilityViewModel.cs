@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using WebApp.Data;
-using WebApp.Interfaces;
-using WebApp.ViewModels.Base;
+using WebClientApp.Data;
+using WebClientApp.Interfaces;
+using WebClientApp.ViewModels.Base;
 
-namespace WebApp.ViewModels
+namespace WebClientApp.ViewModels
 {
     public sealed class UpdateFacilityViewModel : ProfileImageBase, IBaseViewModel
     {

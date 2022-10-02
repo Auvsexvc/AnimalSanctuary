@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebApp.Validators
+namespace WebClientApp.Validators
 {
     [AttributeUsage(AttributeTargets.All, AllowMultiple = false)]
     public sealed class RequiredGuidAttribute : ValidationAttribute
